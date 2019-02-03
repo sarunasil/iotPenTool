@@ -1,0 +1,7 @@
+FatShark (scanning traffic)
+Aircrack-ng (gaining access)
+Nmap (scanning devices in the network)
+dirb (web content scanner) / url fuzzing?
+ssh connection with default passwords / fuzzing
+
+capturing and editing packages?? 
