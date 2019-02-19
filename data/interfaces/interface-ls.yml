@@ -1,16 +1,17 @@
 #ls interface
-
+---
 tool:
-  - name: "List items"
-  - version: 8.28
-  - command: ls
-  - arguments:
-    - flags:
-      - long_format:
-        - flag: l
-        - description: "print in long format"
-      - all_content:
-        - flag: a
-        - description: "pritn all content"
-    - values:
+  name: "List items"
+  version: 8.28
+  command: ls
+  arguments:
+    flags:
+      long_format:
+        flag: l
+        description: "print in long format"
+      all_content:
+        flag: a
+        description: "pritn all content"
+    values:
       - path
+...

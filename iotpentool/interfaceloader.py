@@ -69,20 +69,35 @@ class InterfaceLoader():
         if 'tool' in content:
             tool = content.get('tool')
 
-            if 'name' not in tool or
+            if ('name' not in tool or
                 'version' not in tool or
                 'command' not in tool or
-                'arguments' not in tool:
-                    Message.print_message(MsgType.ERROR, file_path+" file is corrupt and cannot be read.")
-                    return None
+                'arguments' not in tool
+                ):
+                Message.print_message(MsgType.ERROR, file_path+" file is corrupt. Could not find 'name', 'version', command' or arguments' fields")
+                return None
 
             inter.name = tool.get('name')
             inter.version = tool.get('version')
             inter.command = tool.get('command')
 
-            arguments = tool.get(arguments)
+            arguments = tool.get('arguments')
 
-            #get every argument one by one
+            if ('flags' not in arguments or
+                'values' not in arguments):
+                Message.print_message(MsgType.ERROR, file_path+" file is corrupt. Could not find 'flags or 'values' fields")
+                return None
+
+            flags = arguments.get('flags')
+            for flag in flags:
+                print ("--> ",flag)
+
+                #save every flag separately 
+
+
+            values = tool.get('values')
+
+
 
 
     def read_interface_file(self, file_path):
@@ -96,6 +111,6 @@ class InterfaceLoader():
             try:
                 content = yaml.safe_load(stream)
             except yaml.YAMLError as exc:
-                Message.print_message(MsgType.ERROR, "Could not parse interface "+ file_path +". \n"+exc)
+                Message.print_message(MsgType.ERROR, "Could not parse interface "+ file_path +". \n"+str(exc))
 
         return content
