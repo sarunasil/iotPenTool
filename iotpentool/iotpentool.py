@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-IoT Penetration testing toolset
+IoT Penetration testing messageet
 Startup file file
 
 By sarunasil
@@ -12,7 +12,7 @@ import sys
 from os import getcwd, path, curdir
 
 
-from tools import Message, MsgType
+from message import Message, MsgType
 import maingui
 import interfaceloader
 
