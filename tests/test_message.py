@@ -2,43 +2,43 @@
 # -*- coding: utf-8 -*-
 
 """
-IoT Penetration testing messageet
-Message testing set
+IoT Penetration testing toolset
+message testing set
 
 By sarunasil
 """
 
 import unittest
 
-from iotpentool import message
+from iotpentool import mymessage
 
 class TestMessage(unittest.TestCase):
-    '''Message class tests
+    '''message class tests
     '''
 
     def test_print_message_error(self):
         '''Test error message
         '''
         msg = "A"
-        result = message.Message.print_message(message.MsgType.ERROR, msg)
+        result = mymessage.Message.print_message(mymessage.MsgType.ERROR, msg)
 
-        self.assertEqual(result, message.MsgType.ERROR.value+": "+msg)
+        self.assertEqual(result, mymessage.MsgType.ERROR.value+": "+msg)
 
     def test_print_message_warning(self):
         '''Test warning message
         '''
         msg = "A"
-        result = message.Message.print_message(message.MsgType.WARNING, msg)
+        result = mymessage.Message.print_message(mymessage.MsgType.WARNING, msg)
 
-        self.assertEqual(result, message.MsgType.WARNING.value+": "+msg)
+        self.assertEqual(result, mymessage.MsgType.WARNING.value+": "+msg)
 
     def test_print_message_info(self):
         '''Test info message
         '''
         msg = "A"
-        result = message.Message.print_message(message.MsgType.INFO, msg)
+        result = mymessage.Message.print_message(mymessage.MsgType.INFO, msg)
 
-        self.assertEqual(result, message.MsgType.INFO.value+": "+msg)
+        self.assertEqual(result, mymessage.MsgType.INFO.value+": "+msg)
 
 if __name__ == "__main__":
     unittest.main()

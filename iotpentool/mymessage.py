@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-IoT Penetration testing messageet
+IoT Penetration testing toolset
 Useful functions and classes
 
 By sarunasil
@@ -11,7 +11,7 @@ By sarunasil
 import enum
 
 class MsgType(enum.Enum):
-    '''Message type enum
+    '''message type enum
     '''
 
     ERROR = 'ERROR'
@@ -20,7 +20,7 @@ class MsgType(enum.Enum):
 
 
 class Message:
-    '''Message generation class
+    '''message generation class
     '''
 
     @staticmethod
@@ -40,5 +40,6 @@ class Message:
 
         message += ": " + msg
 
+        print (message)
         return message
 

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-IoT Penetration testing messageet
+IoT Penetration testing toolset
 Main file
 
 By sarunasil
@@ -31,7 +31,7 @@ class Main(QMainWindow):
         '''Main GUI initializer
         '''
 
-        self.statusBar().showMessage('Loading...')
+        self.statusBar().showmessage('Loading...')
 
         QToolTip.setFont(QFont('SansSerif', 10))
 
@@ -45,7 +45,7 @@ class Main(QMainWindow):
         self.setWindowTitle('IoT Penetration testing')
         self.show()
 
-        self.statusBar().showMessage('Done')
+        self.statusBar().showmessage('Done')
 
     def load_menu_bar(self):
         '''Load menu bar content (File, Edit, Selection, etc...)

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-IoT Penetration testing messageet
+IoT Penetration testing toolset
 Main GUI file
 
 By sarunasil

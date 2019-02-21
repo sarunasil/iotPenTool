@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-IoT Penetration testing messageet
+IoT Penetration testing toolset
 Interface loader
 
 By sarunasil
@@ -13,7 +13,7 @@ from os import listdir, path
 import yaml
 
 import interface
-from message import Message, MsgType
+from mymessage import Message, MsgType
 
 class InterfaceLoader():
     '''Check it's pwd
