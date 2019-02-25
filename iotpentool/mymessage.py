@@ -18,6 +18,14 @@ class MsgType(enum.Enum):
     WARNING = 'WARNINIG'
     INFO = 'INFO'
 
+class Outcome(enum.Enum):
+    '''used to indicate function success, failure, etc
+    '''
+
+    SUCCESS = 0
+    FAILURE = -1
+
+
 
 class Message:
     '''message generation class

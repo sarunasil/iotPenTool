@@ -26,11 +26,14 @@ class Main():
         '''Init
         '''
 
-        root_dir = path.dirname(path.realpath(__file__))+"/"
+        root_dir = path.dirname(path.realpath(__file__))
         config_manager = configmanager.ConfigManager(root_dir)
 
-        config, successes = config_manager.read_config()
-        config_manager.parse_config(config)
+        result = config_manager.parse_config()
+        if result == -1:
+            result = config_manager.create_config()
+
+        if result == 0:
 
 
         self.interface_loader = interfaceloader.InterfaceLoader(config_manager.interface_dir)

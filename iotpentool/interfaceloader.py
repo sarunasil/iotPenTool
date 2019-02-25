@@ -12,8 +12,8 @@ import re
 from os import listdir, path
 import yaml
 
-import interface
-from mymessage import Message, MsgType
+from iotpentool import interface
+from iotpentool.mymessage import Message, MsgType
 
 class InterfaceLoader():
     '''Check it's pwd
@@ -27,30 +27,36 @@ class InterfaceLoader():
         Generate list of errors
     '''
 
-    data_dir = None
-    interfaces = {}
-
-    def __init__(self, data_dir):
+    def __init__(self, interface_dir):
         '''Init
         '''
 
-        self.data_dir = data_dir
+        self.interface_dir = interface_dir
+        self.interface_files = {}
+        self.interfaces = {}
 
-        #get content of the data_dir
+        self.interface_files = find_interface_files(interface_dir)
+
+        #create Interface instances
+        for file_name in content:
+            full_path = path.join(interface_dir, file_name)
+
+            self.create_interface(full_path)
+        print(content)
+
+    @staticmethod
+    def find_interface_files(interface_dir):
+        #get content of the interface_dir
         #only select files which:
         #   - start with 'interface-'
         #   - end in .yml or .yaml
         #   - are not interface-example
-        content = listdir(self.data_dir)
+        content = listdir(interface_dir)
         regex = re.compile(r"^interface-(?!example)\w+.(yml|yaml)$")
         content = list(filter(regex.search, content))
 
-        #create Interface instances
-        for file_name in content:
-            full_path = path.join(data_dir, file_name)
+        return content
 
-            self.create_interface(full_path)
-        print(content)
 
     def create_interface(self, file_path):
         '''Creates an interface from a YML file and returns the new Interface object
@@ -96,9 +102,6 @@ class InterfaceLoader():
 
 
             values = tool.get('values')
-
-
-
 
     def read_interface_file(self, file_path):
         '''Read interaface file, parse yaml content, create nested python dict from it
