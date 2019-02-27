@@ -13,7 +13,7 @@ from os import listdir, path
 import yaml
 
 from iotpentool import interface
-from iotpentool.mymessage import Message, MsgType
+from iotpentool.mymessage import Message, MsgType, Outcome, DataException
 
 class InterfaceLoader():
     '''Check it's pwd
@@ -32,17 +32,19 @@ class InterfaceLoader():
         '''
 
         self.interface_dir = interface_dir
-        self.interface_files = {}
+        self.interface_files = set()
         self.interfaces = {}
 
-        self.interface_files = find_interface_files(interface_dir)
+        self.interface_files = InterfaceLoader.find_interface_files(interface_dir)
 
         #create Interface instances
-        for file_name in content:
+        for file_name in self.interface_files:
             full_path = path.join(interface_dir, file_name)
 
-            self.create_interface(full_path)
-        print(content)
+            data = InterfaceLoader.read_interface_file(file_path)
+
+            self.create_interface(data)
+        print(data)
 
     @staticmethod
     def find_interface_files(interface_dir):
@@ -53,57 +55,13 @@ class InterfaceLoader():
         #   - are not interface-example
         content = listdir(interface_dir)
         regex = re.compile(r"^interface-(?!example)\w+.(yml|yaml)$")
-        content = list(filter(regex.search, content))
+        content = set(filter(regex.search, content))
 
         return content
 
 
-    def create_interface(self, file_path):
-        '''Creates an interface from a YML file and returns the new Interface object
-
-        Arguments:
-            file_path {String} -- full path to a specific interface file
-        '''
-
-        inter = interface.Interface()
-
-
-        #read file
-        content = self.read_interface_file(file_path)
-
-        #parse 'content' and create Interface instance
-        if 'tool' in content:
-            tool = content.get('tool')
-
-            if ('name' not in tool or
-                'version' not in tool or
-                'command' not in tool or
-                'arguments' not in tool
-                ):
-                Message.print_message(MsgType.ERROR, file_path+" file is corrupt. Could not find 'name', 'version', command' or arguments' fields")
-                return None
-
-            inter.name = tool.get('name')
-            inter.version = tool.get('version')
-            inter.command = tool.get('command')
-
-            arguments = tool.get('arguments')
-
-            if ('flags' not in arguments or
-                'values' not in arguments):
-                Message.print_message(MsgType.ERROR, file_path+" file is corrupt. Could not find 'flags or 'values' fields")
-                return None
-
-            flags = arguments.get('flags')
-            for flag in flags:
-                print ("--> ",flag)
-
-                #save every flag separately 
-
-
-            values = tool.get('values')
-
-    def read_interface_file(self, file_path):
+    @staticmethod
+    def read_interface_file(file_path):
         '''Read interaface file, parse yaml content, create nested python dict from it
 
         Arguments:
@@ -117,3 +75,43 @@ class InterfaceLoader():
                 Message.print_message(MsgType.ERROR, "Could not parse interface "+ file_path +". \n"+str(exc))
 
         return content
+
+    @staticmethod
+    def create_interface(data):
+        '''Creates an interface from a YML file and returns the new Interface object
+
+        Arguments:
+            data {dict} -- nested yml like dict structure
+        '''
+
+        #parse 'data' and create Interface instance
+        if 'tool' not in data:
+            raise DataException("Data file is corrupt. Could not find 'tool' field")
+
+        tool = data.get('tool')
+        if ('name' not in tool or
+            'version' not in tool or
+            'command' not in tool or
+            'flags' not in tool
+            ):
+            raise DataException("Data file is corrupt. Could not find 'name', 'version', 'command' or 'flags' fields")
+
+        #setup Interface instance
+        inter = interface.Interface(tool.get('name'), tool.get('version'), tool.get('command'))
+
+        #parse Interface flags
+        flags = tool.get('flags')
+        for flag_name in flags:
+            flag = flags[flag_name]
+
+            inter.add_flag(flag_name, flag)
+
+        #parse Interface values
+        values = tool.get('values')
+        if values:
+            for value_name in values:
+                value = values[value_name]
+
+                inter.add_value(value_name, value)
+
+        return inter

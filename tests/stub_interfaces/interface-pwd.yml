@@ -1,17 +1,11 @@
-#ls interface
+#pwd interface
 ---
 tool:
-  name: "List items"
-  version: 8.28
-  command: ls
-  arguments:
-    flags:
-      long_format:
-        flag: l
-        description: "print in long format"
-      all_content:
-        flag: a
-        description: "print all content"
-    values:
-      - path
+  name: "Print Current Working dir"
+  version: "1"
+  command: "pwd"
+  flags:
+    help:
+      flag: "h"
+      description: "help"
 ...

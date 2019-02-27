@@ -1,5 +1,5 @@
 #example interface blueprint
-
+---
 tool:
   name: tool_name
   version: tool_version
@@ -10,4 +10,6 @@ tool:
         flag: flag
         description: description
     values:
-      - value_without_flag
+      value_name:
+        description: description
+---

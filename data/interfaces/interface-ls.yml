@@ -2,16 +2,16 @@
 ---
 tool:
   name: "List items"
-  version: 8.28
-  command: ls
-  arguments:
-    flags:
-      long_format:
-        flag: l
-        description: "print in long format"
-      all_content:
-        flag: a
-        description: "print all content"
-    values:
-      - path
-...
+  version: "8.28"
+  command: "ls"
+  flags:
+    long_format:
+      flag: "l"
+      description: "print in long format"
+    all_content:
+      flag: "a"
+      description: "print all content"
+  values:
+    path:
+      description: "path to folder"
+---

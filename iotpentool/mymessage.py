@@ -51,3 +51,8 @@ class Message:
         print (message)
         return message
 
+class DataException(Exception):
+    '''Exception for corrupt data 
+    '''
+
+    pass
