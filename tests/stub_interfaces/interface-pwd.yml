@@ -4,8 +4,10 @@ tool:
   name: "Print Current Working dir"
   version: "1"
   command: "pwd"
+  flag_iden: "-"
   flags:
     help:
       flag: "h"
+      has_value: False
       description: "help"
 ...

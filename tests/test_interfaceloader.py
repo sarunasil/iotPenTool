@@ -40,18 +40,22 @@ def test_find_interface_files(interface_file):
         "name":"List items",
         "version":"8.28",
         "command": "ls",
+        "flag_iden": "-",
         "flags":{
             "long_format":{
-                "flag":"l", 
+                "flag":"l",
+                "has_value":False,
                 "description":"print in long format"
                 },
             "all_content":{
                 "flag":"a",
+                "has_value":False,
                 "description":"print all content"
                 }
             },
         "values":{
             "path":{
+                "default_value": ".",
                 "description":"path to folder"
                 }
             }
@@ -61,11 +65,12 @@ def test_find_interface_files(interface_file):
         "name":"Print Current Working dir", 
         "version": "1", 
         "command":"pwd", 
+        "flag_iden": "-",
         "flags":{
             "help":{
                 "flag":"h", 
-                "description":
-                "help"
+                "has_value": False,
+                "description":"help"
                 } 
             }
         } 
@@ -92,18 +97,22 @@ def test_read_interface_file(interface_file, content):
             "name":"List items",
             "version":"8.28",
             "command": "ls",
+            "flag_iden": "-",
             "flags":{
                 "long_format":{
-                    "flag":"l", 
+                    "flag":"l",
+                    "has_value":False,
                     "description":"print in long format"
                     },
                 "all_content":{
                     "flag":"a",
+                    "has_value":False,
                     "description":"print all content"
                     }
                 },
             "values":{
                 "path":{
+                    "default_value": ".",
                     "description":"path to folder"
                     }
                 }
@@ -113,10 +122,11 @@ def test_read_interface_file(interface_file, content):
         "8.28", 
         "ls", 
         [
-            ["long_format", "l", "print in long format"],
-            ["all_content", "a", "print all content"]
+            ["long_format", "l", False, "print in long format"],
+            ["all_content", "a", False, "print all content"]
         ], 
         {"path":{
+            "default_value":".",
             "description":"path to folder"
             }
         }
@@ -126,11 +136,12 @@ def test_read_interface_file(interface_file, content):
             "name":"Print Current Working dir", 
             "version": "1", 
             "command":"pwd", 
+            "flag_iden": "-",
             "flags":{
                 "help":{
                     "flag":"h", 
-                    "description":
-                    "help"
+                    "has_value": False,
+                    "description":"help"
                     } 
                 }
             } 
@@ -139,7 +150,7 @@ def test_read_interface_file(interface_file, content):
         "1", 
         "pwd", 
         [
-            ["help", "h", "help"]
+            ["help", "h", False, "help"]
         ], 
         {}
     )
@@ -156,13 +167,13 @@ def test_create_interface(interface_data, name, version, command, flags, values)
     #create flag set from parameter values
     stub_flags = {}
     for flag_data in flags:
-      f = interface.Flag(flag_data[0], flag_data[1], flag_data[2])
+      f = interface._Flag(flag_data[0], flag_data[1], flag_data[2], flag_data[3])
       stub_flags[f.iden] = f
 
     #create values set from parameter values
     stub_values = {}
     for value_data in values:
-      v = interface.Value(value_data, values[value_data]['description'])
+      v = interface._Value(value_data, values[value_data]["default_value"], values[value_data]['description'])
       stub_values[v.iden] = v
 
     assert interface_created.name == name
@@ -170,3 +181,7 @@ def test_create_interface(interface_data, name, version, command, flags, values)
     assert interface_created.command == command
     assert interface_created.flags == stub_flags
     assert interface_created.values == stub_values
+
+
+def test_execute():
+    assert False

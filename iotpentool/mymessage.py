@@ -44,7 +44,7 @@ class Message:
         if isinstance(typee, MsgType):
             message += typee.value
         else:
-            raise ValueError("Wrong message type")
+            raise _ValueError("Wrong message type")
 
         message += ": " + msg
 

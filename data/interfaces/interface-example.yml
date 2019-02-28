@@ -1,15 +1,20 @@
 #example interface blueprint
----
+
 tool:
-  name: tool_name
-  version: tool_version
-  command: tool_call_name
-  arguments:
-    flags:
-      name:
-        flag: flag
-        description: description
-    values:
-      value_name:
-        description: description
----
+  name: "tool_name"
+  version: "tool_version"
+  command: "tool_call_name"
+  flag_iden: "-"
+  flags:
+    flag_name:
+      flag: "flag"
+      has_value: True/False
+      description: "description"
+    other_name:
+      flag: "other flag"
+      has_value: True/False
+      description: "other description"
+  values:
+    value_name:
+      defaultvalue: "some value"
+      description: "descriptionds"
