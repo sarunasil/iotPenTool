@@ -39,12 +39,19 @@ class InterfaceLoader():
 
         #create Interface instances
         for file_name in self.interface_files:
-            full_path = path.join(interface_dir, file_name)
+            file_path = path.join(interface_dir, file_name)
 
             data = InterfaceLoader.read_interface_file(file_path)
 
-            self.create_interface(data)
-        print(data)
+            try:
+                interface_instance = InterfaceLoader.create_interface(data)
+                command = interface_instance.command
+
+                interface_instance.generate_gui()
+
+                self.interfaces[command] = interface_instance
+            except DataException as de:
+                Message.print_message(MsgType.WARNING, file_name+" "+str(de))
 
     @staticmethod
     def find_interface_files(interface_dir):

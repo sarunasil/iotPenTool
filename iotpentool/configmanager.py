@@ -12,8 +12,6 @@ from os import path
 import configparser
 from iotpentool.mymessage import Message, MsgType, Outcome
 
-CONFIG_FILE = path.join(path.dirname(path.realpath(__file__)), "../data/config.ini")
-
 class ConfigManager():
     '''Manages config.ini file
     '''
@@ -27,7 +25,7 @@ class ConfigManager():
 
         self.config_parser = configparser.ConfigParser()
 
-    def parse_config(self, file_path=CONFIG_FILE):
+    def parse_config(self, file_path):
         '''Parses hardcoded yaml config file
 
         Arguments:
@@ -46,6 +44,7 @@ class ConfigManager():
         corrupt = False
         section = 'General'
         if self.config_parser.has_section(section):
+            #add new sections here to read new values
             if self.config_parser.has_option(section, 'data_dir'):
                 self.data_dir = path.join(self.root_dir,self.config_parser.get(section, 'data_dir'))
             else:
@@ -53,6 +52,11 @@ class ConfigManager():
 
             if self.config_parser.has_option(section, 'interface_dir'):
                 self.interface_dir = path.join(self.root_dir, self.config_parser.get(section, 'interface_dir'))
+            else:
+                corrupt = True
+
+            if self.config_parser.has_option(section, 'main_gui_file'):
+                self.main_gui_file = path.join(self.root_dir, self.config_parser.get(section, 'main_gui_file'))
             else:
                 corrupt = True
         else:
@@ -63,7 +67,7 @@ class ConfigManager():
 
         return Outcome.SUCCESS
 
-    def create_config(self, file_path=CONFIG_FILE, overwrite=True):
+    def create_config(self, file_path, overwrite=True):
         '''Creates a new config.ini file
 
         file_path - file to be created
@@ -75,19 +79,22 @@ class ConfigManager():
             Message.print_message(MsgType.ERROR, "Cannot overwrite existing file.")
             return Outcome.FAILURE
 
+        self.config_parser = configparser.ConfigParser()
         section = 'General'
         self.config_parser.add_section(section)
-        self.config_parser.set(section, 'data_dir', '../data/')
-        self.config_parser.set(section, 'interface_dir', '../data/interfaces')
+        self.config_parser.set(section, 'data_dir', 'data/')
+        self.config_parser.set(section, 'interface_dir', 'data/interfaces')
+        self.config_parser.set(section, 'main_gui_file', 'iotpentool/gui/main_gui.ui')
 
 
         try:
             with open(file_path, 'w') as configfile:
                 self.config_parser.write(configfile)
+                Message.print_message(MsgType.INFO, "config.ini file regerenated successfully")
                 return Outcome.SUCCESS
                 #all good
             #if smth went wrong - exception
-        except e:
-            Message.print_message(MsgType.ERROR, "Could not create config file. "+ e.msg)
+        except IOError as e:
+            Message.print_message(MsgType.ERROR, "Could not create config file. "+ e.strerror)
 
         return Outcome.FAILURE

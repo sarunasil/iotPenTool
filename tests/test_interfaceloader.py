@@ -19,9 +19,16 @@ from iotpentool import interface
 CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
 INTERFACE_DIR = os.path.join(CURRENT_DIR, "stub_interfaces")
 
-@pytest.fixture
-def interface_loader():
-    return interfaceloader.InterfaceLoader(INTERFACE_DIR)
+@pytest.mark.parametrize(("directory"), [
+    INTERFACE_DIR,
+    os.path.join(CURRENT_DIR, "empty_dir")
+    ])
+def test_init(directory):
+    interface_loader = interfaceloader.InterfaceLoader(directory)
+
+    assert interface_loader.interface_dir == directory
+    assert len(interface_loader.interfaces) == len(interfaceloader.InterfaceLoader.find_interface_files(directory))
+
 
 @pytest.mark.parametrize(("interface_file"), [
     "interface-ls.yml",
@@ -34,6 +41,7 @@ def test_find_interface_files(interface_file):
     found_files = interfaceloader.InterfaceLoader.find_interface_files(INTERFACE_DIR)
 
     assert interface_file in found_files
+
 
 @pytest.mark.parametrize(("interface_file", "content"), [
     ("interface-ls.yml", {"tool":{
@@ -181,7 +189,3 @@ def test_create_interface(interface_data, name, version, command, flags, values)
     assert interface_created.command == command
     assert interface_created.flags == stub_flags
     assert interface_created.values == stub_values
-
-
-def test_execute():
-    assert False

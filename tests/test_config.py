@@ -67,16 +67,16 @@ def test_parse_config(config_manager, file_path, outcome):
 
     if outcome:
         assert result == mymessage.Outcome.SUCCESS
-        assert config_manager.data_dir == os.path.join(CURRENT_DIR, "../data/")
-        assert config_manager.interface_dir == os.path.join(CURRENT_DIR, "../data/interfaces")
+        assert config_manager.data_dir == os.path.join(CURRENT_DIR, "data/")
+        assert config_manager.interface_dir == os.path.join(CURRENT_DIR, "data/interfaces")
     else:
         assert result == mymessage.Outcome.FAILURE
 
 def test_parse_config_default(config_manager):
     '''Test default config file read'''
 
-    result = config_manager.parse_config()
+    result = config_manager.parse_config(CONFIG_FILE_PATH)
 
     assert result == mymessage.Outcome.SUCCESS
-    assert config_manager.data_dir == os.path.join(CURRENT_DIR, "../data/")
-    assert config_manager.interface_dir == os.path.join(CURRENT_DIR, "../data/interfaces")
+    assert config_manager.data_dir == os.path.join(CURRENT_DIR, "data/")
+    assert config_manager.interface_dir == os.path.join(CURRENT_DIR, "data/interfaces")
