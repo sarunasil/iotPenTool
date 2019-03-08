@@ -68,7 +68,7 @@ class Interface():
 	Defines all the methods required to interact with the module
 	'''
 
-	def __init__(self, name, version, command):
+	def __init__(self, name, version, command, description):
 		'''Init
 
 		Args:
@@ -80,6 +80,7 @@ class Interface():
 		self.name = name       #print name
 		self.version = version #version
 		self.command = command #terminal call name
+		self.description = description
 		self.flags = {}     #parameters program can take
 		self.values = {}   #values provided without a flag e.g. 'ls /dev'
 		self.gui = None		#QWidget of the module gui

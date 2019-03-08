@@ -47,8 +47,6 @@ class InterfaceLoader():
                 interface_instance = InterfaceLoader.create_interface(data)
                 command = interface_instance.command
 
-                interface_instance.generate_gui()
-
                 self.interfaces[command] = interface_instance
             except DataException as de:
                 Message.print_message(MsgType.WARNING, file_name+" "+str(de))
@@ -99,12 +97,13 @@ class InterfaceLoader():
         if ('name' not in tool or
             'version' not in tool or
             'command' not in tool or
+            'description' not in tool or
             'flags' not in tool
             ):
-            raise DataException("Data file is corrupt. Could not find 'name', 'version', 'command' or 'flags' fields")
+            raise DataException("Data file is corrupt. Could not find 'name', 'version', 'command', 'description' or 'flags' fields")
 
         #setup Interface instance
-        inter = interface.Interface(tool.get('name'), tool.get('version'), tool.get('command'))
+        inter = interface.Interface(tool.get('name'), tool.get('version'), tool.get('command'), tool.get('description'))
 
         #parse Interface flags
         flags = tool.get('flags')
@@ -122,3 +121,10 @@ class InterfaceLoader():
                 inter.add_value(value_name, value)
 
         return inter
+
+    def generate_guis(self):
+        '''Calls generate_gui() for every interface
+        '''
+
+        for key, interface in self.interfaces.items():
+            interface.generate_gui()

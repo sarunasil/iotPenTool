@@ -42,18 +42,23 @@ def test_init(application, interface_loader, interface_command):
 	assert widget.findChild(QtWidgets.QWidget, "widget_values")
 
 
-@pytest.mark.parametrize(("object_name","text","style"), [
-	("test", "test text", ""),
-	("test2", "another_text", "")
+@pytest.mark.parametrize(("label","object_name","text", "wrap","style"), [
+	("Version", "test", "test text", False, ""),
+	("Description", "test2", "another_text", True, "")
 	])
-def test__create_label(application, object_name, text, style):
+def test__create_label(application, label, object_name, text, wrap, style):
 
-	widget = ModuleGui._create_label(object_name, text, style)
+	widget = ModuleGui._create_label(label, object_name, text, wrap, style)
 
-	assert isinstance(widget, QtWidgets.QLabel)
+	assert isinstance(widget, QtWidgets.QWidget)
 	assert widget.styleSheet() == style
+	assert isinstance( widget.layout(), QtWidgets.QVBoxLayout )
 	assert widget.objectName() == "label_"+object_name
-	# assert isinstance( widget.layout(), QtWidgets.QHBoxLayout )
+	assert widget.findChild(QtWidgets.QLabel, "label_"+label)
+	if wrap:
+		assert widget.findChild(QtWidgets.QScrollArea, "label_scroll_"+object_name).findChild(QtWidgets.QLabel, "label_value_"+object_name)
+	else:
+		assert widget.findChild(QtWidgets.QLabel, "label_value_"+object_name)
 
 
 @pytest.mark.parametrize(("iden","flag","has_value","description","style"), [
@@ -91,13 +96,13 @@ def test__create_value(application, iden, default_value, description, style):
 	assert widget.findChild(QtWidgets.QLineEdit, "text_box_"+iden)
 
 
-@pytest.mark.parametrize(("name","version","command"), [
-	("name_1", "v1", "cmd_1"),
-	("name_2", "1", "cmd[?]")
+@pytest.mark.parametrize(("name","version","command","description"), [
+	("name_1", "v1", "cmd_1", "description of name_1"),
+	("name_2", "1", "cmd[?]", "description of name_2")
 	])
-def test__create_general(application, name, version, command):
+def test__create_general(application, name, version, command, description):
 
-	interface = Interface(name, version, command)
+	interface = Interface(name, version, command, description)
 
 	widget = ModuleGui._create_general(interface)
 
@@ -106,9 +111,10 @@ def test__create_general(application, name, version, command):
 	# assert widget.styleSheet() == style  only if common style is used for the whole thing
 	assert isinstance( widget.layout(), QtWidgets.QVBoxLayout )
 	assert widget.objectName() == "widget_general"
-	assert widget.findChild(QtWidgets.QLabel, "label_name")
-	assert widget.findChild(QtWidgets.QLabel, "label_version")
-	assert widget.findChild(QtWidgets.QLabel, "label_command")
+	assert widget.findChild(QtWidgets.QWidget, "label_name")
+	assert widget.findChild(QtWidgets.QWidget, "label_version")
+	assert widget.findChild(QtWidgets.QWidget, "label_command")
+	assert widget.findChild(QtWidgets.QWidget, "label_description")
 
 
 @pytest.mark.parametrize(("flags"),[
@@ -135,8 +141,9 @@ def test__create_flags(application, flags):
 	#assert widget.styleSheet() == style
 	assert isinstance( widget.layout(), QtWidgets.QVBoxLayout )
 	assert widget.objectName() == "widget_flags"
+	scroll = widget.findChild(QtWidgets.QScrollArea)
 	for flag in stub_flags:
-		assert widget.findChild(QtWidgets.QWidget, "flag_"+flag)
+		assert scroll.findChild(QtWidgets.QWidget, "flag_"+flag)
 
 
 @pytest.mark.parametrize(('values'), [
@@ -162,6 +169,15 @@ def test__create_values(application, values):
 	#assert widget.styleSheet() == style
 	assert isinstance( widget.layout(), QtWidgets.QVBoxLayout )
 	assert widget.objectName() == "widget_values"
+	scroll = widget.findChild(QtWidgets.QScrollArea)
 	for value in stub_values:
-		assert widget.findChild(QtWidgets.QWidget, "value_"+value)
+		assert scroll.findChild(QtWidgets.QWidget, "value_"+value)
 
+def test__create_footer(application):
+
+	widget = ModuleGui._create_footer()
+
+	assert isinstance(widget, QtWidgets.QWidget)
+	assert isinstance( widget.layout(), QtWidgets.QHBoxLayout )
+	assert widget.objectName() == "widget_footer"
+	assert widget.findChild(QtWidgets.QPushButton, "btn_execute")

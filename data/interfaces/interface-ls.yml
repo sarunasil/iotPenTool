@@ -1,21 +1,22 @@
 #ls interface
 ---
 tool:
-  name: "List items"
-  version: "8.28"
-  command: "ls"
-  flag_iden: "-"
-  flags:
-    long_format:
-      flag: "l"
-      has_value: False
-      description: "print in long format"
-    all_content:
-      flag: "a"
-      has_value: False
-      description: "print all content"
-  values:
-    path:
-      default_value: "."
-      description: "path to folder"
+    name: "List items"
+    version: "8.28"
+    command: "ls"
+    flag_iden: "-"
+    description: "list items command description"
+    flags:
+        long_format:
+            flag: "l"
+            has_value: True
+            description: "print in long format"
+        all_content:
+            flag: "a"
+            has_value: False
+            description: "print all content"
+    values:
+        path:
+            default_value: "."
+            description: "path to folder"
 ...

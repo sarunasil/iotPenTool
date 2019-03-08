@@ -29,7 +29,11 @@ class MainGui(QMainWindow, Ui_MainWindow):
 
     def __init__(self, interfaces):
         '''Init
+
+        Args:
+            interfaces (Interface): receives interfaces to be displayed
         '''
+
         QMainWindow.__init__(self)
 
         #Load gui from ./gui/iot_main.ui (rename file)
@@ -38,12 +42,10 @@ class MainGui(QMainWindow, Ui_MainWindow):
 
 
         self.w = TabWidget()
-        for iname in interfaces:
-            a = interfaces[iname]
-            self.w.addTab(a.gui, iname)
+        self.w.setMaximumWidth(400)
+        for name, interface in interfaces.items():
+            interface.generate_gui()
+            self.w.addTab(interface.gui, name)
 
-        # self.w.addTab(QWidget(), "tab1")
-        # self.w.addTab(QWidget(), "tab2")
-        # self.w.addTab(QWidget(), "tab3")
 
         self.module_bar.layout().addWidget(self.w)
