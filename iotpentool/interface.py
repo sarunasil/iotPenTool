@@ -8,6 +8,7 @@ Interface instance class
 By sarunasil
 """
 
+import re
 
 from abc import ABC
 from iotpentool.modulegui import ModuleGui
@@ -68,7 +69,7 @@ class Interface():
 	Defines all the methods required to interact with the module
 	'''
 
-	def __init__(self, name, version, command, description):
+	def __init__(self, name, version, command, description, structure):
 		'''Init
 
 		Args:
@@ -80,9 +81,10 @@ class Interface():
 		self.name = name       #print name
 		self.version = version #version
 		self.command = command #terminal call name
-		self.description = description
+		self.description = description	#tool description
 		self.flags = {}     #parameters program can take
 		self.values = {}   #values provided without a flag e.g. 'ls /dev'
+		self.structure = structure #defines tool command syntax ls [FLAGS] path
 		self.gui = None		#QWidget of the module gui
 
 
@@ -123,6 +125,56 @@ class Interface():
 		'''Creates a QWidget according to the interface itself.
 		'''
 		self.gui = ModuleGui(self)
+
+	def build_command(self, flags, values):
+		'''Takes dicts of flags and values chosen according to gui and creates one complete command string that can be executed in terminal
+
+		Args:
+			flags (dict(String:String|None)): (flag_iden, value with present) - of every selected flag
+			values (dict(String:String)): (value_iden, value) - of every selected value
+
+		Returns:
+			String: executable string
+		'''
+		separator = " "
+
+		command = ""
+		for item in self.structure:
+			if item == "COMMAND":
+				command += self.command + separator
+			elif isinstance(item, dict) and "FLAGS" in item:
+				#flags building
+
+				#for every checked flag
+				for flag_iden, flag_value in flags.items():
+					flag_symbol = self.flags[flag_iden].flag
+
+					#follow Interface.structure "FLAGS" pattern to set params
+					for flag_item in item["FLAGS"]:
+						if flag_item == "FLAG":
+							command += flag_symbol
+						elif flag_item == "FLAG_VALUE":
+							if flag_value:
+								command += flag_value
+						else:
+							command += flag_item
+
+			elif isinstance(item, dict) and "VALUES" in item:
+				#values building
+
+				#for every value entered
+				for value_iden, value_value in values.items():
+
+					#follow Interface.structure "VALUES" pattern to set params
+					for value_item in item["VALUES"]:
+						if value_item == "VALUE":
+							command += value_value
+						else:
+							command += flag_item
+
+		#clean up string from multiple spaces and trailling spaces
+		command = re.sub(' +', ' ', command)
+		return command.rstrip()
 
 	def execute(self, param):
 		'''Executes a specific module command 

@@ -5,10 +5,20 @@ tool:
     version: "1"
     command: "pwd"
     description: "Print Current Working dir command description"
-    flag_iden: "-"
     flags:
-        help:
-            flag: "h"
+        physical:
+            flag: "P"
             has_value: False
-            description: "help"
+            description: "display physical path"
+    structure:
+        - "COMMAND"
+        - "VALUES":
+            - "VALUE"
+            - " "
+        - "FLAGS":
+           - "-"
+           - "FLAG"
+           - " "
+           - "FLAG_VALUE"
+           - " "
 ...

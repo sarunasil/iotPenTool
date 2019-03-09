@@ -34,6 +34,7 @@ def test_init(application, directory):
     num = interfaceloader.InterfaceLoader.find_interface_files(directory)
     assert len(interface_loader.interfaces) == len(num)
 
+
 @pytest.mark.parametrize(("interface_file"), [
     "interface-ls.yml",
     "interface-pwd.yml"
@@ -53,7 +54,6 @@ def test_find_interface_files(interface_file):
         "version":"8.28",
         "command": "ls",
         "description":"list items command description",
-        "flag_iden": "-",
         "flags":{
             "long_format":{
                 "flag":"l",
@@ -71,28 +71,63 @@ def test_find_interface_files(interface_file):
                 "default_value": ".",
                 "description":"path to folder"
                 }
+            },
+        "structure": [
+            "COMMAND",
+            {
+            "FLAGS": [
+                "-",
+                "FLAG",
+                " ",
+                "FLAG_VALUE",
+                " "
+                ]
+            },
+            {
+            "VALUES": [
+                "VALUE",
+                " "
+                ]
             }
+            ]
         }
     }),
     ("interface-pwd.yml", {"tool":{
-        "name":"Print Current Working dir", 
-        "version": "1", 
-        "command":"pwd", 
+        "name":"Print Current Working dir",
+        "version": "1",
+        "command":"pwd",
         "description":"Print Current Working dir command description",
-        "flag_iden": "-",
         "flags":{
-            "help":{
-                "flag":"h", 
+            "physical":{
+                "flag":"P",
                 "has_value": False,
-                "description":"help"
-                } 
+                "description": "display physical path"
+                }
+            },
+        "structure": [
+            "COMMAND", 
+            {
+            "VALUES": [
+                "VALUE", 
+                " "
+            ]
+            }, 
+            {
+            "FLAGS": [
+                "-", 
+                "FLAG", 
+                " ", 
+                "FLAG_VALUE", 
+                " "
+            ]
             }
-        } 
+        ]
+        }
     })
     ])
 def test_read_interface_file(interface_file, content):
     '''Tests that interface_file is read correctly and json like structure is correct
-    
+
     Args:
         interface_file (String): path to interface file to parse
         content (Set): correct outcome of the run
@@ -105,14 +140,13 @@ def test_read_interface_file(interface_file, content):
     assert read_content == content
 
 
-@pytest.mark.parametrize(("interface_data", "name", "version", "command", "description", "flags", "values"), [
+@pytest.mark.parametrize(("interface_data", "name", "version", "command", "description", "flags", "values", "structure"), [
     (
         {"tool":{
             "name":"List items",
             "version":"8.28",
             "command": "ls",
             "description":"list items command description",
-            "flag_iden": "-",
             "flags":{
                 "long_format":{
                     "flag":"l",
@@ -130,7 +164,25 @@ def test_read_interface_file(interface_file, content):
                     "default_value": ".",
                     "description":"path to folder"
                     }
+                },
+            "structure": [
+                "COMMAND",
+                {
+                "FLAGS": [
+                    "-",
+                    "FLAG",
+                    " ",
+                    "FLAG_VALUE",
+                    " "
+                    ]
+                },
+                {
+                "VALUES": [
+                    "VALUE",
+                    " "
+                    ]
                 }
+                ]
             }
         },
         "List items", 
@@ -145,7 +197,12 @@ def test_read_interface_file(interface_file, content):
             "default_value":".",
             "description":"path to folder"
             }
-        }
+        },
+        [
+            "COMMAND",
+            { "FLAGS": [ "-", "FLAG", " ", "FLAG_VALUE", " " ] },
+            { "VALUES": [ "VALUE", " " ] }
+        ]
     ),
     (
         {"tool":{
@@ -153,27 +210,49 @@ def test_read_interface_file(interface_file, content):
             "version": "1", 
             "command":"pwd", 
             "description":"Print Current Working dir command description",
-            "flag_iden": "-",
             "flags":{
-                "help":{
-                    "flag":"h", 
+                "physical":{
+                    "flag":"P", 
                     "has_value": False,
-                    "description":"help"
+                    "description": "display physical path"
                     } 
+                },
+            "structure": [
+                "COMMAND", 
+                {
+                "VALUES": [
+                    "VALUE", 
+                    " "
+                ]
+                }, 
+                {
+                "FLAGS": [
+                    "-", 
+                    "FLAG", 
+                    " ", 
+                    "FLAG_VALUE", 
+                    " "
+                ]
                 }
-            } 
+                ]
+            }
         }, 
         "Print Current Working dir", 
         "1", 
         "pwd", 
         "Print Current Working dir command description",
         [
-            ["help", "h", False, "help"]
+            ["physical", "P", False, "display physical path"]
         ], 
-        {}
+        {},
+        [
+            "COMMAND", 
+            { "VALUES": [ "VALUE", " " ] }, 
+            { "FLAGS": [ "-", "FLAG", " ", "FLAG_VALUE", " " ] }
+        ]
     )
     ])
-def test_create_interface(interface_data, name, version, command, description, flags, values):
+def test_create_interface(interface_data, name, version, command, description, flags, values, structure):
     '''Create Interface object by parsing interface_data
 
     Args:
@@ -200,3 +279,4 @@ def test_create_interface(interface_data, name, version, command, description, f
     assert interface_created.description == description
     assert interface_created.flags == stub_flags
     assert interface_created.values == stub_values
+    assert interface_created.structure == structure

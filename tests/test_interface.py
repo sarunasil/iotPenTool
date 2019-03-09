@@ -42,3 +42,20 @@ def test_generate_gui(application, interface_loader, interface_command):
 	interface.generate_gui()
 
 	assert isinstance(interface.gui, ModuleGui)
+
+@pytest.mark.parametrize(("interface_command","flags","values","check_command"),
+	[
+		("ls", {'long_format':'stub', 'all_content':None}, {'path':'.'}, "ls -l stub -a ."),
+		("ls", {'all_content':None}, {'path':'.'}, "ls -a ."),
+		("ls", {'all_content':None}, {}, "ls -a"),
+		("pwd", {'physical':None}, {}, "pwd -P")
+	])
+def test_build_command(interface_loader, interface_command, flags, values, check_command):
+
+	interface = interface_loader.interfaces[interface_command]
+
+	gen_command = interface.build_command(flags, values)
+
+	assert gen_command == check_command
+
+

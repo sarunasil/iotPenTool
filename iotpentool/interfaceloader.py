@@ -51,6 +51,7 @@ class InterfaceLoader():
             except DataException as de:
                 Message.print_message(MsgType.WARNING, file_name+" "+str(de))
 
+
     @staticmethod
     def find_interface_files(interface_dir):
         #get content of the interface_dir
@@ -81,6 +82,7 @@ class InterfaceLoader():
 
         return content
 
+
     @staticmethod
     def create_interface(data):
         '''Creates an interface from a YML file and returns the new Interface object
@@ -98,12 +100,13 @@ class InterfaceLoader():
             'version' not in tool or
             'command' not in tool or
             'description' not in tool or
-            'flags' not in tool
+            'flags' not in tool or
+            'structure' not in tool
             ):
-            raise DataException("Data file is corrupt. Could not find 'name', 'version', 'command', 'description' or 'flags' fields")
+            raise DataException("Data file is corrupt. Could not find 'name', 'version', 'command', 'description' or 'flags' or 'structure' fields")
 
         #setup Interface instance
-        inter = interface.Interface(tool.get('name'), tool.get('version'), tool.get('command'), tool.get('description'))
+        inter = interface.Interface(tool.get('name'), tool.get('version'), tool.get('command'), tool.get('description'), tool.get('structure'))
 
         #parse Interface flags
         flags = tool.get('flags')
@@ -122,9 +125,12 @@ class InterfaceLoader():
 
         return inter
 
+
     def generate_guis(self):
         '''Calls generate_gui() for every interface
         '''
 
         for key, interface in self.interfaces.items():
             interface.generate_gui()
+
+

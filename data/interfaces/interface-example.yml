@@ -19,13 +19,13 @@ tool:
             defaultvalue: "some value"
             description: "descriptionds"
     structure:
-        - "command"
-        - flags:
+        - "COMMAND"
+        - "FLAGS":
            - "flag identifier (e.g. -)"
-           - "flag"
-           - "[flag value separator (e.g. ' ')]"
-           - "[flag_value]"
+           - "FLAG"
+           - "flag value separator (e.g. ' ')"
+           - "FLAG_VALUE"
            - "flag separator (e.g. ' ')"
-        - values:
-            - "value"
+        - "VALUES":
+            - "VALUE"
             - "value separator (e.g. ' ')"

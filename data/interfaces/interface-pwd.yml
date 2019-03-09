@@ -5,40 +5,39 @@ tool:
     version: "1"
     command: "pwd"
     description: "Print Current Working dir command description Print Current Working dir command description Print Current Working dir command description Print Current Working dir command description Print Current Working dir command description Print Current Working dir command description Print Current Working dir command description Print Current Working dir command description Print Current Working dir command description Print Current Working dir command description Print Current Working dir command description Print Current Working dir command description Print Current Working dir command description Print Current Working dir command description Print Current Working dir command description Print Current Working dir command description Print Current Working dir command description Print Current Working dir command description Print Current Working dir command description Print Current Working dir command description Print Current Working dir command description Print Current Working dir command description Print Current Working dir command description Print Current Working dir command description Print Current Working dir command description "
-    flag_iden: "-"
     flags:
-        help:
+        physical:
             flag: "h"
             has_value: False
-            description: "help"
-        help1:
+            description: "display physical path"
+        physical1:
             flag: "h"
             has_value: False
-            description: "helphelp"
-        help2:
+            description: "physicalphysical"
+        physical2:
             flag: "h"
             has_value: False
-            description: "helphelphelp"
-        help3:
+            description: "physicalphysicalphysical"
+        physical3:
             flag: "h"
             has_value: False
-            description: "helphelphelphelp"
-        help4:
+            description: "physicalphysicalphysicalphysical"
+        physical4:
             flag: "h"
             has_value: False
-            description: "helphelphelphelphelp"
-        help5:
+            description: "physicalphysicalphysicalphysicalphysical"
+        physical5:
             flag: "h"
             has_value: False
-            description: "helphelphelphelphelphelphelphelphelphelp"
-        help6:
+            description: "physicalphysicalphysicalphysicalphysicalphysicalphysicalphysicalphysicalphysical"
+        physical6:
             flag: "h"
             has_value: True
-            description: "helphelphelphelphelphelphelphelphelphelphelphelphelphelphelphelphelphelphelphelp"
-        help7:
+            description: "physicalphysicalphysicalphysicalphysicalphysicalphysicalphysicalphysicalphysicalphysicalphysicalphysicalphysicalphysicalphysicalphysicalphysicalphysicalphysical"
+        physical7:
             flag: "h"
             has_value: False
-            description: "helphelphelphelphelphelphelphelphelphelphelphelphelphelphelphelphelphelphelphelphelphelphelphelphelphelphelphelphelphelp"
+            description: "physicalphysicalphysicalphysicalphysicalphysicalphysicalphysicalphysicalphysicalphysicalphysicalphysicalphysicalphysicalphysicalphysicalphysicalphysicalphysicalphysicalphysicalphysicalphysicalphysicalphysicalphysicalphysicalphysicalphysical"
     values:
         path:
             default_value: "."
@@ -58,4 +57,15 @@ tool:
         path5:
             default_value: "..."
             description: "The quick browner the lazy dog"
+    structure:
+        - "COMMAND"
+        - values:
+            - "VALUE"
+            - " "
+        - "FLAGS":
+           - "-"
+           - "FLAG"
+           - " "
+           - "FLAG_VALUE"
+           - " "
 ...
