@@ -121,10 +121,10 @@ class Interface():
 
 		self.values[iden] = value_inst
 
-	def generate_gui(self):
+	def generate_gui(self, threadpool, worker):
 		'''Creates a QWidget according to the interface itself.
 		'''
-		self.gui = ModuleGui(self)
+		self.gui = ModuleGui(self, threadpool, worker)
 
 	def build_command(self, flags, values):
 		'''Takes dicts of flags and values chosen according to gui and creates one complete command string that can be executed in terminal
@@ -170,7 +170,7 @@ class Interface():
 						if value_item == "VALUE":
 							command += value_value
 						else:
-							command += flag_item
+							command += value_item
 
 		#clean up string from multiple spaces and trailling spaces
 		command = re.sub(' +', ' ', command)

@@ -7,11 +7,11 @@ tool:
     description: "Print Current Working dir command description Print Current Working dir command description Print Current Working dir command description Print Current Working dir command description Print Current Working dir command description Print Current Working dir command description Print Current Working dir command description Print Current Working dir command description Print Current Working dir command description Print Current Working dir command description Print Current Working dir command description Print Current Working dir command description Print Current Working dir command description Print Current Working dir command description Print Current Working dir command description Print Current Working dir command description Print Current Working dir command description Print Current Working dir command description Print Current Working dir command description Print Current Working dir command description Print Current Working dir command description Print Current Working dir command description Print Current Working dir command description Print Current Working dir command description Print Current Working dir command description "
     flags:
         physical:
-            flag: "h"
+            flag: "L"
             has_value: False
             description: "display physical path"
         physical1:
-            flag: "h"
+            flag: "P"
             has_value: False
             description: "physicalphysical"
         physical2:

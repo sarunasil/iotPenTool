@@ -20,7 +20,7 @@ class ModuleGui(QtWidgets.QWidget):
     '''Deals with module gui which is generated from Interface data
     '''
 
-    def __init__(self, interface):
+    def __init__(self, interface, threadpool, worker):
         '''Init
         '''
         super().__init__()
@@ -29,6 +29,9 @@ class ModuleGui(QtWidgets.QWidget):
         self.flag_widgets = []
         self.value_widgets = []
         self.btns = []
+
+        self.threadpool = threadpool
+        self.worker = worker
 
         self.initUI()
 
@@ -58,6 +61,7 @@ class ModuleGui(QtWidgets.QWidget):
         footer = ModuleGui._create_footer(self.btns)
         layout.addWidget(footer)
 
+        self.btns[0].pressed.connect(self.execute_action)
         # layout.addStretch(1)
 
         self.setLayout(layout)
@@ -416,3 +420,7 @@ class ModuleGui(QtWidgets.QWidget):
 
         return flags, values
 
+    def execute_action(self):
+        flags, values = self.gather_params()
+        self.worker.command_string = self.interface.build_command(flags, values)
+        self.threadpool.start(self.worker)

@@ -12,8 +12,11 @@ import sys
 from os import path
 from PyQt5.QtWidgets import QMainWindow, QHBoxLayout, QWidget
 from PyQt5 import uic
+from PyQt5.QtCore import QThreadPool
+from PyQt5 import QtWidgets
 
 from vtabwidget import TabWidget
+from worker import Worker
 
 CURRENT_DIR = path.dirname(path.realpath(__file__))
 MAIN_GUI_FILEPATH = path.join(CURRENT_DIR, "gui/main_gui.ui")
@@ -21,31 +24,37 @@ MAIN_GUI_FILEPATH = path.join(CURRENT_DIR, "gui/main_gui.ui")
 Ui_MainWindow, QtBaseClass = uic.loadUiType(MAIN_GUI_FILEPATH)
 
 class MainGui(QMainWindow, Ui_MainWindow):
-    '''Main application gui. Deals with:
-        - Status bar
-        - Tool bar
-        - Panels
-    '''
+	'''Main application gui. Deals with:
+		- Status bar
+		- Tool bar
+		- Panels
+	'''
 
-    def __init__(self, interfaces):
-        '''Init
+	def output(self, data):
+		textedit = self.central.findChild(QtWidgets.QPlainTextEdit)
+		textedit.setPlainText(data)
 
-        Args:
-            interfaces (Interface): receives interfaces to be displayed
-        '''
+	def __init__(self, interfaces):
+		'''Init
 
-        QMainWindow.__init__(self)
+		Args:
+			interfaces (Interface): receives interfaces to be displayed
+		'''
+		self.threadpool = QThreadPool()
 
-        #Load gui from ./gui/iot_main.ui (rename file)
-        Ui_MainWindow.__init__(self)
-        self.setupUi(self)
+		QMainWindow.__init__(self)
 
-
-        self.w = TabWidget()
-        self.w.setMaximumWidth(400)
-        for name, interface in interfaces.items():
-            interface.generate_gui()
-            self.w.addTab(interface.gui, name)
+		#Load gui from ./gui/iot_main.ui (rename file)
+		Ui_MainWindow.__init__(self)
+		self.setupUi(self)
 
 
-        self.module_bar.layout().addWidget(self.w)
+		self.w = TabWidget()
+		self.w.setMaximumWidth(400)
+		for name, interface in interfaces.items():
+			worker = Worker(self.output) # Any other args, kwargs are passed to the run function
+			interface.generate_gui(self.threadpool, worker)
+			self.w.addTab(interface.gui, name)
+
+
+		self.module_bar.layout().addWidget(self.w)

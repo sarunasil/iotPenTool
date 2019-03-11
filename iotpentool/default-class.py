@@ -13,15 +13,15 @@ import os
 
 
 class Main():
-    
+	
 
-    def __init__(self):
-        '''Init
-        '''
+	def __init__(self):
+		'''Init
+		'''
 
-    def func(self):
-        
-        return 0
+	def func(self):
+		
+		return 0
 
 if __name__ == "__main__":
-    Main()
+	Main()
