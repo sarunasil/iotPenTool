@@ -1,8 +1,11 @@
-FatShark (scanning traffic)
+tShark (scanning traffic)
 Aircrack-ng (gaining access)
 Nmap (scanning devices in the network)
+nikto (web server scanner)
 dirb (web content scanner) / url fuzzing?
-ssh connection with default passwords / fuzzing
+thc-hydra (brute force password authentication)
+findmyhash (password hash cracker)
+yersinia (low-level protocol attack tool)
 
 capturing and editing packages?? 
 

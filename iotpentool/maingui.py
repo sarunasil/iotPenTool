@@ -50,7 +50,7 @@ class MainGui(QMainWindow, Ui_MainWindow):
 
 
 		self.w = TabWidget()
-		self.w.setMaximumWidth(400)
+		self.w.setMaximumWidth(500)
 		for name, interface in interfaces.items():
 			manager.add_output_func(name, self.output) #adds functions to deal with each separate interface output independantly
 			interface.generate_gui(manager) #generates gui for every Interface

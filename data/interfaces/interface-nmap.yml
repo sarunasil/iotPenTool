@@ -1,0 +1,206 @@
+#example interface blueprint
+
+tool:
+    name: "NMAP"
+    version: "7.6"
+    command: "nmap"
+    description: "Nmap (“Network Mapper”) is an open source tool for network exploration and security auditing.
+       It was designed to rapidly scan large networks, although it works fine against single hosts.
+       Nmap uses raw IP packets in novel ways to determine what hosts are available on the network,
+       what services (application name and version) those hosts are offering, what operating systems
+       (and OS versions) they are running, what type of packet filters/firewalls are in use, and
+       dozens of other characteristics. While Nmap is commonly used for security audits, many systems
+       and network administrators find it useful for routine tasks such as network inventory,
+       managing service upgrade schedules, and monitoring host or service uptime.
+
+       The output from Nmap is a list of scanned targets, with supplemental information on each
+       depending on the options used. Key among that information is the “interesting ports table”.
+       That table lists the port number and protocol, service name, and state. The state is either
+       open, filtered, closed, or unfiltered.  Open means that an application on the target machine
+       is listening for connections/packets on that port.  Filtered means that a firewall, filter, or
+       other network obstacle is blocking the port so that Nmap cannot tell whether it is open or
+       closed.  Closed ports have no application listening on them, though they could open up at any
+       time. Ports are classified as unfiltered when they are responsive to Nmap's probes, but Nmap
+       cannot determine whether they are open or closed. Nmap reports the state combinations
+       open|filtered and closed|filtered when it cannot determine which of the two states describe a
+       port. The port table may also include software version details when version detection has been
+       requested. When an IP protocol scan is requested (-sO), Nmap provides information on supported
+       IP protocols rather than listening ports.
+
+       In addition to the interesting ports table, Nmap can provide further information on targets,
+       including reverse DNS names, operating system guesses, device types, and MAC addresses.
+
+        TURN ON -oX for xml output!!!!"
+
+
+    flag_groups:
+        "Target Specification":
+            description: "Can pass hostnames, IP addresses, networks, etc."
+        "MISC":
+            description: "x"
+        "Service Version Detection":
+            description: "x"
+        "Scan techniques":
+            description: "x"
+        "OS Detection":
+            description: "x"
+        "Port Specification and Scan Order":
+            description: "x"
+        "Nmap Output Options":
+            description: "x"
+        "Timing and Performance":
+            description: "x"
+        "Host Discovery":
+            description: "x"
+    flags:
+        target_file:
+            flag: "iL"
+            has_value: True
+            description: "Scans a file of targets"
+            group: "Target Specification"
+        exclude_target:
+            flag: "-exclude"
+            has_value: True
+            description: "<host1[,host2][,host3],...>: Exclude hosts/networks"
+            group: "Target Specification"
+        exclude_file:
+            flag: "-excludefile"
+            has_value: True
+            description: "<host1[,host2][,host3],...>: Exclude hosts/networks"
+            group: "Target Specification"
+        os_detection:
+            flag: "A"
+            has_value: False
+            description: "Enable OS detection, version detection, script scanning, and traceroute"
+            group: "MISC"
+        verbosity_level:
+            flag: "v"
+            has_value: False
+            description: "Increase verbosity level"
+            group: "MISC"
+        tcp_syn_scan:
+            flag: "sS"
+            has_value: False
+            description: "TCP SYN scan"
+            group: "Scan techniques"
+        connection_scan:
+            flag: "sT"
+            has_value: False
+            description: "Connection scan"
+            group: "Scan techniques"
+        ack_scan:
+            flag: "sA"
+            has_value: False
+            description: "ACK scan"
+            group: "Scan techniques"
+        udp_scan:
+            flag: "sU"
+            has_value: False
+            description: "UDP scan"
+            group: "Scan techniques"
+        service_info:
+            flag: "sV"
+            has_value: False
+            description: "Probe open ports to determine service/version info"
+            group: "Service Version Detection"
+        os_detection:
+            flag: "O"
+            has_value: False
+            description: "Enable OS Detection"
+            group: "OS Detection"
+        skip_discovery:
+            flag: "PN"
+            has_value: False
+            description: "This option skips the Nmap discovery stage altogether."
+            group: "OS Detection"
+        ping_scan:
+            flag: "sP"
+            has_value: False
+            description: "Ping Scan - disable port scan"
+            group: "OS Detection"
+        fast_mode:
+            flag: "F"
+            has_value: False
+            description: "Fast mode, scans fewer ports than the default scan"
+            group: "Port Specification and Scan Order"
+        reason_port:
+            flag: "-reason"
+            has_value: False
+            description: "Display the reason a port is in a particular state"
+            group: "Nmap Output Options"
+        open_only:
+            flag: "-open"
+            has_value: False
+            description: "Only show open or possibly open ports"
+            group: "Nmap Output Options"
+        host_routes:
+            flag: "-iflist"
+            has_value: False
+            description: "Print host interfaces and routes for debugging"
+            group: "Nmap Output Options"
+        timing:
+            flag: "T"
+            has_value: True
+            description: "[0-5] Set timing template - higher is faster (less accurate)"
+            group: "Nmap Output Options"
+        tcp_syn_disc:
+            flag: "PS"
+            has_value: True
+            description: "TCP SYN discovery to given ports"
+            group: "Host Discovery"
+        tcp_ack_disc:
+            flag: "PA"
+            has_value: True
+            description: "TCP ACK discovery to given ports"
+            group: "Host Discovery"
+        udp_disc:
+            flag: "PU"
+            has_value: True
+            description: "UDP ACK discovery to given ports"
+            group: "Host Discovery"
+        ip_prot_scan:
+            flag: "sO"
+            has_value: False
+            description: "IP protocol scan"
+            group: "Scan Techniques"
+        tcp_null_scan:
+            flag: "sN"
+            has_value: False
+            description: "TCP Null scan"
+            group: "Scan Techniques"
+        fin_scan:
+            flag: "sF"
+            has_value: False
+            description: "FIN scan"
+            group: "Scan Techniques"
+        xmas_scan:
+            flag: "sX"
+            has_value: False
+            description: "Xmas scan"
+            group: "Scan Techniques"
+        fragment_pack:
+            flag: "f"
+            has_value: True
+            description: "(optionally w/given MTU) Fragment packets"
+            group: "Firewalls IDS Evasion and Spoofing"
+        spoof_mac:
+            flag: "-spoof-mac"
+            has_value: True
+            description: "Spoof NMAP MAC address"
+            group: "Firewalls IDS Evasion and Spoofing"
+
+    values:
+        target_address:
+            default_value: ""
+            description: "OPTIONAL: Target to be scanned"
+    structure:
+        - "COMMAND"
+        - "FLAGS":
+           - "-"
+           - "FLAG"
+           - " "
+           - "FLAG_VALUE"
+           - " "
+        - "VALUES":
+            - "VALUE"
+            - " "

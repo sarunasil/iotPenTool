@@ -16,7 +16,7 @@ tool:
             description: "other description"
     values:
         value_name:
-            defaultvalue: "some value"
+            default_value: "some value"
             description: "descriptionds"
     structure:
         - "COMMAND"

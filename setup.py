@@ -1,11 +1,11 @@
 from setuptools import setup, find_packages
 
-setup(name='si1',
+setup(name='iotpentool',
       version='0.1',
-      description='sss',
-      url='s',
-      author='Flying Circus',
-      author_email='s@example.com',
+      description='IoT Penetration Testing convenience tool',
+      url='https://github.com/sarunasil/iotPenTool',
+      author='Sarunas Iljeitis',
+      author_email='si1g16@soton.ac.uk',
       license='MIT',
       packages=find_packages(),
       zip_safe=False)

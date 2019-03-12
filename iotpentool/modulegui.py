@@ -95,7 +95,7 @@ class ModuleGui(QtWidgets.QWidget):
 
         if wrap:
             scroll = QtWidgets.QScrollArea()
-            scroll.setMaximumHeight(100)
+            # scroll.setMaximumHeight(100)
             scroll.setObjectName("label_scroll_"+object_name)
 
             value = QtWidgets.QLabel(text)
