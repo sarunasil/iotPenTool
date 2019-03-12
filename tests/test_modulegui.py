@@ -15,6 +15,7 @@ from PyQt5 import QtWidgets
 from iotpentool.modulegui import ModuleGui
 from iotpentool.interface import _Flag, _Value, Interface
 from iotpentool.interfaceloader import InterfaceLoader
+from iotpentool.manager import Manager
 
 CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
 INTERFACE_DIR = os.path.join(CURRENT_DIR, "stub_interfaces")
@@ -31,7 +32,7 @@ def application():
 def test_init(application, interface_loader, interface_command):
 
 	interface = interface_loader.interfaces[interface_command]
-	widget = ModuleGui(interface)
+	widget = ModuleGui(interface, Manager())
 
 	assert isinstance(widget, QtWidgets.QWidget)
 	assert isinstance(widget.interface, Interface)
@@ -210,7 +211,7 @@ def test__create_footer(application, btns_ref):
 def test_gather_params(application, interface_loader, interface_command, flag_states, value_states):
 
 	interface = interface_loader.interfaces[interface_command]
-	widget = ModuleGui(interface)
+	widget = ModuleGui(interface, Manager())
 
 	#setup flag values
 	#go through each flag_state

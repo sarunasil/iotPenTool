@@ -12,11 +12,9 @@ import sys
 from os import path
 from PyQt5.QtWidgets import QMainWindow, QHBoxLayout, QWidget
 from PyQt5 import uic
-from PyQt5.QtCore import QThreadPool
 from PyQt5 import QtWidgets
 
 from vtabwidget import TabWidget
-from worker import Worker
 
 CURRENT_DIR = path.dirname(path.realpath(__file__))
 MAIN_GUI_FILEPATH = path.join(CURRENT_DIR, "gui/main_gui.ui")
@@ -31,17 +29,19 @@ class MainGui(QMainWindow, Ui_MainWindow):
 	'''
 
 	def output(self, data):
+		'''STUB OUTPUT FUNCTION
+		'''
+
 		textedit = self.central.findChild(QtWidgets.QPlainTextEdit)
 		textedit.setPlainText(data)
 
-	def __init__(self, interfaces):
+	def __init__(self, interfaces, manager):
 		'''Init
 
 		Args:
 			interfaces (Interface): receives interfaces to be displayed
+			manager (Manager): deals with multithreading
 		'''
-		self.threadpool = QThreadPool()
-
 		QMainWindow.__init__(self)
 
 		#Load gui from ./gui/iot_main.ui (rename file)
@@ -52,9 +52,9 @@ class MainGui(QMainWindow, Ui_MainWindow):
 		self.w = TabWidget()
 		self.w.setMaximumWidth(400)
 		for name, interface in interfaces.items():
-			worker = Worker(self.output) # Any other args, kwargs are passed to the run function
-			interface.generate_gui(self.threadpool, worker)
-			self.w.addTab(interface.gui, name)
+			manager.add_output_func(name, self.output) #adds functions to deal with each separate interface output independantly
+			interface.generate_gui(manager) #generates gui for every Interface
+			self.w.addTab(interface.gui, name) #adds generated guis to TabWidget
 
 
 		self.module_bar.layout().addWidget(self.w)

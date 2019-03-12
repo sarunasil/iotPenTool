@@ -121,10 +121,15 @@ class Interface():
 
 		self.values[iden] = value_inst
 
-	def generate_gui(self, threadpool, worker):
+	def generate_gui(self, manager):
 		'''Creates a QWidget according to the interface itself.
+
+		Args:
+			manager (Manager): reference to Thread Manager
+			to execute commands outside main event loop
 		'''
-		self.gui = ModuleGui(self, threadpool, worker)
+
+		self.gui = ModuleGui(self, manager)
 
 	def build_command(self, flags, values):
 		'''Takes dicts of flags and values chosen according to gui and creates one complete command string that can be executed in terminal
@@ -175,16 +180,4 @@ class Interface():
 		#clean up string from multiple spaces and trailling spaces
 		command = re.sub(' +', ' ', command)
 		return command.rstrip()
-
-	def execute(self, param):
-		'''Executes a specific module command 
-		according to parameters given
-
-		Arguments:
-				param {[type]} -- [description]
-		'''
-
-
-
-
 

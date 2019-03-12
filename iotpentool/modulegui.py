@@ -20,7 +20,7 @@ class ModuleGui(QtWidgets.QWidget):
     '''Deals with module gui which is generated from Interface data
     '''
 
-    def __init__(self, interface, threadpool, worker):
+    def __init__(self, interface, manager):
         '''Init
         '''
         super().__init__()
@@ -30,8 +30,7 @@ class ModuleGui(QtWidgets.QWidget):
         self.value_widgets = []
         self.btns = []
 
-        self.threadpool = threadpool
-        self.worker = worker
+        self.manager = manager #class reference to deal with multithreading
 
         self.initUI()
 
@@ -421,6 +420,15 @@ class ModuleGui(QtWidgets.QWidget):
         return flags, values
 
     def execute_action(self):
+        '''Execute button action:
+            gather interface command arguments,
+            build command string in Interface
+            call manager to run command and deal with output
+        '''
+
         flags, values = self.gather_params()
-        self.worker.command_string = self.interface.build_command(flags, values)
-        self.threadpool.start(self.worker)
+        iden = self.interface.command
+        command_string = self.interface.build_command(flags, values)
+
+        self.manager.run_executor(iden, command_string)
+

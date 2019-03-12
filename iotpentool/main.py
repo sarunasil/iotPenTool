@@ -15,6 +15,7 @@ from iotpentool.configmanager import ConfigManager
 from iotpentool.maingui import MainGui
 from iotpentool.interfaceloader import InterfaceLoader
 from iotpentool.mymessage import Outcome, Message, MsgType
+from iotpentool.manager import Manager
 
 CURRENT_DIR = path.dirname(path.realpath(__file__))
 CONFIG_FILE = path.join(CURRENT_DIR, "../data/config.ini")
@@ -33,6 +34,8 @@ class Main():
 		root_dir = path.join(CURRENT_DIR, "..")
 		config_manager = ConfigManager(root_dir)
 
+		self.thread_manager = Manager()
+
 		result = config_manager.parse_config(CONFIG_FILE)
 		if result == Outcome.FAILURE:
 			result = config_manager.create_config(CONFIG_FILE)
@@ -42,7 +45,7 @@ class Main():
 
 		self.interface_loader = InterfaceLoader(config_manager.interface_dir)
 
-		self.main_gui = MainGui(self.interface_loader.interfaces)
+		self.main_gui = MainGui(self.interface_loader.interfaces, self.thread_manager)
 		self.main_gui.show()
 
 

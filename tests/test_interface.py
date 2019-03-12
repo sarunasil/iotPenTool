@@ -16,6 +16,7 @@ from PyQt5 import QtWidgets
 from iotpentool import interface
 from iotpentool import interfaceloader
 from iotpentool.modulegui import ModuleGui
+from iotpentool.manager import Manager
 
 CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
 INTERFACE_DIR = os.path.join(CURRENT_DIR, "stub_interfaces")
@@ -36,10 +37,9 @@ def test_generate_gui(application, interface_loader, interface_command):
 		interface_loader (InterfaceLoader): setups interfaces to generate QWidget from
 		id (String): Which to use
 	'''
-
 	interface = interface_loader.interfaces[interface_command]
 
-	interface.generate_gui()
+	interface.generate_gui(Manager())
 
 	assert isinstance(interface.gui, ModuleGui)
 
