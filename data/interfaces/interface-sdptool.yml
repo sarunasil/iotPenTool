@@ -1,0 +1,79 @@
+#example interface blueprint
+
+tool:
+    name: "sdptool"
+    version: "5.48"
+    command: "sdptool"
+    description: "sdptool provides the interface for performing SDP queries on Bluetooth devices, and administering a local SDP database.
+    The following commands are available. In all cases bdaddr specifies the device to search or browse. If local is used for bdaddr, then the local SDP database is searched.
+    Services are identified and manipulated with a 4-byte record_handle (NOT the service name).
+    To find a service's record_handle, look for the 'Service RecHandle' line in  the search or browse results"
+    flags:
+        help:
+            flag: "--help"
+            has_value: False
+            description: "Displays help on using sdptool"
+        search:
+            flag: "search"
+            has_value: True
+            description: "[--bdaddr bdaddr] [--tree] [--raw] [--xml] service_name.
+             Known  service  names  are DID, SP, DUN, LAN, FAX, OPUSH, FTP, HS, HF, HFAG, SAP,
+                 NAP, GN, PANU, HCRP, HID, CIP, A2SRC,  A2SNK,  AVRCT,  AVRTG,  UDIUE,  UDITE  and
+                 SYNCML."
+        browse:
+            flag: "browse"
+            has_value: True
+            description: "[--tree] [--raw] [--xml] [bdaddr]
+                 Browse all available services on the device specified by a Bluetooth address as a
+                 parameter."
+        records:
+            flag: "records"
+            has_value: True
+            description: "[--tree] [--raw] [--xml] bdaddr
+                 Retrieve all possible service records."
+        add:
+            flag: "add"
+            has_value: True
+            description: " [ --handle=N --channel=N ]
+                 Add a service to the local SDP database.
+
+                 You can specify a handle for this record using the --handle option.
+
+                 You can specify a channel to add the service on using the --channel option.
+
+                 NOTE: Local adapters configuration will not be updated and this command should be
+                 used only for SDP testing."
+        del:
+            flag: "del"
+            has_value: True
+            description: "del record_handle
+                 Remove a service from the local SDP database.
+
+                 NOTE: Local adapters configuration will not be updated and this command should be
+                 used only for SDP testing."
+        get:
+            flag: "get"
+            has_value: True
+            description: "[--tree] [--raw] [--xml] [--bdaddr bdaddr] record_handle
+                 Retrieve a service from the local SDP database."
+        setattr:
+            flag: "setattr"
+            has_value: True
+            description: "setattr record_handle attrib_id attrib_value
+                 Set or add an attribute to an SDP record."
+        setseq:
+            flag: "setseq"
+            has_value: True
+            description: "record_handle attrib_id attrib_values
+                 Set or add an attribute sequence to an SDP record."
+    values:
+    structure:
+        - "COMMAND"
+        - "FLAGS":
+           - "FLAG"
+           - " "
+           - "FLAG_VALUE"
+           - " "
+        - "VALUES":
+            - "VALUE"
+            - " "
