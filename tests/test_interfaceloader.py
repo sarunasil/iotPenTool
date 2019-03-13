@@ -24,6 +24,7 @@ INTERFACE_DIR = os.path.join(CURRENT_DIR, "stub_interfaces")
 @pytest.fixture
 def application():
 	return QtWidgets.QApplication([])
+
 @pytest.mark.parametrize(("directory"), [
     INTERFACE_DIR,
     os.path.join(CURRENT_DIR, "empty_dir")
@@ -123,6 +124,55 @@ def test_find_interface_files(interface_file):
             }
         ]
         }
+    }),
+    ("interface-ls_nested.yml", {"tool":{
+        "name":"List items",
+        "version":"8.28",
+        "command": "ls_nested",
+        "description":"list items command description",
+        "flags":{
+            "long_format":{
+                "flag":"l",
+                "has_value":True,
+                "description":"print in long format",
+                "flags":{
+                    "nested_flag1":{
+                        "flag":"flag1^2",
+                        "has_value":True,
+                        "description":"flag flag description"
+                        },
+                    "nested_flag2":{
+                        "flag": "flag2^2",
+                        "has_value": False,
+                        "description": "[flag] [flag] description12312 12 flag flag description12312 12flag flag description12312 12"
+                        }
+                    }
+                },
+            "all_content":{
+                "flag":"a",
+                "has_value":False,
+                "description":"print all content"
+                }
+            },
+        "structure": [
+            "COMMAND",
+            {
+            "FLAGS": [
+                "-",
+                "FLAG",
+                " ",
+                "FLAG_VALUE",
+                " "
+                ]
+            },
+            {
+            "VALUES": [
+                "VALUE",
+                " "
+                ]
+            }
+            ]
+        }
     })
     ])
 def test_read_interface_file(interface_file, content):
@@ -140,7 +190,7 @@ def test_read_interface_file(interface_file, content):
     assert read_content == content
 
 
-@pytest.mark.parametrize(("interface_data", "name", "version", "command", "description", "flags", "values", "structure"), [
+@pytest.mark.parametrize(("interface_data", "name", "version", "command", "description", "flag_count", "value_count", "structure"), [
     (
         {"tool":{
             "name":"List items",
@@ -189,15 +239,8 @@ def test_read_interface_file(interface_file, content):
         "8.28", 
         "ls", 
         "list items command description",
-        [
-            ["long_format", "l", True, "print in long format"],
-            ["all_content", "a", False, "print all content"]
-        ], 
-        {"path":{
-            "default_value":".",
-            "description":"path to folder"
-            }
-        },
+        2, 
+        1,
         [
             "COMMAND",
             { "FLAGS": [ "-", "FLAG", " ", "FLAG_VALUE", " " ] },
@@ -241,18 +284,78 @@ def test_read_interface_file(interface_file, content):
         "1", 
         "pwd", 
         "Print Current Working dir command description",
-        [
-            ["physical", "P", False, "display physical path"]
-        ], 
-        {},
+        1, 
+        0,
         [
             "COMMAND", 
             { "VALUES": [ "VALUE", " " ] }, 
             { "FLAGS": [ "-", "FLAG", " ", "FLAG_VALUE", " " ] }
         ]
+    ),
+    (
+        {"tool":{
+            "name":"List items",
+            "version":"8.28",
+            "command": "ls_nested",
+            "description":"list items command description",
+            "flags":{
+                "long_format":{
+                    "flag":"l",
+                    "has_value":True,
+                    "description":"print in long format",
+                    "flags":{
+                        "nested_flag1":{
+                            "flag":"flag1^2",
+                            "has_value":True,
+                            "description":"flag flag description"
+                            },
+                        "nested_flag2":{
+                            "flag": "flag2^2",
+                            "has_value": False,
+                            "description": "[flag]"
+                            }
+                        }
+                    },
+                "all_content":{
+                    "flag":"a",
+                    "has_value":False,
+                    "description":"print all content"
+                    }
+                },
+            "structure": [
+                "COMMAND",
+                {
+                "FLAGS": [
+                    "-",
+                    "FLAG",
+                    " ",
+                    "FLAG_VALUE",
+                    " "
+                    ]
+                },
+                {
+                "VALUES": [
+                    "VALUE",
+                    " "
+                    ]
+                }
+                ]
+            }
+        },
+        "List items", 
+        "8.28", 
+        "ls_nested", 
+        "list items command description",
+        2, 
+        0,
+        [
+            "COMMAND",
+            { "FLAGS": [ "-", "FLAG", " ", "FLAG_VALUE", " " ] },
+            { "VALUES": [ "VALUE", " " ] }
+        ]
     )
     ])
-def test_create_interface(interface_data, name, version, command, description, flags, values, structure):
+def test_create_interface(interface_data, name, version, command, description, flag_count, value_count, structure):
     '''Create Interface object by parsing interface_data
 
     Args:
@@ -261,22 +364,10 @@ def test_create_interface(interface_data, name, version, command, description, f
 
     interface_created = interfaceloader.InterfaceLoader.create_interface(interface_data)
 
-    #create flag set from parameter values
-    stub_flags = {}
-    for flag_data in flags:
-      f = interface._Flag(flag_data[0], flag_data[1], flag_data[2], flag_data[3])
-      stub_flags[f.iden] = f
-
-    #create values set from parameter values
-    stub_values = {}
-    for value_data in values:
-      v = interface._Value(value_data, values[value_data]["default_value"], values[value_data]['description'])
-      stub_values[v.iden] = v
-
     assert interface_created.name == name
     assert interface_created.version == version
     assert interface_created.command == command
     assert interface_created.description == description
-    assert interface_created.flags == stub_flags
-    assert interface_created.values == stub_values
     assert interface_created.structure == structure
+    assert len(interface_created.flags) == flag_count
+    assert len(interface_created.values) == value_count

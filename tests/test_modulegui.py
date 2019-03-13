@@ -13,7 +13,7 @@ import pytest
 from PyQt5 import QtWidgets
 
 from iotpentool.modulegui import ModuleGui
-from iotpentool.interface import _Flag, _Value, Interface
+from iotpentool.interface import _Flag, _Value, Interface, NESTED_SYMBOL
 from iotpentool.interfaceloader import InterfaceLoader
 from iotpentool.manager import Manager
 
@@ -62,14 +62,45 @@ def test__create_label(application, label, object_name, text, wrap, style):
 		assert widget.findChild(QtWidgets.QLabel, "label_value_"+object_name)
 
 
-@pytest.mark.parametrize(("iden","flag","has_value","description","style"), [
-	("long_format", "l", True, "desc", ""),
-	("all_content", "a", False, "desc", "")
+@pytest.mark.parametrize(("iden","has_value","flag_data","style"), [
+	("long_format", True, 
+		{"flag":"l",
+			"has_value":True,
+			"description":"print in long format"
+		},
+		""
+	),
+	("all_content", False, 
+		{"flag":"a",
+		"has_value":False,
+		"description":"print all content"
+		},
+		""
+	),
+	("nested_long", False,
+		{"flag":"l",
+			"has_value":True,
+			"description":"print in long format",
+			"flags":{
+				"nested_flag1":{
+					"flag":"flag1^2",
+					"has_value":True,
+					"description":"flag flag description"
+					},
+				"nested_flag2":{
+					"flag": "flag2^2",
+					"has_value": False,
+					"description": "[flag]"
+					}
+				}
+			},
+		""
+	)
 	])
-def test__create_flag(application, iden, flag, has_value, description, style):
-	flag = _Flag(iden, flag, has_value, description)
+def test__create_flag(application, iden, has_value, flag_data, style):
+	flag = _Flag(iden, flag_data)
 
-	widget = ModuleGui._create_flag(flag, style)
+	widget = ModuleGui._create_flag(flag, [], style)
 
 	assert isinstance(widget, QtWidgets.QWidget)
 	assert widget.styleSheet() == style
@@ -79,13 +110,18 @@ def test__create_flag(application, iden, flag, has_value, description, style):
 		assert widget.findChild(QtWidgets.QLineEdit, "text_box_"+iden)
 	assert widget.findChild(QtWidgets.QCheckBox, "check_box_"+iden)
 
+	#SYMBOL USED FOR IDENTIFY NESTING = ^
+	if 'flags' in flag_data:
+		for flag_iden in flag_data['flags']:
+			if not widget.findChild(QtWidgets.QWidget, "flag_"+iden+NESTED_SYMBOL+flag_iden):
+				assert False
 
-@pytest.mark.parametrize(("iden","default_value","description","style"), [
-	("path", ".", "path to folder",""),
-	("other_value", "*", "other description","")
+@pytest.mark.parametrize(("iden","value_data","style"), [
+	("path", {"default_value":".","description":"path to folder"},""),
+	("other_value", {"default_value":"*","description":"other description"},"")
 ])
-def test__create_value(application, iden, default_value, description, style):
-	value = _Value(iden, default_value, description)
+def test__create_value(application, iden, value_data, style):
+	value = _Value(iden, value_data)
 
 	widget = ModuleGui._create_value(value, style)
 
@@ -121,20 +157,36 @@ def test__create_general(application, name, version, command, description, struc
 
 
 @pytest.mark.parametrize(("flags","flag_widgets"),[
-	([
-		["long_format", "l", False, "print in long format"],
-		["all_content", "a", False, "print all content"]
-	], [] ),
-	([
-		["physical", "h", False, "physical"]
-	], ["stub"])
+	({
+		"long_format":{
+			"flag":"l",
+			"has_value":True,
+			"description":"print in long format"
+			},
+		"all_content":{
+			"flag":"a",
+			"has_value":False,
+			"description":"print all content"
+			}
+		},
+		[]
+	),
+	({
+		"all_content":{
+			"flag":"a",
+			"has_value":False,
+			"description":"print all content"
+			}
+		}, 
+		["stub"]
+	)
 	])
 def test__create_flags(application, flags, flag_widgets):
 
 	#create flag set from parameter values
 	stub_flags = {}
-	for flag_data in flags:
-	  f = _Flag(flag_data[0], flag_data[1], flag_data[2], flag_data[3])
+	for flag_iden, flag_data in flags.items():
+	  f = _Flag(flag_iden, flag_data)
 	  stub_flags[f.iden] = f
 
 	flag_widgets_len = len(flag_widgets)
@@ -169,7 +221,7 @@ def test__create_values(application, values, value_widgets):
 	#create values set from parameter values
 	stub_values = {}
 	for value_data in values:
-	  v = _Value(value_data, values[value_data]["default_value"], values[value_data]['description'])
+	  v = _Value(value_data, values[value_data])
 	  stub_values[v.iden] = v
 
 	value_widgets_len = len(value_widgets)
@@ -243,7 +295,7 @@ def test_gather_params(application, interface_loader, interface_command, flag_st
 
 				found = True
 				break
-		assert found #if widget with right flag_iden not found - error
+		assert found #if widget with right value_iden not found - error
 
 
 	flags, values = widget.gather_params()

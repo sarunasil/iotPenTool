@@ -10,6 +10,11 @@ tool:
             flag: "flag"
             has_value: True/False
             description: "description"
+            flags:
+                flagflag_name:
+                    flag: "flagflag"
+                    has_value: True/False
+                    description: "description"
         other_name:
             flag: "other flag"
             has_value: True/False
@@ -29,3 +34,4 @@ tool:
         - "VALUES":
             - "VALUE"
             - "value separator (e.g. ' ')"
+

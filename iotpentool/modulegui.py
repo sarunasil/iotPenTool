@@ -102,7 +102,7 @@ class ModuleGui(QtWidgets.QWidget):
 
         if wrap:
             scroll = QtWidgets.QScrollArea()
-            # scroll.setMaximumHeight(100)
+            scroll.setMaximumHeight(200)
             scroll.setObjectName("label_scroll_"+object_name)
 
             value = QtWidgets.QLabel(text)
@@ -129,12 +129,13 @@ class ModuleGui(QtWidgets.QWidget):
         return widget
 
     @staticmethod
-    def _create_flag(flag, style=None):
+    def _create_flag(flag, flag_widgets, style=None):
         '''creates a widget representing a tool Flag
 
         Args:
             flag (_Flag): flag to create gui for
             style (String, optional): Default ot None. Provide a StyleSheet if needed
+            flag_widgets (list(QWidget)): reference to the ModuleGui self.flag_widgets list
 
         Returns:
             QWidget:
@@ -142,25 +143,39 @@ class ModuleGui(QtWidgets.QWidget):
 
         widget = QtWidgets.QWidget()
         widget.setObjectName("flag_"+flag.iden)
-        layout = QtWidgets.QHBoxLayout()
+        layout = QtWidgets.QVBoxLayout()
         layout.setContentsMargins(2,2,2,2)
         layout.setSpacing(2)
 
+        widget_top = QtWidgets.QWidget()
+        layout_top = QtWidgets.QHBoxLayout()
         check_box = QtWidgets.QCheckBox(flag.flag)
         check_box.setObjectName("check_box_" + flag.iden)
-        layout.addWidget(check_box)
+        layout_top.addWidget(check_box)
 
         if flag.has_value:
             text_box = QtWidgets.QLineEdit()
             text_box.setObjectName("text_box_"+flag.iden)
-            layout.addWidget(text_box)
+            layout_top.addWidget(text_box)
         else:
-            layout.addSpacing(75)
+            layout_top.addSpacing(50)
 
         desc_lbl = QtWidgets.QLabel(flag.description)
         desc_lbl.setObjectName("label_"+flag.iden)
         desc_lbl.setWordWrap(True)
-        layout.addWidget(desc_lbl)
+        layout_top.addWidget(desc_lbl)
+
+        widget_top.setLayout(layout_top)
+        layout.addWidget(widget_top)
+        #nested flag
+        for flag_iden, flag_flag in flag.flag_flags.items():
+            nested_flag = ModuleGui._create_flag(flag_flag, flag_widgets, style)
+            nested_flag.layout().setContentsMargins(20,0,0,0) #make indentation
+
+            # Add to modulegui flag widgets list to access value later
+            flag_widgets.append(nested_flag)
+            layout.addWidget(nested_flag)
+
         layout.addStretch(1)
 
         widget.setLayout(layout)
@@ -294,10 +309,11 @@ class ModuleGui(QtWidgets.QWidget):
         header_lbl = QtWidgets.QLabel(header_txt)
         scroll_w_layout.addWidget(header_lbl)
         for flag in flags:
-            temp_flag = ModuleGui._create_flag(flags[flag], style)
+            position = len(flag_widgets)
+            temp_flag = ModuleGui._create_flag(flags[flag], flag_widgets, style)
 
             # Add to modulegui flag widgets list to access value later
-            flag_widgets.append(temp_flag)
+            flag_widgets.insert(position, temp_flag)
 
             scroll_w_layout.addWidget(temp_flag)
 
@@ -412,9 +428,10 @@ class ModuleGui(QtWidgets.QWidget):
             - dict of checked flags (with values if hasValue==True) f:value
             - dict of checked values with values    value_name:value
         '''
-
+        #HACKI HACK HACKI HACK .... use list instead of dict to 
+        #maintain orer - thus nested flags will always go after parent flags...
         #gather states of checked flags
-        flags = {}
+        flags = []
         for flag_widget in self.flag_widgets:
             checkbox = flag_widget.findChild(QtWidgets.QCheckBox)
             if checkbox.isChecked():
@@ -422,18 +439,18 @@ class ModuleGui(QtWidgets.QWidget):
 
                 textbox = flag_widget.findChild(QtWidgets.QLineEdit)
                 if textbox:
-                    flags[flag_iden] = textbox.text()
+                    flags.append((flag_iden, textbox.text()))
                 else:
-                    flags[flag_iden] = None
+                    flags.append((flag_iden, None))
 
         #gather states of values
         #so most likely, all the values as all of them have to have default values
-        values = {}
+        values = []
         for value_widget in self.value_widgets:
             value_iden = value_widget.objectName().replace('value_','',1)
 
             textbox = value_widget.findChild(QtWidgets.QLineEdit)
-            values[value_iden] = textbox.text()
+            values.append((value_iden, textbox.text()))
 
         return flags, values
 

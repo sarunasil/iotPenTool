@@ -14,16 +14,22 @@ from abc import ABC
 from iotpentool.modulegui import ModuleGui
 from iotpentool.mymessage import DataException
 
+#SYMBOL USED TO MARK NESTED FLAGS
+NESTED_SYMBOL = "^"
+
 class Argument(ABC):
 	'''Abstract argument class to be inherited by _Flag and _Value
 	'''
 
-	def __init__(self, iden, description):
+	def __init__(self, iden, data):
 		'''Init
 		'''
 
+		if ("description" not in data):
+				raise DataException("Data file is corrupt. Could not find 'description' fields in "+iden)
+
 		self.iden = iden
-		self.description = description
+		self.description = data['description']
 
 	def __eq__(self, other):
 		'''Overwrite == comparison operation for _Flag objects. != overwritten automatically
@@ -32,22 +38,39 @@ class Argument(ABC):
 			other (_Flag): another object to compare with
 
 		Returns:
-			Boolean: eqaul or not
+			Boolean: equal or not
 		'''
 
 		return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
 
 
 class _Flag(Argument):
-	'''Object representing command flag instance 
+	'''Object representing command flag instance
 	'''
 
-	def __init__(self, iden, flag, has_value, description):
+	def __init__(self, iden, data):
 		'''Init
+
+		Args:
+			data(dict)
 		'''
-		Argument.__init__(self, iden, description)
-		self.has_value = has_value
-		self.flag = flag
+
+		Argument.__init__(self, iden, data)
+
+		if ("flag" not in data or
+			"has_value" not in data):
+				raise DataException("Data file is corrupt. Could not find 'flag', 'has_value' fields in "+iden)
+
+		#SYMBOL USED TO MARK NESTED FLAG = ^
+		flag_flags = {}
+		if 'flags' in data:
+			for flag_iden, flag_data in data['flags'].items():
+				nested_flag_iden = iden+NESTED_SYMBOL+flag_iden
+				flag_flags[nested_flag_iden] = _Flag(nested_flag_iden, flag_data)
+
+		self.flag = data['flag']
+		self.has_value = data['has_value']
+		self.flag_flags = flag_flags
 
 class _Value(Argument):
 	'''Object representing value taken by the command
@@ -55,11 +78,15 @@ class _Value(Argument):
 		ASSUMING that values are COMPULSORY, if optional - _Flag
 	'''
 
-	def __init__(self, iden, default_value, description):
+	def __init__(self, iden, data):
 		'''Init
 		'''
-		Argument.__init__(self, iden, description)
-		self.default_value = default_value
+		Argument.__init__(self, iden, data)
+
+		if 'default_value' not in data:
+			raise DataException("Data file is corrupt. Could not find 'default_value' field in "+iden)
+
+		self.default_value = data['default_value']
 
 
 class Interface():
@@ -96,13 +123,7 @@ class Interface():
 			data (dict): yml like structure with flag data
 		'''
 
-		if ("flag" not in data or
-				"description" not in data
-				):
-				raise DataException("Data file is corrupt. Could not find 'flag', 'description' fields in "+iden)
-
-		flag_inst = _Flag(iden, data['flag'], data['has_value'], data['description'])
-
+		flag_inst = _Flag(iden, data)
 		self.flags[iden] = flag_inst
 
 
@@ -114,11 +135,7 @@ class Interface():
 			data (dict): yml like structure with value data
 		'''
 
-		if ("description" not in data):
-				raise DataException("Data file is corrupt. Could not find 'description' fields in "+iden)
-
-		value_inst = _Value(iden, data['default_value'], data['description'])
-
+		value_inst = _Value(iden, data)
 		self.values[iden] = value_inst
 
 	def generate_gui(self, manager):
@@ -150,9 +167,17 @@ class Interface():
 			elif isinstance(item, dict) and "FLAGS" in item:
 				#flags building
 
+				print (flags)
 				#for every checked flag
-				for flag_iden, flag_value in flags.items():
-					flag_symbol = self.flags[flag_iden].flag
+				for flag_iden, flag_value in flags:
+					#travers all parent flags to find actual Flag object
+					flag_struct = flag_iden.split(NESTED_SYMBOL)
+					parent = self.flags[flag_struct[0]]
+					del flag_struct[0]
+
+					for parent_flag_iden in flag_struct:
+						parent = parent.flag_flags[parent.iden+NESTED_SYMBOL+parent_flag_iden]
+					flag_symbol = parent.flag
 
 					#follow Interface.structure "FLAGS" pattern to set params
 					for flag_item in item["FLAGS"]:
@@ -168,7 +193,7 @@ class Interface():
 				#values building
 
 				#for every value entered
-				for value_iden, value_value in values.items():
+				for value_iden, value_value in values:
 
 					#follow Interface.structure "VALUES" pattern to set params
 					for value_item in item["VALUES"]:
@@ -179,5 +204,7 @@ class Interface():
 
 		#clean up string from multiple spaces and trailling spaces
 		command = re.sub(' +', ' ', command)
+
+		print (command)
 		return command.rstrip()
 

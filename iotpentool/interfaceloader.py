@@ -110,18 +110,15 @@ class InterfaceLoader():
 
         #parse Interface flags
         flags = tool.get('flags')
-        for flag_name in flags:
-            flag = flags[flag_name]
-
-            inter.add_flag(flag_name, flag)
+        for flag_name, flag_data in flags.items():
+            inter.add_flag(flag_name, flag_data)
 
         #parse Interface values
-        values = tool.get('values')
-        if values:
-            for value_name in values:
-                value = values[value_name]
-
-                inter.add_value(value_name, value)
+        if 'values' in tool:
+            values = tool.get('values')
+            if values:
+                for value_name, value_data in values.items():
+                    inter.add_value(value_name, value_data)
 
         return inter
 

@@ -1,0 +1,37 @@
+#ls interface
+---
+tool:
+    name: "List items"
+    version: "8.28"
+    command: "ls_nested"
+    description: "list items command description"
+    flags:
+        nested_long:
+            flag: "l"
+            has_value: True
+            description: "print in long format"
+            flags:
+                nested_flag1:
+                    flag: "flag1^2"
+                    has_value: True
+                    description: "flag flag description"
+                nested_flag2:
+                    flag: "flag2^2"
+                    has_value: False
+                    description: "[flag] [flag] description12312 12 flag flag description12312 12flag flag description12312 12"
+        all_content:
+            flag: "a"
+            has_value: False
+            description: "print all content"
+    structure:
+        - "COMMAND"
+        - "FLAGS":
+           - "-"
+           - "FLAG"
+           - " "
+           - "FLAG_VALUE"
+           - " "
+        - "VALUES":
+            - "VALUE"
+            - " "
+...
