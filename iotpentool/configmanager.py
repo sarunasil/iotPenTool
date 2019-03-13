@@ -9,7 +9,7 @@ By sarunasil
 """
 
 from os import path
-import configparser
+from  configparser import ConfigParser
 from iotpentool.mymessage import Message, MsgType, Outcome
 
 class ConfigManager():
@@ -23,7 +23,7 @@ class ConfigManager():
         self.interface_dir = None
         self.root_dir = root_dir
 
-        self.config_parser = configparser.ConfigParser()
+        self.config_parser = ConfigParser()
 
     def parse_config(self, file_path):
         '''Parses hardcoded yaml config file
@@ -79,7 +79,7 @@ class ConfigManager():
             Message.print_message(MsgType.ERROR, "Cannot overwrite existing file.")
             return Outcome.FAILURE
 
-        self.config_parser = configparser.ConfigParser()
+        self.config_parser = ConfigParser()
         section = 'General'
         self.config_parser.add_section(section)
         self.config_parser.set(section, 'data_dir', 'data/')

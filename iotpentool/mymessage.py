@@ -23,7 +23,7 @@ class Outcome(enum.Enum):
     '''
 
     SUCCESS = 0
-    FAILURE = -1
+    FAILURE = 1
 
 
 
@@ -44,7 +44,7 @@ class Message:
         if isinstance(typee, MsgType):
             message += typee.value
         else:
-            raise _ValueError("Wrong message type")
+            raise DataException("Wrong message type")
 
         message += ": " + msg
 

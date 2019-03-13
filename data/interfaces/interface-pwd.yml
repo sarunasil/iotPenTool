@@ -31,9 +31,9 @@ tool:
             has_value: False
             description: "physicalphysicalphysicalphysicalphysicalphysicalphysicalphysicalphysicalphysical"
         physical6:
-            flag: "h"
+            flag: "ht"
             has_value: True
-            description: "physicalphysicalphysicalphysicalphysicalphysicalphysicalphysicalphysicalphysicalphysicalphysicalphysicalphysicalphysicalphysicalphysicalphysicalphysicalphysical"
+            description: "physicalphysicalphysicalphysicalphysicalphysicalphysicalphysicalp hysicalphysicalphysicalphysicalphysicalphysicalphysicalphysicalphysicalphysicalphysicalphysical"
         physical7:
             flag: "h"
             has_value: False

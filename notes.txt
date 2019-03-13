@@ -11,10 +11,7 @@ capturing and editing packages??
 
 JEIGU BUSI MLDC: 
     padaryk, kad galima butu deti nested flag'us ar values - kad jie savo param turi; 
-    jeigu nera daug Values, bet daug Flags tai isplesk Flags ir sutrauk Values iki minimalaus reikalingo;
-    Flags ir Values spausdinti LENTELEJE BLET nes akis skauda ziurit i ta suda.
-
-siandien: dar vieno tools'o yml (bluetooth'o kazkokio, bet be nested param!)
+    Lentele FLAGS and VAlues - SUSPENDED - gal ok.
 
 ryt: dar vieno tools'o yml, padaryt, kad jeigu optional galima butu grupuoti param pagal label ir label atspausdint. + live output https://stackoverflow.com/questions/54091396/live-output-stream-from-python-subprocess
 

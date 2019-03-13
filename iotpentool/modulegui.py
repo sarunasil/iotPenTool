@@ -34,6 +34,11 @@ class ModuleGui(QtWidgets.QWidget):
 
         self.initUI()
 
+    # def print_general_size(self):
+    #     self.btns[0].setText(
+    #         "Actual: "+str(self.flags.size().height()) + "\n Hint: " + str(self.flags.sizeHint().height())
+    #         )
+
     def initUI(self):
         '''Function to move GUI creation from __init__
         '''
@@ -47,21 +52,23 @@ class ModuleGui(QtWidgets.QWidget):
         layout.setSpacing(0)
 
         general = ModuleGui._create_general(self.interface)
-        layout.addWidget(general, 1)
+        layout.addWidget(general)
 
         flags = ModuleGui._create_flags(self.interface.flags, self.flag_widgets)
         # flags.setStyleSheet("background-color:grey;")
-        layout.addWidget(flags, 2)
+        layout.addWidget(flags)
 
         values = ModuleGui._create_values(self.interface.values, self.value_widgets)
         # values.setStyleSheet("background-color:brown;")
-        layout.addWidget(values, 2)
+        layout.addWidget(values)
+
+        layout.addStretch(1)
 
         footer = ModuleGui._create_footer(self.btns)
         layout.addWidget(footer)
+        self.updateGeometry()
 
         self.btns[0].pressed.connect(self.execute_action)
-        # layout.addStretch(1)
 
         self.setLayout(layout)
 
@@ -102,11 +109,15 @@ class ModuleGui(QtWidgets.QWidget):
             value.setWordWrap(True)
             value.setObjectName("label_value_"+object_name)
             scroll.setWidget(value)
+            sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
+            scroll.setSizePolicy(sizePolicy)
 
 
+            scroll.setWidgetResizable(True)
             layout.addWidget(scroll)
         else:
             value = QtWidgets.QLabel(text)
+            value.setWordWrap(True)
             value.setObjectName("label_value_"+object_name)
             layout.addWidget(value)
 
@@ -137,19 +148,20 @@ class ModuleGui(QtWidgets.QWidget):
 
         check_box = QtWidgets.QCheckBox(flag.flag)
         check_box.setObjectName("check_box_" + flag.iden)
-        layout.addWidget(check_box, 1)
+        layout.addWidget(check_box)
 
         if flag.has_value:
             text_box = QtWidgets.QLineEdit()
             text_box.setObjectName("text_box_"+flag.iden)
-            layout.addWidget(text_box, 3)
+            layout.addWidget(text_box)
         else:
-            layout.addStretch(3)
+            layout.addSpacing(75)
 
         desc_lbl = QtWidgets.QLabel(flag.description)
         desc_lbl.setObjectName("label_"+flag.iden)
         desc_lbl.setWordWrap(True)
-        layout.addWidget(desc_lbl, 20)
+        layout.addWidget(desc_lbl)
+        layout.addStretch(1)
 
         widget.setLayout(layout)
         widget.setToolTip(flag.iden)
@@ -189,7 +201,6 @@ class ModuleGui(QtWidgets.QWidget):
         desc_lbl.setObjectName("label_desc_"+value.iden)
         desc_lbl.setWordWrap(True)
         layout.addWidget(desc_lbl, 20)
-
 
         widget.setLayout(layout)
         widget.setToolTip(value.description)
@@ -240,6 +251,7 @@ class ModuleGui(QtWidgets.QWidget):
 
         description_lbl = ModuleGui._create_label("Description:", "description", interface.description, True, style)
         layout.addWidget(description_lbl)
+        # layout.addStretch(1)
 
         widget.setLayout(layout)
 
@@ -271,13 +283,14 @@ class ModuleGui(QtWidgets.QWidget):
 
         scroll = QtWidgets.QScrollArea()
         # scroll.setMaximumHeight(200)
-        scroll.setMinimumHeight(100)
+        scroll.setMinimumHeight(50)
+        scroll.setWidgetResizable(True)
         scroll_w = QtWidgets.QWidget()
         scroll_w_layout = QtWidgets.QVBoxLayout()
         scroll_w_layout.setContentsMargins(2,0,0,1)
         scroll_w_layout.setSpacing(2)
 
-        header_txt = "   Flag \t | \t Value \t | \t Description"
+        header_txt = "   ---- Flag -------- [Value] -------- Description ----"
         header_lbl = QtWidgets.QLabel(header_txt)
         scroll_w_layout.addWidget(header_lbl)
         for flag in flags:
@@ -288,11 +301,13 @@ class ModuleGui(QtWidgets.QWidget):
 
             scroll_w_layout.addWidget(temp_flag)
 
+        scroll_w_layout.addStretch(1)
         scroll_w.setLayout(scroll_w_layout)
         scroll.setWidget(scroll_w)
 
 
         layout.addWidget(scroll)
+        layout.addStretch(1)
 
         widget.setLayout(layout)
 
@@ -325,13 +340,14 @@ class ModuleGui(QtWidgets.QWidget):
 
         scroll = QtWidgets.QScrollArea()
         # scroll.setMaximumHeight(200)
-        scroll.setMinimumHeight(100)
+        scroll.setMinimumHeight(50)
+        scroll.setWidgetResizable(True)
         scroll_w = QtWidgets.QWidget()
         scroll_w_layout = QtWidgets.QVBoxLayout()
         scroll_w_layout.setContentsMargins(2,0,0,1)
         scroll_w_layout.setSpacing(2)
 
-        header_txt = "   Value  | \t Value Name \t | \tDescription"
+        header_txt = "   ---- Value -------- Value Name -------- Description ----"
         header_lbl = QtWidgets.QLabel(header_txt)
         scroll_w_layout.addWidget(header_lbl)
         for value in values:
@@ -341,12 +357,14 @@ class ModuleGui(QtWidgets.QWidget):
             value_widgets.append(temp_value)
 
             scroll_w_layout.addWidget(temp_value)
-
+        scroll_w_layout.addStretch(1)
         scroll_w.setLayout(scroll_w_layout)
         scroll.setWidget(scroll_w)
 
 
         layout.addWidget(scroll)
+        layout.addStretch(1)
+
 
         widget.setLayout(layout)
 
