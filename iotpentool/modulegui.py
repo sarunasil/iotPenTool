@@ -11,6 +11,7 @@ By sarunasil
 
 import uuid
 import os
+from collections import OrderedDict
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import Qt
 
@@ -273,7 +274,7 @@ class ModuleGui(QtWidgets.QWidget):
         '''Generates flag part of the module tab, defines style for it's children
 
         Args:
-            flags (dict(Flag)): module flags
+            flags (OrderedDict(Flag)): module flags
             flag_widgets (list(QWidget)): reference to the ModuleGui self.flag_widgets list
 
         Returns:
@@ -309,6 +310,7 @@ class ModuleGui(QtWidgets.QWidget):
             temp_flag = ModuleGui._create_flag(flags[flag], flag_widgets, style)
 
             # Add to modulegui flag widgets list to access value later
+            # insert it before any child flags
             flag_widgets.insert(position, temp_flag)
 
             scroll_w_layout.addWidget(temp_flag)
@@ -330,7 +332,7 @@ class ModuleGui(QtWidgets.QWidget):
         '''Generates values part of the module tab, defines style for it's children
 
         Args:
-            values (dict(_Value)): module values
+            values (OrderedDict(_Value)): module values
             value_widgets (list(QWidget)): reference to the ModuleGui self.value_widgets
 
         Returns:
@@ -387,7 +389,7 @@ class ModuleGui(QtWidgets.QWidget):
         '''Creates module tab footer section
 
         Args:
-            btns_ref (list(QPushButton)): buttons list of reference
+            btns_ref (OrderedDict(String:QPushButton)): buttons dict of reference. (BtnName : QPushButton)
 
         Returns:
             QWidget: footer section
@@ -405,18 +407,20 @@ class ModuleGui(QtWidgets.QWidget):
 
         # execute button
         exe_text = "Run module"
+        exe_name = "btn_execute"
         btn_exe = QtWidgets.QPushButton(exe_text)
-        btn_exe.setObjectName("btn_execute")
-        btns_ref.append(btn_exe)
+        btn_exe.setObjectName(exe_name)
+        btns_ref[exe_name] = btn_exe
         layout.addWidget(btn_exe)
 
         layout.addStretch(1)
 
         # terminate button
-        exe_text = "Terminate run"
-        btn_term = QtWidgets.QPushButton(exe_text)
-        btn_term.setObjectName("btn_terminate")
-        btns_ref.append(btn_term)
+        term_text = "Terminate run"
+        term_name = "btn_terminate"
+        btn_term = QtWidgets.QPushButton(term_text)
+        btn_term.setObjectName(term_name)
+        btns_ref[term_name] = btn_term
         layout.addWidget(btn_term)
 
         layout.addStretch(1)
@@ -436,28 +440,27 @@ class ModuleGuiController():
             modulegui (ModuleGui): callbac to ModuleGui
         '''
         self.interface = interface
-        self.flag_widgets = []
-        self.value_widgets = []
-        self.btns = []
+        self.flag_widgets = []      #retains order of interface.flags
+        self.value_widgets = []     #retains order of interface.values
+        self.btns = OrderedDict()
 
         self.manager = manager #class reference to deal with multithreading
 
         self.execution_id = None
         self.modulegui = ModuleGui(self)
 
-        self.btns[0].pressed.connect(self.execute_action)
-        self.btns[1].pressed.connect(self.terminate_action)
+        self.btns["btn_execute"].pressed.connect(self.execute_action)
+        self.btns["btn_terminate"].pressed.connect(self.terminate_action)
 
     def gather_params(self):
         '''Gathers flag and value states from text fields and checkboxes in the gui
 
         Returns:
-            dict(String: [String|None] ), dict(String: String ): 2 values: ACTUALLY... Does are lists now. USE ORDEREDDICT !!!
-            - dict of checked flags (with values if hasValue==True) f:value
-            - dict of checked values with values    value_name:value
+            list( (String:[String|None]) ), list( (String:String) ): 2 values: 
+            Proper parameter order is guaranteed because self.flag_widgets and self.value_widgets gurantee to retain order of interface.flags and interface.values
+            - list of tuples: (flag_iden, if has_value flag_value else None)
+            - list of tuples: (value_iden, value_value)
         '''
-        #HACKI HACK HACKI HACK .... use list instead of dict to 
-        #maintain orer - thus nested flags will always go after parent flags...
         #gather states of checked flags
         flags = []
         for flag_widget in self.flag_widgets:
@@ -486,6 +489,10 @@ class ModuleGuiController():
         '''Execute button action:
             gather interface command arguments,
             build command string in Interface
+            generate random task id - execution_id and keep reference of it for terminating if needed
+            ---
+            disable Run btn and enable Terminate btn
+            ---
             call manager to run command and deal with output
         '''
 
@@ -494,13 +501,25 @@ class ModuleGuiController():
         command_string = self.interface.build_command(flags, values)
         self.execution_id = str(uuid.uuid4())
 
-        self.manager.run_executor(iden, self.execution_id, command_string)
+        self.btns['btn_execute'].setEnabled(False)
+        self.btns['btn_terminate'].setEnabled(True)
+
+        def reset_btns():
+            self.btns['btn_execute'].setEnabled(True)
+            self.btns['btn_terminate'].setEnabled(False)
+
+        self.manager.run_executor(iden, self.execution_id, command_string, reset_btns)
 
     def terminate_action(self):
         '''Terminate button action:
             terminates a running process 
+            ---
+            disable Terminate btn and enable Run btn
         '''
-        if self.execution_id:
-            self.manager.terminate_executor(self.execution_id)
-            self.execution_id = None
+
+        self.manager.terminate_executor(self.execution_id)
+        self.execution_id = None
+
+        self.btns['btn_execute'].setEnabled(True)
+        self.btns['btn_terminate'].setEnabled(False)
 

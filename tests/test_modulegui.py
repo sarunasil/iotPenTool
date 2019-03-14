@@ -10,6 +10,7 @@ By sarunasil
 
 import os
 import pytest
+from collections import OrderedDict
 from PyQt5 import QtWidgets
 
 from iotpentool.modulegui import ModuleGui, ModuleGuiController
@@ -241,8 +242,8 @@ def test__create_values(application, values, value_widgets):
 
 
 @pytest.mark.parametrize(('btns_ref'), [
-	([]),
-	(['stub'])
+	(OrderedDict()),
+	(OrderedDict({'s':'stub'}))
 	])
 def test__create_footer(application, btns_ref):
 

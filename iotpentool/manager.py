@@ -44,14 +44,15 @@ class Worker(QRunnable):
 	that has to be executed outside the main event loop
 	'''
 
-	def __init__(self, output_func, command_string, execution_id, workers):
+	def __init__(self, command_string, output_func, callback, cleanup):
 		'''Initiates Qt thread wrapper instance
 		to do work in another thread
 
 		Args:
-			output_func (func): function to deal with process signals
 			command_string (String): command string to execute
-			workers(dict(String:Worker)): ref to Workers dict
+			output_func (func): function to deal with process signals
+			callback (Function): job client function to exe after run -> job supplier
+			cleanup (Function): manager function to exe after run -> Manager
 		'''
 
 		super(Worker, self).__init__()
@@ -62,11 +63,8 @@ class Worker(QRunnable):
 		self.command_string = command_string
 
 		self.process = None
-
-		self.execution_id = execution_id
-		#add itself to workers list
-		workers[execution_id] = self
-		self.workers = workers
+		self.callback = callback
+		self.cleanup = cleanup
 
 	@pyqtSlot()
 	def run(self):
@@ -111,7 +109,8 @@ class Worker(QRunnable):
 			self.signals.error.emit(str(e))	#return error
 		finally:
 			self.signals.finished.emit()  # Done
-			self.workers.pop(self.execution_id, None)
+			self.cleanup()	#Manager function execution
+			self.callback()	#Job client function execution
 
 	def terminate(self):
 		'''terminate running subprocess
@@ -153,28 +152,35 @@ class Manager():
 		'''
 		self._output_funcs[iden] = func
 
-	def terminate_executor(self, executor_id):
-		'''Used to cancel running command
-
-		Args:
-			executor_id (String): id of the worker
-		'''
-		result = self._workers[executor_id].terminate()
-
-		if result == mymessage.Outcome.FAILURE:
-			mymessage.Message.print_message(mymessage.MsgType.WARNING, "Failed to kill a subprocess with SIGTERM command.")
-
-
-	def run_executor(self, iden, execution_id, command_string):
+	def run_executor(self, iden, execution_id, command_string, callback):
 		'''Run command line tool
 
 		Args:
 			iden (String): interface identifier to select output
 			execution_id (String): unique identifier for this execution
 			command_string (String): command to execute
+			callback (Function): function to execute upon task finish
 		'''
 
+		def remove_worker(): #to be executed after Worker finishes
+			self._workers.pop(execution_id, None)
+
 		output_func = self._output_funcs[iden]
-		worker = Worker(output_func, command_string, execution_id, self._workers)
+		worker = Worker(command_string, output_func, callback, remove_worker)
+
+		self._workers[execution_id] = worker #remember worker for termination if needed
 
 		self.threadpool.start(worker)
+
+	def terminate_executor(self, executor_id):
+		'''Used to cancel running command
+
+		Args:
+			executor_id (String): id of the worker
+		'''
+
+		if executor_id and executor_id in self._workers:
+			result = self._workers[executor_id].terminate()
+
+			if result == mymessage.Outcome.FAILURE:
+				mymessage.Message.print_message(mymessage.MsgType.WARNING, "Failed to kill a subprocess with SIGTERM command.")

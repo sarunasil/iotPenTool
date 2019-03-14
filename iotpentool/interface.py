@@ -11,6 +11,7 @@ By sarunasil
 import re
 
 from abc import ABC
+from collections import OrderedDict
 from iotpentool.modulegui import ModuleGuiController
 from iotpentool.mymessage import DataException
 
@@ -105,13 +106,13 @@ class Interface():
 			command (String): terminal command to execute
 		'''
 
-		self.name = name       #print name
-		self.version = version #version
-		self.command = command #terminal call name
+		self.name = name       			#print name
+		self.version = version 			#version
+		self.command = command 			#terminal call name
 		self.description = description	#tool description
-		self.flags = {}     #parameters program can take
-		self.values = {}   #values provided without a flag e.g. 'ls /dev'
-		self.structure = structure #defines tool command syntax ls [FLAGS] path
+		self.flags = OrderedDict()     	#parameters program can take
+		self.values = OrderedDict()   	#values provided without a flag e.g. 'ls /dev'
+		self.structure = structure 		#defines tool command syntax ls [FLAGS] path
 		self.gui_controller = None		#Controller of gui
 
 
