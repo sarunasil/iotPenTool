@@ -13,7 +13,9 @@ capturing and editing packages??
 MUST
 snd:
     - padaryt, kad neprivalomai galima butu grupuoti param pagal label ir label atspausdint
-    - terminate button
+    - lineedits active only when checkboxes are checked, 
+    - default values in Values fields, 
+    - nested Flags active only when 
 
 SHOULD
 COULD
