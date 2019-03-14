@@ -1,4 +1,6 @@
 #example interface blueprint
+#FLAG AND VALUE ORDER MATTERS:
+#   command will be generated with flags and values in order defined in here
 
 tool:
     name: "tool_name"
