@@ -203,6 +203,8 @@ class ModuleGui(QtWidgets.QWidget):
 
         text_box = QtWidgets.QLineEdit()
         text_box.setObjectName("text_box_"+value.iden)
+        text_box.setPlaceholderText(value.default_value)
+        text_box.setToolTip(value.default_value)
         layout.addWidget(text_box, 2)
 
         label = QtWidgets.QLabel(value.iden)
@@ -215,7 +217,7 @@ class ModuleGui(QtWidgets.QWidget):
         layout.addWidget(desc_lbl, 20)
 
         widget.setLayout(layout)
-        widget.setToolTip(value.description)
+        # widget.setToolTip(value.description)
 
         if style:
             widget.setStyleSheet(style)
@@ -481,7 +483,8 @@ class ModuleGuiController():
             value_iden = value_widget.objectName().replace('value_','',1)
 
             textbox = value_widget.findChild(QtWidgets.QLineEdit)
-            values.append((value_iden, textbox.text()))
+            value = textbox.text() if textbox.text() else textbox.placeholderText()
+            values.append((value_iden, value))
 
         return flags, values
 

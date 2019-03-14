@@ -73,6 +73,21 @@ class _Flag(Argument):
 		self.has_value = data['has_value']
 		self.flag_flags = flag_flags
 
+class _FlagLabel(_Flag):
+	'''Object to add grouping labels between flags
+	'''
+
+	def __init__(self, label):
+		'''Init
+
+		Args:
+			label_value (String): label to display
+		'''
+		_Flag.__init__(self, label, {"description":"STUB","flag":"STUB","has_value":False})
+
+		self.label = label
+
+
 class _Value(Argument):
 	'''Object representing value taken by the command
 
@@ -115,7 +130,6 @@ class Interface():
 		self.structure = structure 		#defines tool command syntax ls [FLAGS] path
 		self.gui_controller = None		#Controller of gui
 
-
 	def add_flag(self, iden, data):
 		'''Add new flag object
 
@@ -124,9 +138,12 @@ class Interface():
 			data (dict): yml like structure with flag data
 		'''
 
-		flag_inst = _Flag(iden, data)
-		self.flags[iden] = flag_inst
-
+		if iden == "GROUP":
+			flag_inst = _FlagLabel(data)
+			self.flags[data] = flag_inst
+		else:
+			flag_inst = _Flag(iden, data)
+			self.flags[iden] = flag_inst
 
 	def add_value(self, iden, data):
 		'''Add new value to values

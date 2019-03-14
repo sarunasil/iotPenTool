@@ -11,7 +11,7 @@ By sarunasil
 import os
 import pytest
 from PyQt5 import QtWidgets
-
+from collections import OrderedDict
 
 from iotpentool import interface
 from iotpentool import interfaceloader
@@ -63,7 +63,8 @@ def interface_loader():
 		},
 		["nested_long", "l", True, "print in long format",2])
 	])
-def test_add_flag(iden, flag_data, result):
+def test_flag_init(iden, flag_data, result):
+	# flag = interface._FlagLabel(flag_data) if iden=="GROUP" else interface._Flag(iden, flag_data)
 	flag = interface._Flag(iden, flag_data)
 
 	assert flag.iden == result[0]
@@ -71,6 +72,54 @@ def test_add_flag(iden, flag_data, result):
 	assert flag.has_value == result[2]
 	assert flag.description == result[3]
 	assert len(flag.flag_flags) == result[4]
+
+@pytest.mark.parametrize(("flag_data","result"), [
+	(
+		"test label name",
+		["test label name", "STUB", False, "STUB",0]
+	),
+	(
+		"test2",
+		["test2", "STUB", False, "STUB",0]
+	)
+])
+def test_flaglabel_init(flag_data, result):
+	flag_label = interface._FlagLabel(flag_data)
+
+	assert isinstance(flag_label, interface._Flag)
+	assert flag_label.label == result[0]
+
+@pytest.mark.parametrize(("interface_command", "iden", "data"), [
+	(
+		"empty", "GROUP", "Some group"
+	),
+	(
+		"ls", "GROUP", "Some group"
+	),
+	(
+		"empty", 
+		"long_list", 
+		{
+			"flag":"l",
+			"has_value":True,
+			"description":"print in long format"
+		}
+	)
+])
+def test_add_flag(interface_command, iden, data):
+	interface_obj = interfaceloader.InterfaceLoader.create_interface(interfaceloader.InterfaceLoader.read_interface_file("tests/stub_interfaces/interface-"+interface_command+".yml")) #get single interface object without using InterfaceLoader instance
+
+	interface_obj.add_flag(iden, data)
+
+	if iden == "GROUP":
+		assert data in interface_obj.flags
+		assert isinstance(interface_obj.flags[data], interface._Flag)
+		assert isinstance(interface_obj.flags[data], interface._FlagLabel)
+	else:
+		assert iden in interface_obj.flags
+		assert isinstance(interface_obj.flags[iden], interface._Flag)
+		assert not isinstance(interface_obj.flags[iden], interface._FlagLabel)
+
 
 @pytest.mark.parametrize(("iden","value_data","result"), [
 	(

@@ -1,0 +1,21 @@
+#ls interface
+---
+tool:
+    name: "Empty interface"
+    version: "8.28"
+    command: "empty"
+    description: "Empty interface description"
+    flags:
+    values:
+    structure:
+        - "COMMAND"
+        - "FLAGS":
+           - "-"
+           - "FLAG"
+           - " "
+           - "FLAG_VALUE"
+           - " "
+        - "VALUES":
+            - "VALUE"
+            - " "
+...

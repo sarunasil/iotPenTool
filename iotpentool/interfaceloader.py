@@ -51,7 +51,6 @@ class InterfaceLoader():
             except DataException as de:
                 Message.print_message(MsgType.WARNING, file_name+" "+str(de))
 
-
     @staticmethod
     def find_interface_files(interface_dir):
         #get content of the interface_dir
@@ -64,7 +63,6 @@ class InterfaceLoader():
         content = set(filter(regex.search, content))
 
         return content
-
 
     @staticmethod
     def read_interface_file(file_path):
@@ -81,7 +79,6 @@ class InterfaceLoader():
                 Message.print_message(MsgType.ERROR, "Could not parse interface "+ file_path +". \n"+str(exc))
 
         return content
-
 
     @staticmethod
     def create_interface(data):
@@ -109,9 +106,11 @@ class InterfaceLoader():
         inter = interface.Interface(tool.get('name'), tool.get('version'), tool.get('command'), tool.get('description'), tool.get('structure'))
 
         #parse Interface flags
-        flags = tool.get('flags')
-        for flag_name, flag_data in flags.items():
-            inter.add_flag(flag_name, flag_data)
+        if 'flags' in tool:
+            flags = tool.get('flags')
+            if flags:
+                for flag_name, flag_data in flags.items():
+                    inter.add_flag(flag_name, flag_data)
 
         #parse Interface values
         if 'values' in tool:
@@ -121,7 +120,6 @@ class InterfaceLoader():
                     inter.add_value(value_name, value_data)
 
         return inter
-
 
     def generate_guis(self):
         '''Calls generate_gui() for every interface
