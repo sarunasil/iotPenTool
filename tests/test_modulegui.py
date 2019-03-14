@@ -12,7 +12,7 @@ import os
 import pytest
 from PyQt5 import QtWidgets
 
-from iotpentool.modulegui import ModuleGui
+from iotpentool.modulegui import ModuleGui, ModuleGuiController
 from iotpentool.interface import _Flag, _Value, Interface, NESTED_SYMBOL
 from iotpentool.interfaceloader import InterfaceLoader
 from iotpentool.manager import Manager
@@ -32,10 +32,11 @@ def application():
 def test_init(application, interface_loader, interface_command):
 
 	interface = interface_loader.interfaces[interface_command]
-	widget = ModuleGui(interface, Manager())
+	controller = ModuleGuiController(interface, None)
+	widget = ModuleGui(controller)
 
 	assert isinstance(widget, QtWidgets.QWidget)
-	assert isinstance(widget.interface, Interface)
+	assert isinstance(widget.controller, ModuleGuiController)
 	assert widget.styleSheet() == widget.style
 	assert widget.objectName() == "widget_interface"
 	assert widget.findChild(QtWidgets.QWidget, "widget_general")
@@ -247,7 +248,7 @@ def test__create_footer(application, btns_ref):
 
 	btns_ref_len = len(btns_ref)
 	widget = ModuleGui._create_footer(btns_ref)
-	assert len(btns_ref) == btns_ref_len + 1
+	assert len(btns_ref) == btns_ref_len + 2
 
 	assert isinstance(widget, QtWidgets.QWidget)
 	assert isinstance( widget.layout(), QtWidgets.QHBoxLayout )
@@ -264,14 +265,15 @@ def test__create_footer(application, btns_ref):
 def test_gather_params(application, interface_loader, interface_command, flag_states, value_states):
 
 	interface = interface_loader.interfaces[interface_command]
-	widget = ModuleGui(interface, Manager())
+	controller = ModuleGuiController(interface, None)
+	widget = ModuleGui(controller)
 
 	#setup flag values
 	#go through each flag_state
 	for flag_iden, flag_value in flag_states:
 		found = False
 		#find qwidget with the right checkbox
-		for flag_widget in widget.flag_widgets:
+		for flag_widget in controller.flag_widgets:
 			if flag_widget.objectName() == "flag_"+flag_iden:
 				checkbox = flag_widget.findChild(QtWidgets.QCheckBox)
 				checkbox.setChecked(True)
@@ -289,7 +291,7 @@ def test_gather_params(application, interface_loader, interface_command, flag_st
 	for value_iden, value_value in value_states:
 		found = False
 		#find qwidget with the right checkbox
-		for value_widget in widget.value_widgets:
+		for value_widget in controller.value_widgets:
 			if value_widget.objectName() == "value_"+value_iden:
 				textbox = value_widget.findChild(QtWidgets.QLineEdit)
 				textbox.setText(value_value)
@@ -299,7 +301,7 @@ def test_gather_params(application, interface_loader, interface_command, flag_st
 		assert found #if widget with right value_iden not found - error
 
 
-	flags, values = widget.gather_params()
+	flags, values = controller.gather_params()
 	#flags
 	for flag, value in flag_states:
 		assert (flag, value) in flags

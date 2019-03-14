@@ -9,18 +9,21 @@ yersinia (low-level protocol attack tool)
 
 capturing and editing packages?? 
 
+
 MUST
 snd:
     - padaryt, kad neprivalomai galima butu grupuoti param pagal label ir label atspausdint
-    - live output https://stackoverflow.com/questions/54091396/live-output-stream-from-python-subprocess
+    - terminate button
 
 SHOULD
 COULD
-abort button
 WON'T
-nicer structure for Flags and Values
-Flag, Value, Describtion fields expand to always cover all space
-priorty: all reaching minimum height; Flags; Values; Desc;
+    - nicer structure for Flags and Values
+    - Flag, Value, Describtion fields expand to always cover all space - priorty: all reaching minimum height; Flags; Values; Desc;
 
-penktdieni: kokia gi ta blet iot metothology? Kokios ten jos dalys, sukurtu tools'u grupes ir priskirti esamus joms. Kokie gi tie spreadsheet'ai kur kisti info???
-penktadieni: kaip simuliuoti/generuoti spreadsheet'us is ketvirtadienio
+
+    - create terminal that updates previous input lines if \r is present just like 'dirb' does
+penktdieni: 
+    - kokia gi ta blet iot metothology? Kokios ten jos dalys, sukurtu tools'u grupes ir priskirti esamus joms. Kokie gi tie spreadsheet'ai kur kisti info???
+penktadieni: 
+    - kaip simuliuoti/generuoti spreadsheet'us is ketvirtadienio

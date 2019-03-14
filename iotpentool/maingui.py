@@ -34,7 +34,7 @@ class MainGui(QtWidgets.QMainWindow, Ui_MainWindow):
 		'''
 
 		textedit = self.central.findChild(QtWidgets.QPlainTextEdit)
-		textedit.setPlainText(data)
+		textedit.insertPlainText(data)
 
 	def __init__(self, interfaces, manager):
 		'''Init
@@ -54,7 +54,7 @@ class MainGui(QtWidgets.QMainWindow, Ui_MainWindow):
 		for name, interface in interfaces.items():
 			manager.add_output_func(name, self.output) #adds functions to deal with each separate interface output independantly
 			interface.generate_gui(manager) #generates gui for every Interface
-			self.w.addTab(interface.gui, name) #adds generated guis to TabWidget
+			self.w.addTab(interface.gui_controller.modulegui, name) #adds generated guis to TabWidget
 
 			# self.resized.connect(interface.gui.print_general_size)
 

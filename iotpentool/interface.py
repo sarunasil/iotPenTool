@@ -11,7 +11,7 @@ By sarunasil
 import re
 
 from abc import ABC
-from iotpentool.modulegui import ModuleGui
+from iotpentool.modulegui import ModuleGuiController
 from iotpentool.mymessage import DataException
 
 #SYMBOL USED TO MARK NESTED FLAGS
@@ -112,7 +112,7 @@ class Interface():
 		self.flags = {}     #parameters program can take
 		self.values = {}   #values provided without a flag e.g. 'ls /dev'
 		self.structure = structure #defines tool command syntax ls [FLAGS] path
-		self.gui = None		#QWidget of the module gui
+		self.gui_controller = None		#Controller of gui
 
 
 	def add_flag(self, iden, data):
@@ -146,7 +146,7 @@ class Interface():
 			to execute commands outside main event loop
 		'''
 
-		self.gui = ModuleGui(self, manager)
+		self.gui_controller = ModuleGuiController(self, manager)
 
 	def build_command(self, flags, values):
 		'''Takes dicts of flags and values chosen according to gui and creates one complete command string that can be executed in terminal

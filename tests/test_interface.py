@@ -15,7 +15,7 @@ from PyQt5 import QtWidgets
 
 from iotpentool import interface
 from iotpentool import interfaceloader
-from iotpentool.modulegui import ModuleGui
+from iotpentool.modulegui import ModuleGui, ModuleGuiController
 from iotpentool.manager import Manager
 
 from iotpentool.mymessage import DataException
@@ -107,7 +107,8 @@ def test_generate_gui(application, interface_loader, interface_command):
 
 	interface.generate_gui(Manager())
 
-	assert isinstance(interface.gui, ModuleGui)
+	assert isinstance(interface.gui_controller, ModuleGuiController)
+	assert isinstance(interface.gui_controller.modulegui, ModuleGui)
 
 @pytest.mark.parametrize(("interface_command","flags","values","check_command"),
 	[

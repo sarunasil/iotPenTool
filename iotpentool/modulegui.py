@@ -9,6 +9,7 @@ Abstracts gui details from Interface
 By sarunasil
 """
 
+import uuid
 import os
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import Qt
@@ -20,17 +21,12 @@ class ModuleGui(QtWidgets.QWidget):
     '''Deals with module gui which is generated from Interface data
     '''
 
-    def __init__(self, interface, manager):
+    def __init__(self, controller):
         '''Init
         '''
         super().__init__()
-        self.interface = interface
         self.style = ""#TODO
-        self.flag_widgets = []
-        self.value_widgets = []
-        self.btns = []
-
-        self.manager = manager #class reference to deal with multithreading
+        self.controller = controller
 
         self.initUI()
 
@@ -51,27 +47,24 @@ class ModuleGui(QtWidgets.QWidget):
         layout.setContentsMargins(0,0,0,0)
         layout.setSpacing(0)
 
-        general = ModuleGui._create_general(self.interface)
+        general = ModuleGui._create_general(self.controller.interface)
         layout.addWidget(general)
 
-        flags = ModuleGui._create_flags(self.interface.flags, self.flag_widgets)
+        flags = ModuleGui._create_flags(self.controller.interface.flags, self.controller.flag_widgets)
         # flags.setStyleSheet("background-color:grey;")
         layout.addWidget(flags)
 
-        values = ModuleGui._create_values(self.interface.values, self.value_widgets)
+        values = ModuleGui._create_values(self.controller.interface.values, self.controller.value_widgets)
         # values.setStyleSheet("background-color:brown;")
         layout.addWidget(values)
 
         layout.addStretch(1)
 
-        footer = ModuleGui._create_footer(self.btns)
+        footer = ModuleGui._create_footer(self.controller.btns)
         layout.addWidget(footer)
         self.updateGeometry()
 
-        self.btns[0].pressed.connect(self.execute_action)
-
         self.setLayout(layout)
-
 
     @staticmethod
     def _create_label(label, object_name, text, wrap, style=None):
@@ -160,11 +153,13 @@ class ModuleGui(QtWidgets.QWidget):
             layout_top.addWidget(text_box)
         else:
             layout_top.addSpacing(50)
+            # pass
 
         desc_lbl = QtWidgets.QLabel(flag.description)
         desc_lbl.setObjectName("label_"+flag.iden)
         desc_lbl.setWordWrap(True)
         layout_top.addWidget(desc_lbl)
+        layout_top.addStretch(1)
 
         widget_top.setLayout(layout_top)
         layout.addWidget(widget_top)
@@ -203,7 +198,7 @@ class ModuleGui(QtWidgets.QWidget):
         widget.setObjectName("value_"+value.iden)
         layout = QtWidgets.QHBoxLayout()
         layout.setContentsMargins(2,2,2,2)
-        layout.setSpacing(2)
+        layout.setSpacing(10)
 
         text_box = QtWidgets.QLineEdit()
         text_box.setObjectName("text_box_"+value.iden)
@@ -417,15 +412,47 @@ class ModuleGui(QtWidgets.QWidget):
 
         layout.addStretch(1)
 
+        # terminate button
+        exe_text = "Terminate run"
+        btn_term = QtWidgets.QPushButton(exe_text)
+        btn_term.setObjectName("btn_terminate")
+        btns_ref.append(btn_term)
+        layout.addWidget(btn_term)
+
+        layout.addStretch(1)
+
         widget.setLayout(layout)
 
         return widget
+
+
+class ModuleGuiController():
+    '''ModuleGui action controller
+    '''
+    def __init__(self, interface, manager):
+        '''Init
+
+        Args:
+            modulegui (ModuleGui): callbac to ModuleGui
+        '''
+        self.interface = interface
+        self.flag_widgets = []
+        self.value_widgets = []
+        self.btns = []
+
+        self.manager = manager #class reference to deal with multithreading
+
+        self.execution_id = None
+        self.modulegui = ModuleGui(self)
+
+        self.btns[0].pressed.connect(self.execute_action)
+        self.btns[1].pressed.connect(self.terminate_action)
 
     def gather_params(self):
         '''Gathers flag and value states from text fields and checkboxes in the gui
 
         Returns:
-            dict(String: [String|None] ), dict(String: String ): 2 values:
+            dict(String: [String|None] ), dict(String: String ): 2 values: ACTUALLY... Does are lists now. USE ORDEREDDICT !!!
             - dict of checked flags (with values if hasValue==True) f:value
             - dict of checked values with values    value_name:value
         '''
@@ -465,6 +492,15 @@ class ModuleGui(QtWidgets.QWidget):
         flags, values = self.gather_params()
         iden = self.interface.command
         command_string = self.interface.build_command(flags, values)
+        self.execution_id = str(uuid.uuid4())
 
-        self.manager.run_executor(iden, command_string)
+        self.manager.run_executor(iden, self.execution_id, command_string)
+
+    def terminate_action(self):
+        '''Terminate button action:
+            terminates a running process 
+        '''
+        if self.execution_id:
+            self.manager.terminate_executor(self.execution_id)
+            self.execution_id = None
 
