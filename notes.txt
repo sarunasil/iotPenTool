@@ -15,7 +15,8 @@ snd:
     - padaryt, kad neprivalomai galima butu grupuoti param pagal label ir label atspausdint
     - lineedits active only when checkboxes are checked, 
     - default values in Values fields, 
-    - nested Flags active only when 
+    - nested Flags active only when parent active,
+    - fix nested Flags storing from list() to OrderedDict()
 
 SHOULD
 COULD
