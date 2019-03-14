@@ -111,10 +111,10 @@ def test_generate_gui(application, interface_loader, interface_command):
 
 @pytest.mark.parametrize(("interface_command","flags","values","check_command"),
 	[
-		("ls", {'long_format':'stub', 'all_content':None}, {'path':'.'}, "ls -l stub -a ."),
-		("ls", {'all_content':None}, {'path':'.'}, "ls -a ."),
-		("ls", {'all_content':None}, {}, "ls -a"),
-		("pwd", {'physical':None}, {}, "pwd -P")
+		("ls", [('long_format','stub'), ('all_content',None)], [('path','.')], "ls -l stub -a ."),
+		("ls", [('all_content',None)], [('path','.')], "ls -a ."),
+		("ls", [('all_content',None)], [], "ls -a"),
+		("pwd", [('physical',None)], [], "pwd -P")
 	])
 def test_build_command(interface_loader, interface_command, flags, values, check_command):
 

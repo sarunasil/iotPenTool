@@ -131,7 +131,7 @@ def test_find_interface_files(interface_file):
         "command": "ls_nested",
         "description":"list items command description",
         "flags":{
-            "long_format":{
+            "nested_long":{
                 "flag":"l",
                 "has_value":True,
                 "description":"print in long format",

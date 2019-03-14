@@ -148,6 +148,7 @@ class ModuleGui(QtWidgets.QWidget):
         layout.setSpacing(2)
 
         widget_top = QtWidgets.QWidget()
+        widget_top.setObjectName("widget_top_"+flag.iden)
         layout_top = QtWidgets.QHBoxLayout()
         check_box = QtWidgets.QCheckBox(flag.flag)
         check_box.setObjectName("check_box_" + flag.iden)

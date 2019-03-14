@@ -104,11 +104,12 @@ def test__create_flag(application, iden, has_value, flag_data, style):
 
 	assert isinstance(widget, QtWidgets.QWidget)
 	assert widget.styleSheet() == style
-	assert isinstance( widget.layout(), QtWidgets.QHBoxLayout )
+	assert isinstance( widget.layout(), QtWidgets.QVBoxLayout )
 	assert widget.objectName() == "flag_"+iden
+	widget_top = widget.findChild(QtWidgets.QWidget, "widget_top_"+iden)
 	if has_value:
-		assert widget.findChild(QtWidgets.QLineEdit, "text_box_"+iden)
-	assert widget.findChild(QtWidgets.QCheckBox, "check_box_"+iden)
+		assert widget_top.findChild(QtWidgets.QLineEdit, "text_box_"+iden)
+	assert widget_top.findChild(QtWidgets.QCheckBox, "check_box_"+iden)
 
 	#SYMBOL USED FOR IDENTIFY NESTING = ^
 	if 'flags' in flag_data:
@@ -255,10 +256,10 @@ def test__create_footer(application, btns_ref):
 
 
 @pytest.mark.parametrize(("interface_command","flag_states","value_states"), [
-	("ls", {'long_format':'stub', 'all_content':None}, {'path':'.'}),
-	("ls", {'all_content':None}, {'path':'.'}),
-	("ls", {'all_content':None}, {}),
-	("pwd", {'physical':None}, {})
+	("ls", [('long_format','stub'), ('all_content',None)], [('path','.')]),
+	("ls", [('all_content',None)], [('path','.')] ),
+	("ls", [('all_content',None)], []),
+	("pwd", [('physical',None)], [])
 	])
 def test_gather_params(application, interface_loader, interface_command, flag_states, value_states):
 
@@ -267,7 +268,7 @@ def test_gather_params(application, interface_loader, interface_command, flag_st
 
 	#setup flag values
 	#go through each flag_state
-	for flag_iden, flag_value in flag_states.items():
+	for flag_iden, flag_value in flag_states:
 		found = False
 		#find qwidget with the right checkbox
 		for flag_widget in widget.flag_widgets:
@@ -285,7 +286,7 @@ def test_gather_params(application, interface_loader, interface_command, flag_st
 
 	#setup value values
 	#go through each value_state
-	for value_iden, value_value in value_states.items():
+	for value_iden, value_value in value_states:
 		found = False
 		#find qwidget with the right checkbox
 		for value_widget in widget.value_widgets:
@@ -300,12 +301,10 @@ def test_gather_params(application, interface_loader, interface_command, flag_st
 
 	flags, values = widget.gather_params()
 	#flags
-	for flag, value in flag_states.items():
-		assert flag in flags
-		assert value == flags[flag]
+	for flag, value in flag_states:
+		assert (flag, value) in flags
 
 	#values
-	for value_name, value in value_states.items():
-		assert value_name in values
-		assert value == values[value_name]
+	for value_name, value in value_states:
+		assert (value_name, value) in values
 

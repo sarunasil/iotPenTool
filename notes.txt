@@ -9,14 +9,10 @@ yersinia (low-level protocol attack tool)
 
 capturing and editing packages?? 
 
-JEIGU BUSI MLDC: 
-    nested flags/values - done - HACKY...
-    Lentele FLAGS and VAlues - SUSPENDED - gal ok.
-
-ryt: 
+snd: 
     - dar vieno tools'o yml, 
-    - padaryt, kad jeigu optional galima butu grupuoti param pagal label ir label atspausdint
+    - padaryt, kad neprivalomai galima butu grupuoti param pagal label ir label atspausdint
     - live output https://stackoverflow.com/questions/54091396/live-output-stream-from-python-subprocess
 
-ketvirtadieni: kokia gi ta blet iot metothology? Kokios ten jos dalys, sukurtu tools'u grupes ir priskirti esamus joms. Kokie gi tie spreadsheet'ai kur kisti info???
+penktdieni: kokia gi ta blet iot metothology? Kokios ten jos dalys, sukurtu tools'u grupes ir priskirti esamus joms. Kokie gi tie spreadsheet'ai kur kisti info???
 penktadieni: kaip simuliuoti/generuoti spreadsheet'us is ketvirtadienio
