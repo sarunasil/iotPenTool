@@ -10,14 +10,28 @@ yersinia (low-level protocol attack tool)
 capturing and editing packages?? 
 
 MUST
-    iot methodology review,
-    penetration testing spreadsheet gathering
+    import below defined tools as yml and test them
 SHOULD
-    tool groups according to purpose? 
+    penetration testing spreadsheet gathering
 COULD
     how to generete spreadsheets and how to define them
 WON'T
     - nicer structure for Flags and Values
     - Flag, Value, Describtion fields expand to always cover all space - priorty: all reaching minimum height; Flags; Values; Desc;
     - create terminal that updates previous input lines if \r is present just like 'dirb' does
+
+WIRELESS COMMUNICATION
+nmap
+hcitool
+sdptool
+FIRMAWARE
+binwalk - extract filesystem
+EMBEDDED WEB APPLICATIONS
+dirb
+sqlmap
+wfuzz
++ REMOTE ACCESS
+hydra (default password crack)
+MOBILE APPLICATIONS - not a good choice...
+apktool - apk decompiler
 
