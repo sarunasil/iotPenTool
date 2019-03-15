@@ -290,12 +290,12 @@ def test__create_footer(application, btns_ref):
 	("ls", [('long_format','stub'), ('all_content',None)], [('path','.')]),
 	("ls", [('all_content',None)], [('path','.')] ),
 	("ls", [('all_content',None)], []),
-	("pwd", [('physical',None)], [])
+	("pwd", [('physical',None)], []),
+	("group_label", [('physical',None)], [])
 	])
-def test_gather_params(application, interface_loader, interface_command, flag_states, value_states):
-
-	interface = interface_loader.interfaces[interface_command]
-	controller = ModuleGuiController(interface, None)
+def test_gather_params(application, interface_command, flag_states, value_states):
+	interface_obj = InterfaceLoader.create_interface(InterfaceLoader.read_interface_file("tests/stub_interfaces/interface-"+interface_command+".yml")) #get single interface object without using InterfaceLoader instance
+	controller = ModuleGuiController(interface_obj, None)
 	widget = ModuleGui(controller)
 
 	#setup flag values

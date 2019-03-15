@@ -1,0 +1,26 @@
+#pwd interface
+---
+tool:
+    name: "Grouping example"
+    version: "1"
+    command: "group_label"
+    description: "group_label test desc"
+    flags:
+        GROUP_1: "bla"
+        physical:
+            flag: "P"
+            has_value: False
+            description: "display physical path"
+        GROUP_2: "bli"
+    structure:
+        - "COMMAND"
+        - "VALUES":
+            - "VALUE"
+            - " "
+        - "FLAGS":
+           - "-"
+           - "FLAG"
+           - " "
+           - "FLAG_VALUE"
+           - " "
+...

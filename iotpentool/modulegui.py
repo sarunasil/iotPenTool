@@ -155,16 +155,32 @@ class ModuleGui(QtWidgets.QWidget):
             check_box.setObjectName("check_box_" + flag.iden)
             layout_top.addWidget(check_box)
 
+            #checkbox listener for enabling and disabling Flags
+            def checkbox_listener():
+                #disable only childs not actual widget
+                for widget_child in widget.children():
+                    #widget_top part: checkbox, lineedit, desc have to be dealt separtely from Flag nested flags
+                    if widget_child.objectName().startswith("widget_top"):
+                        for widget_top_child in widget_child.children():
+                            #make sure not to change state of checkbox itself as not to lock yourselve out
+                            if not isinstance(widget_top_child, QtWidgets.QCheckBox):
+                                widget_top_child.setEnabled( not widget_top_child.isEnabled() )
+                    else: #change Flag nested flags state - simple
+                        widget_child.setEnabled( not widget_child.isEnabled() )
+
+            check_box.stateChanged.connect(checkbox_listener)
+
             if flag.has_value:
                 text_box = QtWidgets.QLineEdit()
                 text_box.setObjectName("text_box_"+flag.iden)
+                text_box.setDisabled(True)
                 layout_top.addWidget(text_box)
             else:
                 layout_top.addSpacing(50)
-                # pass
 
             desc_lbl = QtWidgets.QLabel(flag.description)
             desc_lbl.setObjectName("label_"+flag.iden)
+            desc_lbl.setDisabled(True)
             desc_lbl.setWordWrap(True)
             layout_top.addWidget(desc_lbl)
             layout_top.addStretch(1)
@@ -175,6 +191,7 @@ class ModuleGui(QtWidgets.QWidget):
         for flag_iden, flag_flag in flag.flag_flags.items():
             nested_flag = ModuleGui._create_flag(flag_flag, flag_widgets, style)
             nested_flag.layout().setContentsMargins(20,0,0,0) #make indentation
+            nested_flag.setDisabled(True)
 
             # Add to modulegui flag widgets list to access value later
             flag_widgets.append(nested_flag)
@@ -473,7 +490,7 @@ class ModuleGuiController():
         flags = []
         for flag_widget in self.flag_widgets:
             checkbox = flag_widget.findChild(QtWidgets.QCheckBox)
-            if checkbox.isChecked():
+            if checkbox and checkbox.isChecked():
                 flag_iden = flag_widget.objectName().replace('flag_','',1)
 
                 textbox = flag_widget.findChild(QtWidgets.QLineEdit)
@@ -531,4 +548,3 @@ class ModuleGuiController():
 
         self.btns['btn_execute'].setEnabled(True)
         self.btns['btn_terminate'].setEnabled(False)
-

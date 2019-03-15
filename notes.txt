@@ -10,18 +10,14 @@ yersinia (low-level protocol attack tool)
 capturing and editing packages?? 
 
 MUST
-snd:
-    - lineedits active only when checkboxes are checked, - reiks vieno bendro listenerio, kuris gauna qwidget ir disablina visus children ir checkboxus https://stackoverflow.com/questions/6784084/how-to-pass-arguments-to-functions-by-the-click-of-button-in-pyqt
-    - nested Flags active only when parent active
-
+    iot methodology review,
+    penetration testing spreadsheet gathering
 SHOULD
+    tool groups according to purpose? 
 COULD
+    how to generete spreadsheets and how to define them
 WON'T
     - nicer structure for Flags and Values
     - Flag, Value, Describtion fields expand to always cover all space - priorty: all reaching minimum height; Flags; Values; Desc;
     - create terminal that updates previous input lines if \r is present just like 'dirb' does
 
-penktdieni: 
-    - kokia gi ta blet iot metothology? Kokios ten jos dalys, sukurtu tools'u grupes ir priskirti esamus joms. Kokie gi tie spreadsheet'ai kur kisti info???
-penktadieni: 
-    - kaip simuliuoti/generuoti spreadsheet'us is ketvirtadienio
