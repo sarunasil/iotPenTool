@@ -9,13 +9,8 @@ yersinia (low-level protocol attack tool)
 
 capturing and editing packages?? 
 
-i interface-x.yml flags idedam keyword 'GROUP_NAME' 'SOME_NAME'
-ir flagus extendinam su FlagLabel,
-tada create_flag jeigu FlagLabel: Ipisk QLabel with FlagLabel.Label (i Flag kurdamas paduok 'STUB')
-
 MUST
 snd:
-    - padaryt, kad neprivalomai galima butu grupuoti param pagal label ir label atspausdint
     - lineedits active only when checkboxes are checked, - reiks vieno bendro listenerio, kuris gauna qwidget ir disablina visus children ir checkboxus https://stackoverflow.com/questions/6784084/how-to-pass-arguments-to-functions-by-the-click-of-button-in-pyqt
     - nested Flags active only when parent active
 

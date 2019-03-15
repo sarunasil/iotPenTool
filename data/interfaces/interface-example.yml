@@ -17,7 +17,7 @@ tool:
                     flag: "flagflag"
                     has_value: True/False
                     description: "description"
-        GROUP: "Some Group"
+        GROUP_x: "Some Group"
         other_name:
             flag: "other flag"
             has_value: True/False

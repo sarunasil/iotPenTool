@@ -91,10 +91,10 @@ def test_flaglabel_init(flag_data, result):
 
 @pytest.mark.parametrize(("interface_command", "iden", "data"), [
 	(
-		"empty", "GROUP", "Some group"
+		"empty", "GROUP_1", "Some group"
 	),
 	(
-		"ls", "GROUP", "Some group"
+		"ls", "GROUP_1", "Some group"
 	),
 	(
 		"empty", 
@@ -111,7 +111,7 @@ def test_add_flag(interface_command, iden, data):
 
 	interface_obj.add_flag(iden, data)
 
-	if iden == "GROUP":
+	if iden.startswith("GROUP"):
 		assert data in interface_obj.flags
 		assert isinstance(interface_obj.flags[data], interface._Flag)
 		assert isinstance(interface_obj.flags[data], interface._FlagLabel)

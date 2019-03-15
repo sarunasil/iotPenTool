@@ -138,7 +138,7 @@ class Interface():
 			data (dict): yml like structure with flag data
 		'''
 
-		if iden == "GROUP":
+		if iden.startswith("GROUP"):
 			flag_inst = _FlagLabel(data)
 			self.flags[data] = flag_inst
 		else:

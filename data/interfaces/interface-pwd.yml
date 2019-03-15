@@ -10,7 +10,7 @@ tool:
             flag: "L"
             has_value: False
             description: "display physical path"
-        GROUP: "PWD group1"
+        GROUP_1: "PWD group1"
         physical1:
             flag: "P"
             has_value: False
@@ -23,7 +23,7 @@ tool:
             flag: "h"
             has_value: False
             description: "physicalphysicalphysicalphysical"
-        GROUP: "PWD group2"
+        GROUP_2: "PWD group2"
         physical4:
             flag: "h"
             has_value: False

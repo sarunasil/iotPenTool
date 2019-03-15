@@ -14,7 +14,7 @@ from collections import OrderedDict
 from PyQt5 import QtWidgets
 
 from iotpentool.modulegui import ModuleGui, ModuleGuiController
-from iotpentool.interface import _Flag, _Value, Interface, NESTED_SYMBOL
+from iotpentool.interface import _Flag, _FlagLabel, _Value, Interface, NESTED_SYMBOL
 from iotpentool.interfaceloader import InterfaceLoader
 from iotpentool.manager import Manager
 
@@ -97,23 +97,37 @@ def test__create_label(application, label, object_name, text, wrap, style):
 				}
 			},
 		""
+	),
+	(
+		"GROUP_1",
+		False,
+		"Test Label Text",
+		""
 	)
 	])
 def test__create_flag(application, iden, has_value, flag_data, style):
-	flag = _Flag(iden, flag_data)
+	if iden.startswith("GROUP"):
+		flag = _FlagLabel(flag_data)
+	else:
+		flag = _Flag(iden, flag_data)
 
 	widget = ModuleGui._create_flag(flag, [], style)
 
 	assert isinstance(widget, QtWidgets.QWidget)
 	assert widget.styleSheet() == style
 	assert isinstance( widget.layout(), QtWidgets.QVBoxLayout )
-	assert widget.objectName() == "flag_"+iden
-	widget_top = widget.findChild(QtWidgets.QWidget, "widget_top_"+iden)
-	if has_value:
-		assert widget_top.findChild(QtWidgets.QLineEdit, "text_box_"+iden)
-	assert widget_top.findChild(QtWidgets.QCheckBox, "check_box_"+iden)
 
-	#SYMBOL USED FOR IDENTIFY NESTING = ^
+	if iden.startswith("GROUP"):
+		widget_top = widget.findChild(QtWidgets.QWidget, "widget_top_"+flag_data)
+		assert widget.objectName() == "flag_"+flag_data
+		assert widget_top.findChild(QtWidgets.QLabel, "label_"+flag_data)
+	else:
+		widget_top = widget.findChild(QtWidgets.QWidget, "widget_top_"+iden)
+		assert widget.objectName() == "flag_"+iden
+		if has_value:
+			assert widget_top.findChild(QtWidgets.QLineEdit, "text_box_"+iden)
+		assert widget_top.findChild(QtWidgets.QCheckBox, "check_box_"+iden)
+
 	if 'flags' in flag_data:
 		for flag_iden in flag_data['flags']:
 			if not widget.findChild(QtWidgets.QWidget, "flag_"+iden+NESTED_SYMBOL+flag_iden):
@@ -182,15 +196,30 @@ def test__create_general(application, name, version, command, description, struc
 			}
 		}, 
 		["stub"]
+	),
+	(
+		{
+			"GROUP_3":"group0",
+			"all_content":{
+				"flag":"a",
+				"has_value":False,
+				"description":"print all content"
+			},
+			"GROUP_4":"group1"
+		},
+		["stub"]
 	)
-	])
+])
 def test__create_flags(application, flags, flag_widgets):
 
 	#create flag set from parameter values
 	stub_flags = {}
 	for flag_iden, flag_data in flags.items():
-	  f = _Flag(flag_iden, flag_data)
-	  stub_flags[f.iden] = f
+		if flag_iden.startswith("GROUP"):
+			f = _FlagLabel(flag_data)
+		else:
+			f = _Flag(flag_iden, flag_data)
+		stub_flags[f.iden] = f
 
 	flag_widgets_len = len(flag_widgets)
 	widget = ModuleGui._create_flags(stub_flags, flag_widgets)

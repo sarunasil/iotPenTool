@@ -144,23 +144,30 @@ class ModuleGui(QtWidgets.QWidget):
         widget_top = QtWidgets.QWidget()
         widget_top.setObjectName("widget_top_"+flag.iden)
         layout_top = QtWidgets.QHBoxLayout()
-        check_box = QtWidgets.QCheckBox(flag.flag)
-        check_box.setObjectName("check_box_" + flag.iden)
-        layout_top.addWidget(check_box)
 
-        if flag.has_value:
-            text_box = QtWidgets.QLineEdit()
-            text_box.setObjectName("text_box_"+flag.iden)
-            layout_top.addWidget(text_box)
-        else:
-            layout_top.addSpacing(50)
-            # pass
+        if hasattr(flag, 'label'):  #sneaky check if it's a _FlagLabel
+            label = QtWidgets.QLabel(flag.label)
+            label.setObjectName("label_"+flag.label)
+            layout_top.addWidget(label)
+        else:       #not _FlagLabel - it's a _Flag; Continue ar regular
+            widget.setToolTip(flag.iden)
+            check_box = QtWidgets.QCheckBox(flag.flag)
+            check_box.setObjectName("check_box_" + flag.iden)
+            layout_top.addWidget(check_box)
 
-        desc_lbl = QtWidgets.QLabel(flag.description)
-        desc_lbl.setObjectName("label_"+flag.iden)
-        desc_lbl.setWordWrap(True)
-        layout_top.addWidget(desc_lbl)
-        layout_top.addStretch(1)
+            if flag.has_value:
+                text_box = QtWidgets.QLineEdit()
+                text_box.setObjectName("text_box_"+flag.iden)
+                layout_top.addWidget(text_box)
+            else:
+                layout_top.addSpacing(50)
+                # pass
+
+            desc_lbl = QtWidgets.QLabel(flag.description)
+            desc_lbl.setObjectName("label_"+flag.iden)
+            desc_lbl.setWordWrap(True)
+            layout_top.addWidget(desc_lbl)
+            layout_top.addStretch(1)
 
         widget_top.setLayout(layout_top)
         layout.addWidget(widget_top)
@@ -176,7 +183,6 @@ class ModuleGui(QtWidgets.QWidget):
         layout.addStretch(1)
 
         widget.setLayout(layout)
-        widget.setToolTip(flag.iden)
 
         if style:
             widget.setStyleSheet(style)
