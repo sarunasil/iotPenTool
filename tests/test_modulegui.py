@@ -290,11 +290,11 @@ def test__create_footer(application, btns_ref):
 
 
 @pytest.mark.parametrize(("interface_command","flag_states","value_states"), [
-	("ls", [('long_format','stub'), ('all_content',None)], [('path','.')]),
-	("ls", [('all_content',None)], [('path','.')] ),
-	("ls", [('all_content',None)], []),
-	("pwd", [('physical',None)], []),
-	("group_label", [('physical',None)], [])
+	("ls", {'long_format':'stub', 'all_content':None}, {'path':'.'}),
+	("ls", {'all_content':None}, {'path':'.'} ),
+	("ls", {'all_content':None}, {}),
+	("pwd", {'physical':None}, {}),
+	("group_label", {'physical':None}, {})
 	])
 def test_gather_params(application, interface_command, flag_states, value_states):
 	interface_obj = InterfaceLoader.create_interface(InterfaceLoader.read_interface_file("tests/stub_interfaces/interface-"+interface_command+".yml")) #get single interface object without using InterfaceLoader instance
@@ -303,7 +303,7 @@ def test_gather_params(application, interface_command, flag_states, value_states
 
 	#setup flag values
 	#go through each flag_state
-	for flag_iden, flag_value in flag_states:
+	for flag_iden, flag_value in flag_states.items():
 		found = False
 		#find qwidget with the right checkbox
 		for flag_widget in controller.flag_widgets:
@@ -321,7 +321,7 @@ def test_gather_params(application, interface_command, flag_states, value_states
 
 	#setup value values
 	#go through each value_state
-	for value_iden, value_value in value_states:
+	for value_iden, value_value in value_states.items():
 		found = False
 		#find qwidget with the right checkbox
 		for value_widget in controller.value_widgets:
@@ -336,10 +336,12 @@ def test_gather_params(application, interface_command, flag_states, value_states
 
 	flags, values = controller.gather_params()
 	#flags
-	for flag, value in flag_states:
-		assert (flag, value) in flags
+	for flag, flag_value in flag_states.items():
+		assert flag in flags
+		assert flag_value == flags[flag]
 
 	#values
-	for value_name, value in value_states:
-		assert (value_name, value) in values
+	for value_name, value in value_states.items():
+		assert value_name in values
+		assert value == value_states[value_name]
 

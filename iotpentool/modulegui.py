@@ -487,7 +487,7 @@ class ModuleGuiController():
             - list of tuples: (value_iden, value_value)
         '''
         #gather states of checked flags
-        flags = []
+        flags = {}
         for flag_widget in self.flag_widgets:
             checkbox = flag_widget.findChild(QtWidgets.QCheckBox)
             if checkbox and checkbox.isChecked():
@@ -495,19 +495,19 @@ class ModuleGuiController():
 
                 textbox = flag_widget.findChild(QtWidgets.QLineEdit)
                 if textbox:
-                    flags.append((flag_iden, textbox.text()))
+                    flags[flag_iden] = textbox.text()
                 else:
-                    flags.append((flag_iden, None))
+                    flags[flag_iden] = None
 
         #gather states of values
         #so most likely, all the values as all of them have to have default values
-        values = []
+        values = {}
         for value_widget in self.value_widgets:
             value_iden = value_widget.objectName().replace('value_','',1)
 
             textbox = value_widget.findChild(QtWidgets.QLineEdit)
             value = textbox.text() if textbox.text() else textbox.placeholderText()
-            values.append((value_iden, value))
+            values[value_iden] = value
 
         return flags, values
 

@@ -186,36 +186,35 @@ class Interface():
 			elif isinstance(item, dict) and "FLAGS" in item:
 				#flags building
 
-				# for flag_obj in self.flags:
-				# 	if flag_obj.
+				command += self.build_flags(self.flags, flags, item["FLAGS"])
 
-				print (flags)
-				#for every checked flag
-				for flag_iden, flag_value in flags:
-					#travers all parent flags to find actual Flag object
-					flag_struct = flag_iden.split(NESTED_SYMBOL)
-					parent = self.flags[flag_struct[0]]
-					del flag_struct[0]
+				# print (flags)
+				# #for every checked flag
+				# for flag_iden, flag_value in flags:
+				# 	#travers all parent flags to find actual Flag object
+				# 	flag_struct = flag_iden.split(NESTED_SYMBOL)
+				# 	parent = self.flags[flag_struct[0]]
+				# 	del flag_struct[0]
 
-					for parent_flag_iden in flag_struct:
-						parent = parent.flag_flags[parent.iden+NESTED_SYMBOL+parent_flag_iden]
-					flag_symbol = parent.flag
+				# 	for parent_flag_iden in flag_struct:
+				# 		parent = parent.flag_flags[parent.iden+NESTED_SYMBOL+parent_flag_iden]
+				# 	flag_symbol = parent.flag
 
-					#follow Interface.structure "FLAGS" pattern to set params
-					for flag_item in item["FLAGS"]:
-						if flag_item == "FLAG":
-							command += flag_symbol
-						elif flag_item == "FLAG_VALUE":
-							if flag_value:
-								command += flag_value
-						else:
-							command += flag_item
+				# 	#follow Interface.structure "FLAGS" pattern to set params
+				# 	for flag_item in item["FLAGS"]:
+				# 		if flag_item == "FLAG":
+				# 			command += flag_symbol
+				# 		elif flag_item == "FLAG_VALUE":
+				# 			if flag_value:
+				# 				command += flag_value
+				# 		else:
+				# 			command += flag_item
 
 			elif isinstance(item, dict) and "VALUES" in item:
 				#values building
 
 				#for every value entered
-				for value_iden, value_value in values:
+				for value_iden, value_value in values.items():
 
 					#follow Interface.structure "VALUES" pattern to set params
 					for value_item in item["VALUES"]:
@@ -230,8 +229,40 @@ class Interface():
 		print (command)
 		return command.rstrip()
 
-	def build_flags(self, flags, parent=None):
-		pass
+	@staticmethod
+	def build_flags(flag_objects, flags, flag_struct):
+		'''Builds flag part of the command string
+
+		Args:
+			flag_objects (Flag): parent Flag flag objects or self.flags
+			flags (dict(String:String|None): checked flags data array
+			flag_struct (dict(String)): self.structure['FLAGS']
+
+		Returns:
+			String: part of command string with flag data
+		'''
+
+		command = ""
+		for flag_obj_iden, flag_obj in flag_objects.items():
+			if flag_obj_iden in flags:
+				symbol = flag_obj.flag
+				value = flags[flag_obj_iden] if flags[flag_obj_iden] else ""
+
+				nested_result = ""
+				if flag_obj.flag_flags:
+					nested_result = Interface.build_flags(flag_obj.flag_flags, flags, flag_struct)
+
+				#follow Interface.structure "FLAGS" pattern to set params
+				for flag_item in flag_struct:
+					if flag_item == "FLAG":
+						command += symbol
+					elif flag_item == "NESTED":
+						command += nested_result
+					elif flag_item == "FLAG_VALUE":
+						command += value
+					else:
+						command += flag_item
+		return command
 
 	def build_values(self, values, parent=None):
 		pass

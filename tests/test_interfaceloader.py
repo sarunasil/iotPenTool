@@ -286,6 +286,8 @@ def test_read_interface_file(interface_file, content):
                     "-", 
                     "FLAG", 
                     " ", 
+                    "NESTED",
+                    " ",
                     "FLAG_VALUE", 
                     " "
                 ]
@@ -302,7 +304,7 @@ def test_read_interface_file(interface_file, content):
         [
             "COMMAND", 
             { "VALUES": [ "VALUE", " " ] }, 
-            { "FLAGS": [ "-", "FLAG", " ", "FLAG_VALUE", " " ] }
+            { "FLAGS": [ "-", "FLAG", " ", "NESTED", " ", "FLAG_VALUE", " " ] }
         ]
     ),
     (

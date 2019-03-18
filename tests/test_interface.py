@@ -146,6 +146,7 @@ def test_add_value(iden, value_data, result):
 		assert value.default_value == result[1]
 		assert value.description == result[2]
 
+
 @pytest.mark.parametrize(("interface_command"), ["ls", "pwd"])
 def test_generate_gui(application, interface_loader, interface_command):
 	'''Test generation of QWidget with all components of a interface
@@ -161,18 +162,42 @@ def test_generate_gui(application, interface_loader, interface_command):
 	assert isinstance(interface.gui_controller, ModuleGuiController)
 	assert isinstance(interface.gui_controller.modulegui, ModuleGui)
 
+
 @pytest.mark.parametrize(("interface_command","flags","values","check_command"),
 	[
-		("ls", [('long_format','stub'), ('all_content',None)], [('path','.')], "ls -l stub -a ."),
-		("ls", [('all_content',None)], [('path','.')], "ls -a ."),
-		("ls", [('all_content',None)], [], "ls -a"),
-		("pwd", [('physical',None)], [], "pwd -P")
+		("ls", {'long_format':'stub', 'all_content':None}, {'path':'.'}, "ls -l stub -a ."),
+		("ls", {'all_content':None}, {'path':'.'}, "ls -a ."),
+		("ls", {'all_content':None}, {}, "ls -a"),
+		("pwd", {'physical':None}, {}, "pwd -P"),
+		(
+			"nest", 
+			{
+				"nested_long": "111",
+				"nested_long^nested_flag1": '222',
+				"nested_long^nested_flag2": None,
+				"call_content": None,
+				"vall_content": "333"
+			},
+			{},
+			"nest -long -flag1^2 222 -flag2^2 111 -x -a 333"
+		),
+		(
+			"nest2", 
+			{
+				"nested_long": "111",
+				"nested_long^nested_flag1": '222',
+				"nested_long^nested_flag2": None,
+				"call_content": None,
+				"vall_content": "333"
+			},
+			{},
+			"nest2 -long 111 -flag1^2 222 -flag2^2 -x -a 333"
+		)
 	])
-def test_build_command(interface_loader, interface_command, flags, values, check_command):
+def test_build_command(interface_command, flags, values, check_command):
+	interface_obj = interfaceloader.InterfaceLoader.create_interface(interfaceloader.InterfaceLoader.read_interface_file("tests/stub_interfaces/interface-"+interface_command+".yml")) #get single interface object without using InterfaceLoader instance
 
-	interface = interface_loader.interfaces[interface_command]
-
-	gen_command = interface.build_command(flags, values)
+	gen_command = interface_obj.build_command(flags, values)
 
 	assert gen_command == check_command
 

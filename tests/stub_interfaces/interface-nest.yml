@@ -1,13 +1,13 @@
 #ls interface
 ---
 tool:
-    name: "List items"
+    name: "Structure NESTED keyword test interface"
     version: "8.28"
-    command: "ls_nested"
-    description: "list items command description"
+    command: "nest"
+    description: "NESTED interface description"
     flags:
         - nested_long:
-            flag: "l"
+            flag: "long"
             has_value: True
             description: "print in long format"
             flags:
@@ -27,6 +27,7 @@ tool:
             flag: "a"
             has_value: True
             description: "print all content"
+    values:
     structure:
         - "COMMAND"
         - "FLAGS":
