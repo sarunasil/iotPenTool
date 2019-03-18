@@ -1,0 +1,242 @@
+#example interface blueprint
+#FLAG AND VALUE ORDER MATTERS:
+#   command will be generated with flags and values in order defined in here
+
+tool:
+    name: "HCI Tool"
+    version: "5.48"
+    command: "hcitool"
+    description: "hcitool [-h]
+       hcitool [-i <hciX>] [command [command parameters]]
+
+
+DESCRIPTION
+       hcitool  is  used to configure Bluetooth connections and send some special command to Blue‐
+       tooth devices. If no command is given, or if the option -h is  used,  hcitool  prints  some
+       usage information and exits."
+    flags:
+        - GROUP_OPTIONS: "OPTIONS"
+        - help:
+            flag: "-h"
+            has_value: False
+            description: "Gives a lsit of possible commands"
+        - hcix:
+            flag: "-i"
+            has_value: True
+            description: "The command is applied to device hciX , which must be the name of an installed Blue‐
+              tooth device. If not specified, the command will be  sent  to  the  first  available
+              Bluetooth device."
+        - GROUP_COMMANDS: "COMMANDS"
+        - dev:
+            flag: "dev"
+            has_value: False
+            description: "Display local devices"
+        - inq:
+            flag: "inq"
+            has_value: False
+            description: "Inquire  remote devices. For each discovered device, Bluetooth device address, clock offset and class are printed."
+        - scan:
+            flag: "scan"
+            has_value: False
+            description: "Inquire remote devices. For each discovered device, device name are printed."
+        - name:
+            flag: "name"
+            has_value: True
+            description: "Print device name of remote device with Bluetooth address bdaddr."
+        - info:
+            flag: "info"
+            has_value: True
+            description: "Print device name, version and supported features of remote  device  with  Bluetoothc address bdaddr."
+        - spinq:
+            flag: "spinq"
+            has_value: False
+            description: "Start periodic inquiry process. No inquiry results are printed."
+        - epinq:
+            flag: "epinq"
+            has_value: False
+            description: "Exit periodic inquiry process."
+        - cmd:
+            flag: "cmd"
+            has_value: True
+            description: "cmd <ogf> <ocf> [parameters]
+
+              Submit  an arbitrary HCI command to local device.  ogf, ocf and parameters are hexa‐
+              decimal bytes."
+        - cc:
+            flag: "cc"
+            has_value: True
+            description: "Create baseband connection to remote device with Bluetooth address  bdaddr.   
+            Option
+              --pkt-type  specifies  a list of allowed packet types.  <ptype> is a comma-separated
+              list of packet types, where the possible packet types are DM1, DM3, DM5,  DH1,  DH3,
+              DH5,  HV1,  HV2,  HV3.  Default is to allow all packet types. Option --role can have
+              value m (do not allow role switch, stay master) or  s  (allow  role  switch,  become
+              slave if the peer asks to become master). Default is m."
+            flags:
+                - cc_role:
+                    flag: "-role="
+                    has_value: True
+                    description: "--role can have value m (do not allow role switch, stay master) or  s  (allow  role  switch,  become slave if the peer asks to become master). Default is m."
+                - cc_pkt_type:
+                    flag: "-pkt-type="
+                    has_value: True
+                    description: "--pkt-type  specifies  a list of allowed packet types.  
+                    <ptype> is a comma-separated list of packet types, where the possible packet types are DM1, DM3, DM5,  DH1,  DH3, DH5,  HV1,  HV2,  HV3.  Default is to allow all packet types."
+        - dc:
+            flag: "dc"
+            has_value: True
+            description: "<bdaddr> [reason]
+
+              Delete  baseband  connection  from remote device with Bluetooth address bdaddr.  The reason can be one of the Bluetooth HCI error codes. Default is  19  for  user  ended connections. The value must be given in decimal."
+        - sr:
+            flag: "sr"
+            has_value: True
+            description: "Switch role for the baseband connection from the remote device to master or slave."
+        - cpt:
+            flag: "cpt"
+            has_value: True
+            description: "<bdaddr> <packet types>
+
+            Change packet types for baseband connection to device with Bluetooth address bdaddr.
+
+            packet types is a comma-separated list of packet types, where  the  possible  packet types are DM1, DM3, DM5, DH1, DH3, DH5, HV1, HV2, HV3."
+        - rssi:
+            flag: "rssi"
+            has_value: True
+            description: "Display  received  signal strength information for the connection to the device with
+              Bluetooth address bdaddr."
+        - lq:
+            flag: "lq"
+            has_value: True
+            description: "Display link quality for the connection to the device with Bluetooth address bdaddr."
+        - tpl:
+            flag: "tpl"
+            has_value: True
+            description: " <bdaddr> [type]
+
+            Display transmit power level for the connection to the device with Bluetooth address bdaddr.
+            The  type can be 0 for the current transmit power level (which is default) or 1 for the maximum transmit power level."
+        - afh:
+            flag: "afh"
+            has_value: True
+            description: "Display AFH channel map for the connection to  the  device  with  Bluetooth  address
+              bdaddr."
+        - lp:
+            flag: "lp"
+            has_value: True
+            description: " <bdaddr> [value]
+
+              With  no  value, displays link policy settings for the connection to the device with Bluetooth address bdaddr.  If value is given, sets the link policy settings for that connection to value.  Possible values are RSWITCH, HOLD, SNIFF and PARK."
+        - lst:
+            flag: "lst"
+            has_value: True
+            description: " <bdaddr> [value]
+
+              With  no  value,  displays link supervision timeout for the connection to the device with Bluetooth address bdaddr.  If value is given, sets the link supervision timeout for that connection to value slots, or to infinite if value is 0."
+        - auth:
+            flag: "auth"
+            has_value: True
+            description: "Request authentication for the device with Bluetooth address bdaddr."
+        - enc:
+            flag: "enc"
+            has_value: True
+            description: "<bdaddr> [encrypt enable]
+
+            Enable or disable the encryption for the device with Bluetooth address bdaddr."
+        - key:
+            flag: "key"
+            has_value: True
+            description: "Change the connection link key for the device with Bluetooth address bdaddr."
+        - clkoff:
+            flag: "clkoff"
+            has_value: True
+            description: "Read the clock offset for the device with Bluetooth address bdaddr."
+        - clock:
+            flag: "clock"
+            has_value: True
+            description: "[bdaddr] [which clock]
+
+            Read the clock for the device with Bluetooth address bdaddr.  The clock can be 0 for
+              the local clock or 1 for the piconet clock (which is default)."
+        - lescan:
+            flag: "lescan"
+            has_value: True
+            description: " [--privacy] [--passive] [--whitelist] [--discovery=g|l] [--duplicates]
+
+            Start LE scan"
+        - leinfo:
+            flag: "leinfo"
+            has_value: True
+            description: "[--static] [--random] <bdaddr>
+
+              Get LE remote information"
+        - lewladd:
+            flag: "lewladd"
+            has_value: True
+            description: " [--random] <bdaddr>
+
+              Add device to LE White List"
+        - lewlrm:
+            flag: "lewlrm"
+            has_value: True
+            description: "Remove device from LE White List"
+        - lewlsz:
+            flag: "lewlsz"
+            has_value: False
+            description: "Read size of LE White List"
+        - lerladd:
+            flag: "lerladd"
+            has_value: True
+            description: "[--local irk] [--peer irk] [--random] <bdaddr>
+
+              Add device to LE Resolving List"
+        - lerlrm:
+            flag: "lerlrm"
+            has_value: True
+            description: "Remove device from LE Resolving List"
+        - lerlclr:
+            flag: "lerlclr"
+            has_value: False
+            description: "Clear LE Resolving List"
+        - lerlsz:
+            flag: "lerlsz"
+            has_value: False
+            description: "Read size of LE Resolving List"
+        - lerlon:
+            flag: "lerlon"
+            has_value: False
+            description: "Enable LE Address Resolution"
+        - lerloff:
+            flag: "lerloff"
+            has_value: False
+            description: "Disable LE Address Resolution"
+        - lecc:
+            flag: "lecc"
+            has_value: True
+            description: "[--static] [--random] <bdaddr> | [--whitelist]
+
+              Create a LE Connection"
+        - ledc:
+            flag: "ledc"
+            has_value: True
+            description: " <handle> [reason]
+
+              Disconnect a LE Connection"
+        - lecup:
+            flag: "lecup"
+            has_value: True
+            description: "<handle> <min> <max> <latency> <timeout>
+
+              LE Connection Update"
+    values:
+    structure:
+        - "COMMAND"
+        - "FLAGS":
+           - "FLAG"
+           - " "
+           - "FLAG_VALUE"
+           - " "
+        - "VALUES":
+            - "VALUE"
+            - " "
+

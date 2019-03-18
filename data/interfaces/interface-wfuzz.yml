@@ -1,0 +1,256 @@
+#example interface blueprint
+#FLAG AND VALUE ORDER MATTERS:
+#   command will be generated with flags and values in order defined in here
+
+tool:
+    name: "Wfuzz"
+    version: "2.2.9"
+    command: "wfuzz"
+    description: "wfuzz - a web application bruteforcer
+
+	FUZZ, ..., FUZnZ  wherever you put these keywords wfuzz will replace them with the values of the specified payload. 
+	FUZZ{baseline_value} FUZZ will be replaced by baseline_value. It will be the first request performed and could be used as a base for filtering.
+
+
+    wfuzz [options] -z payload,params <url>"
+    flags:
+        - help:
+            flag: "h"
+            has_value: False
+            description: "Help page"
+        - adv_help:
+            flag: "-help"
+            has_value: False
+            description: "Advanced help"
+        - version:
+            flag: "-version"
+            has_value: False
+            description: "Wfuzz version details"
+        - encoders:
+            flag: "e "
+            has_value: True
+            description: "List of available encoders/payloads/iterators/printers/scripts"
+        - recipe:
+            flag: "-recipe "
+            has_value: True
+            description: " Reads options from a recipe"
+        - dump_recipe:
+            flag: "-dump-recipe "
+            has_value: True
+            description: "Prints current options as a recipe"
+        - save_fuzz_results:
+            flag: "-oF "
+            has_value: True
+            description: "Saves fuzz results to a file. These can be consumed later using the wfuzz payload."
+        - colors:
+            flag: "c"
+            has_value: False
+            description: "Output with colors"
+        - verbose:
+            flag: "v"
+            has_value: False
+            description: "Verbose information"
+        - filename_printer:
+            flag: "f "
+            has_value: True
+            description: "filename,printer --- Store  results  in the output file using the specified printer (raw printer if omit‐
+              ted)."
+        - printer:
+            flag: "o"
+            has_value: False
+            description: "Format output using the specified printer"
+        - dry_run:
+            flag: "-dry-run"
+            has_value: False
+            description: "Print the results of applying the requests without actually making any HTTP request."
+        - prev:
+            flag: "-prev"
+            has_value: False
+            description: "Print the previous HTTP requests (only when using payloads generating fuzzresults)"
+        - use_proxy:
+            flag: "p "
+            has_value: True
+            description: "Use  Proxy  in  format ip:port:type. Repeat option for using various proxies.  Where
+              type could be SOCKS4, SOCKS5 or HTTP if omitted."
+        - concurrent_con:
+            flag: "t "
+            has_value: True
+            description: "Specify the number of concurrent connections (10 default)"
+        - spec_req_delay:
+            flag: "s "
+            has_value: True
+            description: "Specify time delay between requests (0 default)"
+        - depth:
+            flag: "R"
+            has_value: False
+            description: "Recursive path discovery being depth the maximum recursion level."
+        - follow:
+            flag: "L"
+            has_value: False
+            description: "Follow HTTP redirections"
+        - scan_mode:
+            flag: "Z"
+            has_value: False
+            description: "Scan mode (connection errors will be ignored)"
+        - req_delay:
+            flag: "-req-delay "
+            has_value: True
+            description: "Sets the maximum time in seconds the request is allowed to  take  (CURLOPT_TIMEOUT).
+              Default 90."
+        - default_alias:
+            flag: "A"
+            has_value: False
+            description: "Alias for --script=default -v -c"
+        - script:
+            flag: "-script="
+            has_value: False
+            description: "Equivalent to --script=default"
+        - script_plugin:
+            flag: "-script="
+            has_value: True
+            description: "Runs script's scan. <plugins> is a comma separated list  of  plugin-files  or  plug‐
+              in-categories"
+        - script_help:
+            flag: "-script-help="
+            has_value: True
+            description: "Show help about scripts."
+        - script_args:
+            flag: "-script-args "
+            has_value: True
+            description: "n1=v1,... --- Provide arguments to scripts. ie. --script-args grep.regex='<A href=\ `(.*?)\ `>'"
+        - url:
+            flag: "u "
+            has_value: True
+            description: "Specify a URL for the request."
+        - iterator:
+            flag: "m "
+            has_value: True
+            description: "Specify an iterator for combining payloads (product by default)"
+        - payload:
+            flag: "z "
+            has_value: True
+            description: "Specify a payload for each FUZZ keyword used in the form of type,parameters,encoder.
+              A list of encoders can be used, ie. md5-sha1. Encoders can be chained, ie. md5@sha1.
+              Encoders category can be used. ie. url.  Use help as a payload to show payload plug‐
+              in's details (you can filter using --slice)"
+        - payload_args:
+            flag: "-zP "
+            has_value: True
+            description: "Arguments for the specified payload (it must be preceded by -z or -w)."
+        - slice:
+            flag: "-slice "
+            has_value: True
+            description: "Filter payload's elements using the specified expression. It must be preceded by -z."
+        - wordlist:
+            flag: "w "
+            has_value: True
+            description: "Specify a wordlist file (alias for -z file,wordlist)."
+        - alltype:
+            flag: "V "
+            has_value: True
+            description: "All parameters bruteforcing (allvars and allpost). No need for FUZZ keyword."
+        - method:
+            flag: "X "
+            has_value: True
+            description: "Specify an HTTP method for the request, ie. HEAD or FUZZ"
+        - cookie:
+            flag: "b "
+            has_value: True
+            description: "Specify a cookie for the requests. Repeat option for various cookies."
+        - postdata:
+            flag: "d "
+            has_value: True
+            description: "Use post data (ex: `id=FUZZ&catalogue=1`)"
+        - headers:
+            flag: "H "
+            has_value: True
+            description: "Use headers  (ex:`Host:www.mysite.com,Cookie:id=1312321&user=FUZZ`).  Repeat  option
+              for various headers."
+        - basic:
+            flag: "-basic "
+            has_value: True
+            description: "in format `user:pass` or `FUZZ:FUZZ` or `domain\ FUZ2Z:FUZZ`"
+        - ntlm:
+            flag: "-ntlm "
+            has_value: True
+            description: "in format `user:pass` or `FUZZ:FUZZ` or `domain\ FUZ2Z:FUZZ`"
+        - digest:
+            flag: "-digest "
+            has_value: True
+            description: "in format `user:pass` or `FUZZ:FUZZ` or `domain\ FUZ2Z:FUZZ`"
+        - hc:
+            flag: "-hc "
+            has_value: True
+            description: "Hide  responses with the specified code/lines/words/chars (Use BBB for taking values
+              from baseline)"
+        - hl:
+            flag: "-hl "
+            has_value: True
+            description: "Hide  responses with the specified code/lines/words/chars (Use BBB for taking values
+              from baseline)"
+        - hw:
+            flag: "-hw "
+            has_value: True
+            description: "Hide  responses with the specified code/lines/words/chars (Use BBB for taking values
+              from baseline)"
+        - hh:
+            flag: "-hh "
+            has_value: True
+            description: "Hide  responses with the specified code/lines/words/chars (Use BBB for taking values
+              from baseline)"
+        - sc:
+            flag: "-sc "
+            has_value: True
+            description: "Show responses with the specified code/lines/words/chars (Use BBB for taking  values
+              from baseline)"
+        - sl:
+            flag: "-sl "
+            has_value: True
+            description: "Show responses with the specified code/lines/words/chars (Use BBB for taking  values
+              from baseline)"
+        - sw:
+            flag: "-sw "
+            has_value: True
+            description: "Show responses with the specified code/lines/words/chars (Use BBB for taking  values
+              from baseline)"
+        - sh:
+            flag: "-sh "
+            has_value: True
+            description: "Show responses with the specified code/lines/words/chars (Use BBB for taking  values
+              from baseline)"
+        - ss_regex:
+            flag: "-ss "
+            has_value: True
+            description: "Show/Hide responses with the specified regex within the content"
+        - hs_regex:
+            flag: "-hs "
+            has_value: True
+            description: "Show/Hide responses with the specified regex within the content"
+        - filter:
+            flag: "-filter "
+            has_value: True
+            description: "Filter  responses  using  the  specified  expression (Use BBB for taking values from
+              baseline) It should be composed  of:  c,l,w,h/and,or/=,<,>,!=,<=,>=  Keyword:  FUZZ,
+              ...,  FUZnZ  wherever you put these keywords wfuzz will replace them with the values
+              of the specified payload.  Baseline: FUZZ{baseline_value} FUZZ will be  replaced  by
+              baseline_value.  It  will be the first request performed and could be used as a base
+              for filtering."
+        - prefilter:
+            flag: "-prefilter"
+            has_value: True
+            description: "Filter items before fuzzing using the specified expression."
+    values:
+        - url:
+            default_value: "http://www.google.com"
+            description: "url to fuzz. FUZZ, ..., FUZnZ  wherever you put these keywords wfuzz will replace them with the values of the specified payload."
+    structure:
+        - "COMMAND"
+        - "FLAGS":
+           - "-"
+           - "FLAG"
+           - "FLAG_VALUE"
+           - " "
+        - "VALUES":
+            - "VALUE"
+            - " "
+

@@ -1,0 +1,222 @@
+#example interface blueprint
+#FLAG AND VALUE ORDER MATTERS:
+#   command will be generated with flags and values in order defined in here
+
+tool:
+    name: "tool_name"
+    version: "2.1.1"
+    command: "binwalk"
+    description: "Binwalk v2.1.1 Craig Heffner, http://www.binwalk.org
+    binwalk [OPTIONS] [FILE1] [FILE2] [FILE3] ..."
+    flags:
+        - GROUP_scan: "Signature Scan Options:"
+        - signature:
+            flag: "B"
+            has_value: False
+            description: "Scan target file(s) for common file signatures"
+        - raw:
+            flag: "R"
+            has_value: True
+            description: "Scan target file(s) for the specified sequence of bytes"
+        - opcodes:
+            flag: "A"
+            has_value: False
+            description: "Scan target file(s) for common executable opcode signatures"
+        - magic:
+            flag: "m"
+            has_value: True
+            description: "Specify a custom magic file to use"
+        - dumb:
+            flag: "b"
+            has_value: False
+            description: "Disable smart signature keywords"
+        - invalid:
+            flag: "I"
+            has_value: False
+            description: "Show results marked as invalid"
+        - exclude:
+            flag: "x"
+            has_value: True
+            description: "Exclude results that match <str>"
+        - include:
+            flag: "y"
+            has_value: True
+            description: "Only show results that match <str>"
+        - GROUP_extraction: "Extraction Options"
+        - extract:
+            flag: "e"
+            has_value: False
+            description: "Automatically extract known file types"
+        - extract_type_signatures:
+            flag: "D"
+            has_value: True
+            description: "<type:ext:cmd> 
+              Extract <type> signatures, give the files an extension of <ext>, and execute <cmd>"
+        - matryoshka:
+            flag: "M"
+            has_value: False
+            description: "Recursively scan extracted files"
+        - depth:
+            flag: "d"
+            has_value: True
+            description: "Limit matryoshka recursion depth (default: 8 levels deep)"
+        - directory:
+            flag: "C"
+            has_value: True
+            description: "Extract files/folders to a custom directory (default: current working directory)"
+        - size:
+            flag: "j"
+            has_value: True
+            description: "Limit the size of each extracted file"
+        - count:
+            flag: "n"
+            has_value: True
+            description: "Limit the number of extracted files"
+        - rm:
+            flag: "r"
+            has_value: False
+            description: "Delete carved files after extraction"
+        - carve:
+            flag: "z"
+            has_value: False
+            description: "Carve data from files, but don't execute extraction utilities"
+        - GROUP_entropy: "Entropy Analysis Options"
+        - entropy:
+            flag: "E"
+            has_value: False
+            description: "Calculate file entropy"
+        - fast:
+            flag: "F"
+            has_value: False
+            description: "Use faster, but less detailed, entropy analysis"
+        - save:
+            flag: "J"
+            has_value: False
+            description: "Save plot as a PNG"
+        - nlegend:
+            flag: "Q"
+            has_value: False
+            description: "Omit the legend from the entropy plot graph"
+        - nplot:
+            flag: "N"
+            has_value: False
+            description: "Do not generate an entropy plot graph"
+        - high:
+            flag: "H"
+            has_value: True
+            description: "Set the rising edge entropy trigger threshold (default: 0.95)"
+        - low:
+            flag: "L"
+            has_value: True
+            description: "Set the falling edge entropy trigger threshold (default: 0.85)"
+        - GROUP_diffing: "Binary Diffing Options"
+        - hexdump:
+            flag: "W"
+            has_value: False
+            description: "Perform a hexdump / diff of a file or files"
+        - green:
+            flag: "G"
+            has_value: False
+            description: "Only show lines containing bytes that are the same among all files"
+        - red:
+            flag: "i"
+            has_value: False
+            description: "Only show lines containing bytes that are different among all files"
+        - blue:
+            flag: "U"
+            has_value: False
+            description: "Only show lines containing bytes that are different among some files"
+        - terse:
+            flag: "w"
+            has_value: False
+            description: "Diff all files, but only display a hex dump of the first file"
+        - GROUP_raw: "Raw Compression Options"
+        - deflate:
+            flag: "X"
+            has_value: False
+            description: "Scan for raw deflate compression streams"
+        - lzma:
+            flag: "Z"
+            has_value: False
+            description: "Scan for raw LZMA compression streams"
+        - partial:
+            flag: "P"
+            has_value: False
+            description: "Perform a superficial, but faster, scan"
+        - stop:
+            flag: "S"
+            has_value: False
+            description: "Stop after the first result"
+        - GROUP_general: "General Options"
+        - length:
+            flag: "l"
+            has_value: True
+            description: "Number of bytes to scan"
+        - offset:
+            flag: "o"
+            has_value: True
+            description: "Start scan at this file offset"
+        - base:
+            flag: "O"
+            has_value: True
+            description: "Add a base address to all printed offsets"
+        - block:
+            flag: "K"
+            has_value: True
+            description: "Set file block size"
+        - swap:
+            flag: "g"
+            has_value: True
+            description: "Reverse every n bytes before scanning"
+        - log:
+            flag: "f"
+            has_value: True
+            description: "Log results to file"
+        - csv:
+            flag: "c"
+            has_value: False
+            description: "Log results to file in CSV format"
+        - term:
+            flag: "t"
+            has_value: False
+            description: "Format output to fit the termina; window"
+        - quiet:
+            flag: "q"
+            has_value: False
+            description: "Suppress output to stdout"
+        - verbose:
+            flag: "v"
+            has_value: False
+            description: "Enable verbose output"
+        - help:
+            flag: "h"
+            has_value: False
+            description: "Show help output"
+        - finclude:
+            flag: "a"
+            has_value: True
+            description: "Only scan files whose names match this regex"
+        - fexclude:
+            flag: "p"
+            has_value: True
+            description: "Do not scan files whose names match this regex"
+        - status:
+            flag: "s"
+            has_value: True
+            description: "Enable the status server on the specified port"
+    values:
+        - input_file:
+            default_value: "file.img"
+            description: "binary image"
+    structure:
+        - "COMMAND"
+        - "FLAGS":
+           - "-"
+           - "FLAG"
+           - " "
+           - "FLAG_VALUE"
+           - " "
+        - "VALUES":
+            - "VALUE"
+            - " "
+

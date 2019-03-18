@@ -446,6 +446,7 @@ class ModuleGui(QtWidgets.QWidget):
         term_name = "btn_terminate"
         btn_term = QtWidgets.QPushButton(term_text)
         btn_term.setObjectName(term_name)
+        btn_term.setEnabled(False)
         btns_ref[term_name] = btn_term
         layout.addWidget(btn_term)
 

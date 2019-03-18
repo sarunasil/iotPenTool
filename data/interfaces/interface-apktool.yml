@@ -1,0 +1,91 @@
+#example interface blueprint
+#FLAG AND VALUE ORDER MATTERS:
+#   command will be generated with flags and values in order defined in here
+
+tool:
+    name: "APKTOOl"
+    version: "2.3.1-dirty"
+    command: "apktool"
+    description: "apktool - tool for reverse engineering Android apk file. For additional info, see: http://ibotpeaches.github.io/Apktool/ For smali/baksmali info, see: http://code.google.com/p/smali/"
+    flags:
+        - advance:
+            flag: "-advance"
+            has_value: False
+            description: " prints advance information."
+        - version:
+            flag: "-version"
+            has_value: True
+            description: "prints the version then exits"
+        - install_framework:
+            flag: "if"
+            has_value: True
+            description: "apktool if|install-framework [options] <framework.apk>"
+            flags:
+                - framework_path:
+                    flag: "-p"
+                    has_value: True
+                    description: "Stores framework files into <dir>."
+                - tag:
+                    flag: "-t"
+                    has_value: True
+                    description: "Tag frameworks using <tag>."
+        - decode:
+            flag: "d"
+            has_value: True
+            description: "apktool d[ecode] [options] <file_apk>"
+            flags:
+                - force:
+                    flag: "-f"
+                    has_value: False
+                    description: "Force delete destination directory."
+                - output:
+                    flag: "-o"
+                    has_value: True
+                    description: "The name of folder that gets written. Default is apk.out"
+                - framework_file_use:
+                    flag: "-p"
+                    has_value: True
+                    description: "Uses framework files located in <dir>."
+                - not_decode_resources:
+                    flag: "-r"
+                    has_value: False
+                    description: "Do not decode resources."
+                - not_decode_source:
+                    flag: "-s"
+                    has_value: False
+                    description: "Do not decode sources."
+                - tag:
+                    flag: "-t"
+                    has_value: True
+                    description: "Uses framework files tagged by <tag>."
+        - build:
+            flag: "b"
+            has_value: True
+            description: "usage: apktool b[uild] [options] <app_path>"
+            flags:
+                - force:
+                    flag: "-f"
+                    has_value: False
+                    description: "Skip changes detection and build all files."
+                - output:
+                    flag: "-o"
+                    has_value: True
+                    description: "The name of apk that gets written. Default is dist/name.apk"
+                - framework_file_use:
+                    flag: "-p"
+                    has_value: True
+                    description: "Uses framework files located in <dir>."
+    values:
+    structure:
+        - "COMMAND"
+        - "FLAGS":
+           - "FLAG"
+           - " "
+           - "NESTED"
+           - " "
+           - "FLAG_VALUE"
+           - " "
+        - "VALUES":
+            - "VALUE"
+            - " "
+
