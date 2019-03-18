@@ -6,16 +6,16 @@ tool:
     command: "ls"
     description: "list items command description"
     flags:
-        long_format:
+        - long_format:
             flag: "l"
             has_value: True
             description: "print in long format"
-        all_content:
+        - all_content:
             flag: "a"
             has_value: False
             description: "print all content"
     values:
-        path:
+        - path:
             default_value: "."
             description: "path to folder"
     structure:

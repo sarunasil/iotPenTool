@@ -17,6 +17,7 @@ tool:
             flag: "search"
             has_value: True
             description: "[--bdaddr bdaddr] [--tree] [--raw] [--xml] service_name.
+            
              Known  service  names  are DID, SP, DUN, LAN, FAX, OPUSH, FTP, HS, HF, HFAG, SAP,
                  NAP, GN, PANU, HCRP, HID, CIP, A2SRC,  A2SNK,  AVRCT,  AVRTG,  UDIUE,  UDITE  and
                  SYNCML."

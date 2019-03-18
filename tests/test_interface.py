@@ -48,18 +48,20 @@ def interface_loader():
 		{"flag":"l",
 		"has_value":True,
 		"description":"print in long format",
-		"flags":{
-			"nested_flag1":{
+		"flags":[
+			{"nested_flag1":{
 				"flag":"flag1^2",
 				"has_value":True,
 				"description":"flag flag description"
-				},
-			"nested_flag2":{
+				}
+			},
+			{"nested_flag2":{
 				"flag": "flag2^2",
 				"has_value": False,
 				"description": "[flag]"
 				}
 			}
+		]
 		},
 		["nested_long", "l", True, "print in long format",2])
 	])

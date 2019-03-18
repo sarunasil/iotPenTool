@@ -6,12 +6,12 @@ tool:
     command: "group_label"
     description: "group_label test desc"
     flags:
-        GROUP_1: "bla"
-        physical:
+        - GROUP_1: "bla"
+        - physical:
             flag: "P"
             has_value: False
             description: "display physical path"
-        GROUP_2: "bli"
+        - GROUP_2: "bli"
     structure:
         - "COMMAND"
         - "VALUES":

@@ -19,7 +19,11 @@ tool:
                     flag: "flag2^2"
                     has_value: False
                     description: "[flag] [flag] description12312 12 flag flag description12312 12flag flag description12312 12"
-        all_content:
+        call_content:
+            flag: "x"
+            has_value: False
+            description: "print all content"
+        vall_content:
             flag: "a"
             has_value: False
             description: "print all content"

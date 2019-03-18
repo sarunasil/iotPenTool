@@ -33,127 +33,127 @@ tool:
         TURN ON -oX for xml output!!!!"
 
     flags:
-        GROUP_1: "Target Specification"
-        target_file:
+        - GROUP_1: "Target Specification"
+        - target_file:
             flag: "iL"
             has_value: True
             description: "Scans a file of targets"
-        exclude_target:
+        - exclude_target:
             flag: "-exclude"
             has_value: True
             description: "<host1[,host2][,host3],...>: Exclude hosts/networks"
-        exclude_file:
+        - exclude_file:
             flag: "-excludefile"
             has_value: True
             description: "<host1[,host2][,host3],...>: Exclude hosts/networks"
-        GROUP_2: "MISC"
-        os_detection:
+        - GROUP_2: "MISC"
+        - os_detection:
             flag: "A"
             has_value: False
             description: "Enable OS detection, version detection, script scanning, and traceroute"
-        verbosity_level:
+        - verbosity_level:
             flag: "v"
             has_value: False
             description: "Increase verbosity level"
-        GROUP_3: "Scan techniques"
-        tcp_syn_scan:
+        - GROUP_3: "Scan techniques"
+        - tcp_syn_scan:
             flag: "sS"
             has_value: False
             description: "TCP SYN scan"
-        connection_scan:
+        - connection_scan:
             flag: "sT"
             has_value: False
             description: "Connection scan"
-        ack_scan:
+        - ack_scan:
             flag: "sA"
             has_value: False
             description: "ACK scan"
-        udp_scan:
+        - udp_scan:
             flag: "sU"
             has_value: False
             description: "UDP scan"
-        GROUP_4: "Service Version Detection"
-        service_info:
+        - GROUP_4: "Service Version Detection"
+        - service_info:
             flag: "sV"
             has_value: False
             description: "Probe open ports to determine service/version info"
-        GROUP: "OS Detection"
-        os_detection:
+        - GROUP: "OS Detection"
+        - os_detection:
             flag: "O"
             has_value: False
             description: "Enable OS Detection"
-        skip_discovery:
+        - skip_discovery:
             flag: "PN"
             has_value: False
             description: "This option skips the Nmap discovery stage altogether."
-        ping_scan:
+        - ping_scan:
             flag: "sP"
             has_value: False
             description: "Ping Scan - disable port scan"
-        GROUP_5: "Port Specification and Scan Order"
-        fast_mode:
+        - GROUP_5: "Port Specification and Scan Order"
+        - fast_mode:
             flag: "F"
             has_value: False
             description: "Fast mode, scans fewer ports than the default scan"
-        GROUP_6: "Nmap Output Options"
-        reason_port:
+        - GROUP_6: "Nmap Output Options"
+        - reason_port:
             flag: "-reason"
             has_value: False
             description: "Display the reason a port is in a particular state"
-        open_only:
+        - open_only:
             flag: "-open"
             has_value: False
             description: "Only show open or possibly open ports"
-        host_routes:
+        - host_routes:
             flag: "-iflist"
             has_value: False
             description: "Print host interfaces and routes for debugging"
-        timing:
+        - timing:
             flag: "T"
             has_value: True
             description: "[0-5] Set timing template - higher is faster (less accurate)"
-        GROUP_7: "Host Discovery"
-        tcp_syn_disc:
+        - GROUP_7: "Host Discovery"
+        - tcp_syn_disc:
             flag: "PS"
             has_value: True
             description: "TCP SYN discovery to given ports"
-        tcp_ack_disc:
+        - tcp_ack_disc:
             flag: "PA"
             has_value: True
             description: "TCP ACK discovery to given ports"
-        udp_disc:
+        - udp_disc:
             flag: "PU"
             has_value: True
             description: "UDP ACK discovery to given ports"
-        GROUP_8: "Scan Techniques"
-        ip_prot_scan:
+        - GROUP_8: "Scan Techniques"
+        - ip_prot_scan:
             flag: "sO"
             has_value: False
             description: "IP protocol scan"
-        tcp_null_scan:
+        - tcp_null_scan:
             flag: "sN"
             has_value: False
             description: "TCP Null scan"
-        fin_scan:
+        - fin_scan:
             flag: "sF"
             has_value: False
             description: "FIN scan"
-        xmas_scan:
+        - xmas_scan:
             flag: "sX"
             has_value: False
             description: "Xmas scan"
-        GROUP_9: "Firewalls IDS Evasion and Spoofing"
-        fragment_pack:
+        - GROUP_9: "Firewalls IDS Evasion and Spoofing"
+        - fragment_pack:
             flag: "f"
             has_value: True
             description: "(optionally w/given MTU) Fragment packets"
-        spoof_mac:
+        - Aspoof_mac:
             flag: "-spoof-mac"
             has_value: True
             description: "Spoof NMAP MAC address"
 
     values:
-        target_address:
+        - target_address:
             default_value: ""
             description: "OPTIONAL: Target to be scanned"
     structure:

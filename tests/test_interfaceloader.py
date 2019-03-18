@@ -55,24 +55,28 @@ def test_find_interface_files(interface_file):
         "version":"8.28",
         "command": "ls",
         "description":"list items command description",
-        "flags":{
-            "long_format":{
+        "flags":[
+            {"long_format":{
                 "flag":"l",
                 "has_value":True,
                 "description":"print in long format"
                 },
-            "all_content":{
+            },
+            {"all_content":{
                 "flag":"a",
                 "has_value":False,
                 "description":"print all content"
                 }
-            },
-        "values":{
+            }
+        ],
+        "values":[
+            {
             "path":{
                 "default_value": ".",
                 "description":"path to folder"
                 }
-            },
+            }
+        ],
         "structure": [
             "COMMAND",
             {
@@ -98,13 +102,14 @@ def test_find_interface_files(interface_file):
         "version": "1",
         "command":"pwd",
         "description":"Print Current Working dir command description",
-        "flags":{
-            "physical":{
+        "flags":[
+            {"physical":{
                 "flag":"P",
                 "has_value": False,
                 "description": "display physical path"
                 }
-            },
+            }
+        ],
         "structure": [
             "COMMAND", 
             {
@@ -130,30 +135,34 @@ def test_find_interface_files(interface_file):
         "version":"8.28",
         "command": "ls_nested",
         "description":"list items command description",
-        "flags":{
-            "nested_long":{
+        "flags":[
+            {"nested_long":{
                 "flag":"l",
                 "has_value":True,
                 "description":"print in long format",
-                "flags":{
-                    "nested_flag1":{
+                "flags":[
+                    {"nested_flag1":{
                         "flag":"flag1^2",
                         "has_value":True,
                         "description":"flag flag description"
-                        },
-                    "nested_flag2":{
+                        }
+                    },
+                    {"nested_flag2":{
                         "flag": "flag2^2",
                         "has_value": False,
                         "description": "[flag] [flag] description12312 12 flag flag description12312 12flag flag description12312 12"
                         }
                     }
-                },
-            "all_content":{
+                ]
+                }
+            },
+            {"all_content":{
                 "flag":"a",
                 "has_value":False,
                 "description":"print all content"
                 }
-            },
+            }
+        ],
         "structure": [
             "COMMAND",
             {
@@ -197,24 +206,27 @@ def test_read_interface_file(interface_file, content):
             "version":"8.28",
             "command": "ls",
             "description":"list items command description",
-            "flags":{
-                "long_format":{
+            "flags":[
+                {"long_format":{
                     "flag":"l",
                     "has_value":True,
                     "description":"print in long format"
-                    },
-                "all_content":{
+                    }
+                },
+                {"all_content":{
                     "flag":"a",
                     "has_value":False,
                     "description":"print all content"
                     }
-                },
-            "values":{
-                "path":{
+                }
+            ],
+            "values":[
+                {"path":{
                     "default_value": ".",
                     "description":"path to folder"
                     }
-                },
+                }
+            ],
             "structure": [
                 "COMMAND",
                 {
@@ -253,13 +265,14 @@ def test_read_interface_file(interface_file, content):
             "version": "1", 
             "command":"pwd", 
             "description":"Print Current Working dir command description",
-            "flags":{
-                "physical":{
+            "flags":[
+                {"physical":{
                     "flag":"P", 
                     "has_value": False,
                     "description": "display physical path"
-                    } 
-                },
+                    }
+                }
+            ],
             "structure": [
                 "COMMAND", 
                 {
@@ -298,30 +311,36 @@ def test_read_interface_file(interface_file, content):
             "version":"8.28",
             "command": "ls_nested",
             "description":"list items command description",
-            "flags":{
+            "flags":[
+                {
                 "long_format":{
                     "flag":"l",
                     "has_value":True,
                     "description":"print in long format",
-                    "flags":{
-                        "nested_flag1":{
+                    "flags":[
+                        {"nested_flag1":{
                             "flag":"flag1^2",
                             "has_value":True,
                             "description":"flag flag description"
-                            },
-                        "nested_flag2":{
+                            }
+                        },
+                        {"nested_flag2":{
                             "flag": "flag2^2",
                             "has_value": False,
                             "description": "[flag]"
                             }
                         }
-                    },
+                    ]
+                    }
+                },
+                {
                 "all_content":{
                     "flag":"a",
                     "has_value":False,
                     "description":"print all content"
                     }
-                },
+                }
+                ],
             "structure": [
                 "COMMAND",
                 {

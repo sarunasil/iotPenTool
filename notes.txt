@@ -35,3 +35,16 @@ hydra (default password crack)
 MOBILE APPLICATIONS - not a good choice...
 apktool - apk decompiler
 
+suvesti visus tuos irankius i yml
+- hcitool
+- sdptool
+- binwalk
+- sqlmap
+- wfuzz
+- hydra
+- apktool
+perskaityti research paper Spas
+perskaityti cook book 2 skyriu apie methodologies
+nueiti del kontrakto
+nusipirkti national express
+paziureti income tax ir tax return

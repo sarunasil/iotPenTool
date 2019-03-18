@@ -524,6 +524,8 @@ class ModuleGuiController():
 
         flags, values = self.gather_params()
         iden = self.interface.command
+        print ("-> ", flags)
+        print ("-> ", values)
         command_string = self.interface.build_command(flags, values)
         self.execution_id = str(uuid.uuid4())
 

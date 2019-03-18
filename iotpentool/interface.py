@@ -65,9 +65,10 @@ class _Flag(Argument):
 		#SYMBOL USED TO MARK NESTED FLAG = ^
 		flag_flags = {}
 		if 'flags' in data:
-			for flag_iden, flag_data in data['flags'].items():
-				nested_flag_iden = iden+NESTED_SYMBOL+flag_iden
-				flag_flags[nested_flag_iden] = _Flag(nested_flag_iden, flag_data)
+			for flag_item in data['flags']:
+				for flag_iden, flag_data in flag_item.items():
+					nested_flag_iden = iden+NESTED_SYMBOL+flag_iden
+					flag_flags[nested_flag_iden] = _Flag(nested_flag_iden, flag_data)
 
 		self.flag = data['flag']
 		self.has_value = data['has_value']
@@ -170,8 +171,8 @@ class Interface():
 		'''Takes dicts of flags and values chosen according to gui and creates one complete command string that can be executed in terminal
 
 		Args:
-			flags (dict(String:String|None)): (flag_iden, value with present) - of every selected flag
-			values (dict(String:String)): (value_iden, value) - of every selected value
+			flags (list((String,String))): (flag_widget_name, flag_value) - of every selected flag
+			values (list((String, String))): (value_widget_name, value_value) - of every selected value
 
 		Returns:
 			String: executable string
@@ -184,6 +185,9 @@ class Interface():
 				command += self.command + separator
 			elif isinstance(item, dict) and "FLAGS" in item:
 				#flags building
+
+				# for flag_obj in self.flags:
+				# 	if flag_obj.
 
 				print (flags)
 				#for every checked flag
@@ -225,4 +229,10 @@ class Interface():
 
 		print (command)
 		return command.rstrip()
+
+	def build_flags(self, flags, parent=None):
+		pass
+
+	def build_values(self, values, parent=None):
+		pass
 

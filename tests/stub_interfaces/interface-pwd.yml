@@ -6,7 +6,7 @@ tool:
     command: "pwd"
     description: "Print Current Working dir command description"
     flags:
-        physical:
+        - physical:
             flag: "P"
             has_value: False
             description: "display physical path"

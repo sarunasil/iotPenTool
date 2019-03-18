@@ -8,22 +8,22 @@ tool:
     command: "tool_call_name"
     description: "Tool description"
     flags:
-        flag_name:
+        - flag_name:
             flag: "flag"
             has_value: True/False
             description: "description"
             flags:
-                flagflag_name:
+                - flagflag_name:
                     flag: "flagflag"
                     has_value: True/False
                     description: "description"
-        GROUP_x: "Some Group"
-        other_name:
+        - GROUP_x: "Some Group"
+        - other_name:
             flag: "other flag"
             has_value: True/False
             description: "other description"
     values:
-        value_name:
+        - value_name:
             default_value: "some value"
             description: "descriptionds"
     structure:

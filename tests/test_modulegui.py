@@ -83,18 +83,20 @@ def test__create_label(application, label, object_name, text, wrap, style):
 		{"flag":"l",
 			"has_value":True,
 			"description":"print in long format",
-			"flags":{
-				"nested_flag1":{
+			"flags":[
+				{"nested_flag1":{
 					"flag":"flag1^2",
 					"has_value":True,
 					"description":"flag flag description"
-					},
-				"nested_flag2":{
+					}
+				},
+				{"nested_flag2":{
 					"flag": "flag2^2",
 					"has_value": False,
 					"description": "[flag]"
 					}
 				}
+			]
 			},
 		""
 	),
@@ -129,9 +131,10 @@ def test__create_flag(application, iden, has_value, flag_data, style):
 		assert widget_top.findChild(QtWidgets.QCheckBox, "check_box_"+iden)
 
 	if 'flags' in flag_data:
-		for flag_iden in flag_data['flags']:
-			if not widget.findChild(QtWidgets.QWidget, "flag_"+iden+NESTED_SYMBOL+flag_iden):
-				assert False
+		for flag_item in flag_data['flags']:
+			for flag_iden in flag_item:
+				if not widget.findChild(QtWidgets.QWidget, "flag_"+iden+NESTED_SYMBOL+flag_iden):
+					assert False
 
 @pytest.mark.parametrize(("iden","value_data","style"), [
 	("path", {"default_value":".","description":"path to folder"},""),
