@@ -1,0 +1,166 @@
+#example interface blueprint
+#FLAG AND VALUE ORDER MATTERS:
+#   command will be generated with flags and values in order defined in here
+
+tool:
+    name: "SQLMAP"
+    version: "1.2.4"
+    command: "sqlmap"
+    description: "sqlmap - automatic SQL injection tool"
+    flags:
+        - help:
+            flag: "h"
+            has_value: False
+            description: "Show basic help message and exit"
+        - help_adv:
+            flag: "hh"
+            has_value: False
+            description: "Show basic help message and exit"
+        - version:
+            flag: "-version"
+            has_value: False
+            description: "Show program version number and exit"
+        - verbose:
+            flag: "v "
+            has_value: True
+            description: "Verbosity level: 0-6 (default 1)"
+        - GROUP_TARGET: "Target"
+        - url:
+            flag: "u "
+            has_value: True
+            description: "Target URL (e.g. `http://www.site.com/vuln.php?id=1`)"
+        - googledork:
+            flag: "g "
+            has_value: True
+            description: "Process Google dork results as target URLs"
+        - GROUP_REQUEST: "Request"
+        - data:
+            flag: "-data="
+            has_value: True
+            description: "Data string to be sent through POST"
+        - cookie:
+            flag: "-cookie="
+            has_value: True
+            description: "HTTP Cookie header value"
+        - random_agent:
+            flag: "-random-agent"
+            has_value: False
+            description: "Use randomly selected HTTP User-Agent header value"
+        - proxy:
+            flag: "-proxy="
+            has_value: True
+            description: "Use a proxy to connect to the target URL"
+        - tor:
+            flag: "-tor"
+            has_value: False
+            description: "Use Tor anonymity network"
+        - check_tor:
+            flag: "-check_tor"
+            has_value: False
+            description: "Check to see if Tor is used properly"
+        - GROUP_INJECTION: "Injection"
+        - Testable:
+            flag: "-p "
+            has_value: True
+            description: "Testable parameter(s)"
+        - dbms:
+            flag: "-dbms="
+            has_value: True
+            description: "Force back-end DBMS to this value"
+        - GROUP_DETECTION: "Detection"
+        - level:
+            flag: "-level="
+            has_value: True
+            description: "Level of tests to perform (1-5, default 1)"
+        - risk:
+            flag: "-risk="
+            has_value: True
+            description: "Risk of tests to perform (1-3, default 1)"
+        - GROUP_TECHNIQUES: "Techniques"
+        - techniques:
+            flag: "-techniques="
+            has_value: True
+            description: "SQL injection techniques to use (default `BEUSTQ`)"
+        - GROUP_ENUMERATION: "Enumeration"
+        - retrieve_all:
+            flag: "a"
+            has_value: False
+            description: "Retrieve everything"
+        - banner:
+            flag: "b"
+            has_value: False
+            description: "Retrieve DBMS banner"
+        - current_user:
+            flag: "-current-user"
+            has_value: False
+            description: "Retrieve DBMS current user"
+        - current-db:
+            flag: "-current-db"
+            has_value: False
+            description: "Retrieve DBMS current database"
+        - passwords:
+            flag: "-passwords"
+            has_value: False
+            description: "Enumerate DBMS users password hashes"
+        - tables:
+            flag: "-tables"
+            has_value: False
+            description: "Enumerate DBMS database tables"
+        - columns:
+            flag: "-columns"
+            has_value: False
+            description: "Enumerate DBMS database table columns"
+        - schema:
+            flag: "-schema"
+            has_value: False
+            description: "Enumerate DBMS schema"
+        - dump:
+            flag: "-dump"
+            has_value: False
+            description: "Dump DBMS database table entries"
+        - dump_all:
+            flag: "-dump_all"
+            has_value: False
+            description: "Dump all DBMS databases tables entries"
+        - enum_database:
+            flag: "-D "
+            has_value: True
+            description: "DBMS database to enumare"
+        - enum_tables:
+            flag: "-T "
+            has_value: True
+            description: "DBMS database table(s) to enumarate"
+        - enum_columns:
+            flag: "-C "
+            has_value: True
+            description: "DBMS database table column(s) to enumerate"
+        - GROUP_GENERAL: "General"
+        - batch:
+            flag: "-batch"
+            has_value: False
+            description: "Never ask for user input, use the default behavior"
+        - flush_session:
+            flag: "-flush_session"
+            has_value: False
+            description: "Flush session files for current target"
+        - GROUP_MISCELLANEOUS: "Miscellaneous"
+        - sqlmap_shell:
+            flag: "-sqlmap-shell"
+            has_value: False
+            description: "Prompt for an interactive sqlmap shell"
+        - wizard:
+            flag: "-wizard"
+            has_value: False
+            description: "Simple wizard interface for beginner users"
+    values:
+    structure:
+        - "COMMAND"
+        - "FLAGS":
+           - "-"
+           - "FLAG"
+           - "FLAG_VALUE"
+           - " "
+        - "VALUES":
+            - "VALUE"
+            - " "
+

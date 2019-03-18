@@ -37,11 +37,8 @@ apktool - apk decompiler
 
 suvesti visus tuos irankius i yml
 - hcitool
-- sdptool
 - binwalk
-- sqlmap
 - wfuzz
-- hydra
 - apktool
 perskaityti research paper Spas
 perskaityti cook book 2 skyriu apie methodologies

@@ -1,0 +1,148 @@
+#example interface blueprint
+
+tool:
+    name: "sdptool"
+    version: "5.48"
+    command: "sdptool"
+    description: "sdptool provides the interface for performing SDP queries on Bluetooth devices, and administering a local SDP database.
+    The following commands are available. In all cases bdaddr specifies the device to search or browse. If local is used for bdaddr, then the local SDP database is searched.
+    Services are identified and manipulated with a 4-byte record_handle (NOT the service name).
+
+    To find a service's record_handle, look for the 'Service RecHandle' line in  the search or browse results"
+    flags:
+        - help:
+            flag: "--help"
+            has_value: False
+            description: "Displays help on using sdptool"
+        - search:
+            flag: "search"
+            has_value: True
+            description: "Search for service... VALUE - service_name
+             Known  service  names  are DID, SP, DUN, LAN, FAX, OPUSH, FTP, HS, HF, HFAG, SAP,
+                 NAP, GN, PANU, HCRP, HID, CIP, A2SRC,  A2SNK,  AVRCT,  AVRTG,  UDIUE,  UDITE  and
+                 SYNCML."
+            flags:
+                - bdaddr:
+                    flag: "--bdaddr"
+                    has_value: True
+                    description: ""
+                - tree:
+                    flag: "--tree"
+                    has_value: False
+                    description: ""
+                - raw:
+                    flag: "--raw"
+                    has_value: False
+                    description: ""
+                - xml:
+                    flag: "--xml"
+                    has_value: False
+                    description: ""
+        - browse:
+            flag: "browse"
+            has_value: True
+            description: "Browse all available services on the device specified by a Bluetooth address as a parameter. VALUE - bdaddr"
+            flags:
+                - tree:
+                    flag: "--tree"
+                    has_value: False
+                    description: ""
+                - raw:
+                    flag: "--raw"
+                    has_value: False
+                    description: ""
+                - xml:
+                    flag: "--xml"
+                    has_value: False
+                    description: ""
+        - records:
+            flag: "records"
+            has_value: True
+            description: "Retrieve all possible service records. VALUE - bdaddr"
+            flags:
+                - tree:
+                    flag: "--tree"
+                    has_value: False
+                    description: ""
+                - raw:
+                    flag: "--raw"
+                    has_value: False
+                    description: ""
+                - xml:
+                    flag: "--xml"
+                    has_value: False
+                    description: ""
+        - add:
+            flag: "add"
+            has_value: True
+            description: " [ --handle=N --channel=N ]
+                 Add a service to the local SDP database.
+
+                 You can specify a handle for this record using the --handle option.
+
+                 You can specify a channel to add the service on using the --channel option.
+
+                 NOTE: Local adapters configuration will not be updated and this command should be
+                 used only for SDP testing."
+            flags:
+                - handle:
+                    flag: "--handle"
+                    has_value: True
+                    description: ""
+                - channel:
+                    flag: "--channel"
+                    has_value: True
+                    description: ""
+        - del:
+            flag: "del"
+            has_value: True
+            description: "VALUE - record_handle
+                 Remove a service from the local SDP database.
+
+                 NOTE: Local adapters configuration will not be updated and this command should be
+                 used only for SDP testing."
+        - get:
+            flag: "get"
+            has_value: True
+            description: "VALUE - record_handle
+                 Retrieve a service from the local SDP database."
+            flags:
+                - tree:
+                    flag: "--tree"
+                    has_value: False
+                    description: ""
+                - raw:
+                    flag: "--raw"
+                    has_value: False
+                    description: ""
+                - xml:
+                    flag: "--xml"
+                    has_value: False
+                    description: ""
+                - bdaddr:
+                    flag: "--bdaddr"
+                    has_value: True
+                    description: "--bdaddr bdaddr"
+        - setattr:
+            flag: "setattr"
+            has_value: True
+            description: "3 VALUES: `record_handle attrib_id attrib_value`
+                 Set or add an attribute to an SDP record."
+        - setseq:
+            flag: "setseq"
+            has_value: True
+            description: "3 VALUES: `record_handle attrib_id attrib_values`
+                 Set or add an attribute sequence to an SDP record."
+    values:
+    structure:
+        - "COMMAND"
+        - "FLAGS":
+           - "FLAG"
+           - " "
+           - "NESTED"
+           - " "
+           - "FLAG_VALUE"
+           - " "
+        - "VALUES":
+            - "VALUE"
+            - " "

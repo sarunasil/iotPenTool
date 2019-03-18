@@ -8,92 +8,92 @@ tool:
        cally works by launching a dictionary basesd attack against a web server and analizing  the
        response."
     flags:
-        custom_user_agent:
+        - custom_user_agent:
             flag: "a"
             has_value: True
             description: "Specify  your custom USER_AGENT.  (Default is: 'Mozilla/4.0 (compatible; MSIE 6.0;
               Windows NT 5.1)')"
-        dont_squash:
+        - dont_squash:
             flag: "b"
             has_value: False
             description: "Don't squash or merge sequences of /../ or /./ in the given URL."
-        set_cookie:
+        - set_cookie:
             flag: "c"
             has_value: True
             description: "Set a cookie for the HTTP request."
-        client_cert:
+        - client_cert:
             flag: "E"
             has_value: True
             description: "Use the specified client certificate file."
-        fine_tune_404:
+        - fine_tune_404:
             flag: "f"
             has_value: False
             description: "Fine tunning of NOT_FOUND (404) detection."
-        custom_header:
+        - custom_header:
             flag: "H"
             has_value: True
             description: "Add a custom header to the HTTP request."
-        case_sensitive:
+        - case_sensitive:
             flag: "i"
             has_value: False
             description: "Use case-insensitive Search."
-        print_location_header:
+        - print_location_header:
             flag: "l"
             has_value: False
             description: "Print 'Location' header when found."
-        ignore_code:
+        - ignore_code:
             flag: "N"
             has_value: True
             description: " Ignore responses with this HTTP code."
-        output_file:
+        - output_file:
             flag: "o"
             has_value: True
             description: "Save output to disk."
-        use_proxy:
+        - use_proxy:
             flag: "p"
             has_value: True
             description: "<proxy[:port]> Use this proxy. (Default port is 1080)"
-        proxy_auth:
+        - proxy_auth:
             flag: "P"
             has_value: True
             description: "<proxy_username:proxy_password> Proxy Authentication."
-        not_recursive:
+        - not_recursive:
             flag: "r"
             has_value: False
             description: "Don't Search Recursively."
-        no_ending_slash:
+        - no_ending_slash:
             flag: "t"
             has_value: False
             description: "Don't force an ending '/' on URLs."
-        login_details:
+        - login_details:
             flag: "u"
             has_value: True
             description: "<username:password> Username and password to use."
-        show_non_existent:
+        - show_non_existent:
             flag: "v"
             has_value: False
             description: "Show Also Not Existent Pages."
-        ignore_warning:
+        - ignore_warning:
             flag: "w"
             has_value: False
             description: "Don't Stop on WARNING messages."
-        add_file_extensions:
+        - add_file_extensions:
             flag: "x"
             has_value: True
             description: "Amplify search with the extensions on this file."
-        add_extentions:
+        - add_extentions:
             flag: "X"
             has_value: True
             description: "Amplify search with this extensions."
-        add_delay:
+        - add_delay:
             flag: "z"
             has_value: True
             description: "Add a miliseconds delay to not cause excessive Flood"
     values:
-        url_base:
+        - url_base:
             default_value: "http://google.com"
             description: "Base URL to scan."
-        wordlist:
+        - wordlist:
             default_value: ""
             description: "List of wordfiles. (wordfile1,wordfile2,wordfile3...)"
     structure:

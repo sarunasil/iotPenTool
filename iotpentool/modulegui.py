@@ -150,7 +150,7 @@ class ModuleGui(QtWidgets.QWidget):
             label.setObjectName("label_"+flag.label)
             layout_top.addWidget(label)
         else:       #not _FlagLabel - it's a _Flag; Continue ar regular
-            widget.setToolTip(flag.iden)
+            widget_top.setToolTip(flag.description)
             check_box = QtWidgets.QCheckBox(flag.flag)
             check_box.setObjectName("check_box_" + flag.iden)
             layout_top.addWidget(check_box)
@@ -237,6 +237,7 @@ class ModuleGui(QtWidgets.QWidget):
         desc_lbl = QtWidgets.QLabel(value.description)
         desc_lbl.setObjectName("label_desc_"+value.iden)
         desc_lbl.setWordWrap(True)
+        desc_lbl.setToolTip(value.description)
         layout.addWidget(desc_lbl, 20)
 
         widget.setLayout(layout)

@@ -1,0 +1,71 @@
+#example interface blueprint
+#FLAG AND VALUE ORDER MATTERS:
+#   command will be generated with flags and values in order defined in here
+
+tool:
+    name: "Hydra"
+    version: "8.6"
+    command: "hydra"
+    description: "Hydra is a parallelized login cracker which supports numerous protocols to attack. New modules are easy to add, beside that, it is flexible and very fast.
+
+       This tool gives researchers and security consultants the possibility to show how easy it would be to gain unauthorized access from remote to a system.
+       Example:  hydra -l user -P passlist.txt ftp://192.168.0.1"
+    flags:
+        - login:
+            flag: "l"
+            has_value: True
+            description: "login with LOGIN name"
+        - login_file:
+            flag: "L"
+            has_value: True
+            description: "login with LOGIN file"
+        - password:
+            flag: "p"
+            has_value: True
+            description: "try input as password"
+        - password_file:
+            flag: "P"
+            has_value: True
+            description: "try file as password list"
+        - column_login:
+            flag: "C"
+            has_value: True
+            description: "Collon separted `login:pass` format, instead of -L|-P options"
+        - targets:
+            flag: "M"
+            has_value: True
+            description: "list of servers to attack, one entry per line, ':' to specify port"
+        - con_per_target:
+            flag: "t"
+            has_value: True
+            description: "run TASKS number of connections in parallel per target(default: 16)"
+        - service_details:
+            flag: "U"
+            has_value: False
+            description: "service module usage details"
+        - help:
+            flag: "h"
+            has_value: True
+            description: "more command line options (COMPLETE HELP)"
+        - server:
+            flag: "server"
+            has_value: True
+            description: "the target: DNS, IP or 192.168.0.0/24 (this OR the -M option)"
+    values:
+        - service_server:
+            default_value: "ftp://127.0.0.1:8000"
+            description: "[service://server[:PORT][/OPT]] the target: DNS, IP or 192.168.0.0/24 (this OR the -M option)
+  service   the service to crack (see below for supported protocols)
+  OPT       some service modules support additional input (-U for module help)"
+    structure:
+        - "COMMAND"
+        - "FLAGS":
+            - "-"
+            - "FLAG"
+            - " "
+            - "FLAG_VALUE"
+            - " "
+        - "VALUES":
+            - "VALUE"
+            - " "
+
