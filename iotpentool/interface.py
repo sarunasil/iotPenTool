@@ -13,7 +13,7 @@ import re
 from abc import ABC
 from collections import OrderedDict
 from iotpentool.modulegui import ModuleGuiController
-from iotpentool.mymessage import DataException
+from iotpentool.utils import DataException
 
 #SYMBOL USED TO MARK NESTED FLAGS
 NESTED_SYMBOL = "^"
@@ -187,28 +187,6 @@ class Interface():
 				#flags building
 
 				command += self.build_flags(self.flags, flags, item["FLAGS"])
-
-				# print (flags)
-				# #for every checked flag
-				# for flag_iden, flag_value in flags:
-				# 	#travers all parent flags to find actual Flag object
-				# 	flag_struct = flag_iden.split(NESTED_SYMBOL)
-				# 	parent = self.flags[flag_struct[0]]
-				# 	del flag_struct[0]
-
-				# 	for parent_flag_iden in flag_struct:
-				# 		parent = parent.flag_flags[parent.iden+NESTED_SYMBOL+parent_flag_iden]
-				# 	flag_symbol = parent.flag
-
-				# 	#follow Interface.structure "FLAGS" pattern to set params
-				# 	for flag_item in item["FLAGS"]:
-				# 		if flag_item == "FLAG":
-				# 			command += flag_symbol
-				# 		elif flag_item == "FLAG_VALUE":
-				# 			if flag_value:
-				# 				command += flag_value
-				# 		else:
-				# 			command += flag_item
 
 			elif isinstance(item, dict) and "VALUES" in item:
 				#values building

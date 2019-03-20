@@ -10,18 +10,18 @@ By sarunasil
 
 import pytest
 
-from iotpentool import mymessage
+from iotpentool import utils
 
 @pytest.mark.parametrize("msg_type", [
-    mymessage.MsgType.INFO,
-    mymessage.MsgType.WARNING,
-    mymessage.MsgType.ERROR
+    utils.MsgType.INFO,
+    utils.MsgType.WARNING,
+    utils.MsgType.ERROR
     ])
 def test_print_message(msg_type):
     '''Test error message
     '''
     msg = "A"
-    result = mymessage.Message.print_message(msg_type, msg)
+    result = utils.Message.print_message(msg_type, msg)
 
     assert result == msg_type.value+": "+msg
 

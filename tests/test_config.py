@@ -13,7 +13,7 @@ import random
 import os
 
 
-from iotpentool import configmanager, mymessage
+from iotpentool import configmanager, utils
 
 CONFIG_FILE = 'stub_config.ini'
 CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
@@ -35,7 +35,7 @@ def test_create_config(config_manager, file_path, overwrite):
 
     result = config_manager.create_config(file_path, overwrite)
 
-    assert result == mymessage.Outcome.SUCCESS
+    assert result == utils.Outcome.SUCCESS
     assert os.path.isfile(file_path)
 
     #cleanup
@@ -52,7 +52,7 @@ def test_create_config_fail(config_manager, file_path, overwrite):
 
     result = config_manager.create_config(file_path, overwrite)
 
-    assert result == mymessage.Outcome.FAILURE
+    assert result == utils.Outcome.FAILURE
 
 
 @pytest.mark.parametrize(("file_path", "outcome"), [
@@ -66,17 +66,17 @@ def test_parse_config(config_manager, file_path, outcome):
     result = config_manager.parse_config(file_path)
 
     if outcome:
-        assert result == mymessage.Outcome.SUCCESS
+        assert result == utils.Outcome.SUCCESS
         assert config_manager.data_dir == os.path.join(CURRENT_DIR, "data/")
         assert config_manager.interface_dir == os.path.join(CURRENT_DIR, "data/interfaces")
     else:
-        assert result == mymessage.Outcome.FAILURE
+        assert result == utils.Outcome.FAILURE
 
 def test_parse_config_default(config_manager):
     '''Test default config file read'''
 
     result = config_manager.parse_config(CONFIG_FILE_PATH)
 
-    assert result == mymessage.Outcome.SUCCESS
+    assert result == utils.Outcome.SUCCESS
     assert config_manager.data_dir == os.path.join(CURRENT_DIR, "data/")
     assert config_manager.interface_dir == os.path.join(CURRENT_DIR, "data/interfaces")

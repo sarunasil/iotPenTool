@@ -14,7 +14,7 @@ from PyQt5.QtWidgets import QApplication
 from iotpentool.configmanager import ConfigManager
 from iotpentool.maingui import MainGui
 from iotpentool.interfaceloader import InterfaceLoader
-from iotpentool.mymessage import Outcome, Message, MsgType
+from iotpentool.utils import Outcome, Message, MsgType
 from iotpentool.manager import Manager
 
 CURRENT_DIR = path.dirname(path.realpath(__file__))

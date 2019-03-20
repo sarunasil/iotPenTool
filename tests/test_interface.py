@@ -18,7 +18,7 @@ from iotpentool import interfaceloader
 from iotpentool.modulegui import ModuleGui, ModuleGuiController
 from iotpentool.manager import Manager
 
-from iotpentool.mymessage import DataException
+from iotpentool.utils import DataException
 
 CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
 INTERFACE_DIR = os.path.join(CURRENT_DIR, "stub_interfaces")

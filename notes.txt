@@ -25,6 +25,9 @@ Things to do:
 11. than tool is selected automatically scan a threat data structure in methodology to look for values representing the tags
 12. if tool xml flag is checked - tool output becomes structured and is displayed in xml->html page/structure
 
+5. suggest tool for threat according to keywords used:
+    could be implemented by adding keyword list for each tool + generating it from .yml file and matching it with technologies used in that threat
+
 MUST
 6. design methodology data structure
 2. tab window for methodology

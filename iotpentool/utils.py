@@ -56,3 +56,9 @@ class DataException(Exception):
     '''
 
     pass
+
+class ModellingException(Exception):
+    '''Exception for failures in Threat Model creation
+    '''
+
+    pass

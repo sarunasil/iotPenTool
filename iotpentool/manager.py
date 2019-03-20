@@ -16,7 +16,7 @@ import subprocess
 from PyQt5.QtCore import QThreadPool
 from PyQt5.QtCore import QRunnable, pyqtSignal, pyqtSlot, QObject
 
-from iotpentool import mymessage
+from iotpentool import utils
 
 
 class WorkerSignals(QObject):
@@ -119,11 +119,11 @@ class Worker(QRunnable):
 		if self.process:
 			try:
 				self.process.terminate()
-				return mymessage.Outcome.SUCCESS
+				return utils.Outcome.SUCCESS
 			except:
-				return mymessage.Outcome.FAILURE
+				return utils.Outcome.FAILURE
 
-		return mymessage.Outcome.SUCCESS
+		return utils.Outcome.SUCCESS
 
 
 class Manager():
@@ -182,5 +182,5 @@ class Manager():
 		if executor_id and executor_id in self._workers:
 			result = self._workers[executor_id].terminate()
 
-			if result == mymessage.Outcome.FAILURE:
-				mymessage.Message.print_message(mymessage.MsgType.WARNING, "Failed to kill a subprocess with SIGTERM command.")
+			if result == utils.Outcome.FAILURE:
+				utils.Message.print_message(utils.MsgType.WARNING, "Failed to kill a subprocess with SIGTERM command.")
