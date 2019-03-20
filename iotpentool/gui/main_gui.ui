@@ -73,7 +73,7 @@
          <item row="2" column="1">
           <widget class="QPlainTextEdit" name="plainTextEdit">
            <property name="plainText">
-            <string>asdasdasdasd
+            <string>
 </string>
            </property>
           </widget>

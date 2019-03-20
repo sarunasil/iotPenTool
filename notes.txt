@@ -1,20 +1,43 @@
-tShark (scanning traffic)
-Aircrack-ng (gaining access)
-Nmap (scanning devices in the network)
-nikto (web server scanner)
-dirb (web content scanner) / url fuzzing?
-thc-hydra (brute force password authentication)
-findmyhash (password hash cracker)
-yersinia (low-level protocol attack tool)
-
-capturing and editing packages?? 
+Things to do:
+1. nested tabs for tool grouping                                                                                             +
+2. tab window for methodology                                                                                                +
+3. export methodology tabs content as some report                                                                            +
+4. save report as xml                                                                                                        +
+5. suggest tool for threat according to keywords used
+6. design methodology data structure                                                                                         +
+7. create tabs for methodology bits                                                                                          +
+    - Tab for enter IoT system assets
+        table of ID | Asset     | Description
+    - Tab for architectural overview
+        - Architectural diagram link
+        which helps to
+        - Identify technologies -> which are linked user links to specific assets
+    - Tab for decomposing the IoT devices
+        - Map environmental data flow link
+        which should help to
+        - Document system entry points which are linked to technologies and assets
+    - List high level threats -> mark entry points
+    - Document threats -> threat description
+    - Rating the threats using DREAD
+8. sort and display threat list ranked using DREAD                                                                           +
+9. zoom into threat; tool suggestion buttons 
+10. update interfaces to say what values it expects for some flags
+11. than tool is selected automatically scan a threat data structure in methodology to look for values representing the tags
+12. if tool xml flag is checked - tool output becomes structured and is displayed in xml->html page/structure
 
 MUST
-    import below defined tools as yml and test them
+6. design methodology data structure
+2. tab window for methodology
+7. create tabs for methodology bits
+8. sort and display threat list ranked using DREAD
+
 SHOULD
-    penetration testing spreadsheet gathering
+3. export methodology tabs content as some report
+
 COULD
-    how to generete spreadsheets and how to define them
+1. nested tabs for tool grouping
+4. save report as xml
+
 WON'T
     - nicer structure for Flags and Values
     - Flag, Value, Describtion fields expand to always cover all space - priorty: all reaching minimum height; Flags; Values; Desc;
@@ -36,3 +59,215 @@ MOBILE APPLICATIONS - not a good choice...
 apktool - apk decompiler
 
 perskaityti cook book 2 skyriu apie methodologies
+
+- Draw out IoT device attack surface
+- Identify threat use cases using e.g. STRIDE
+- Rate threats using DREAD or CVSS
+
+
+To discover flaws:
+    - Document assets and functionality
+    - Architectural diagram of ecosystem
+    - Identify the technologies in use
+------
+
+
+====================
+IDEA:
+you fill in this methodology in 6 steps adding as much detail as you can
+the output of these fields is structured and stored somewhere
+then when you choose a threat to test
+and a tool to test it with
+the input for tool flags is taken (where possible) from structured methodology data
+wherefore automatic the process of penetration testing
+then, certain tools will present structured data after their run like nmap and sdptool,
+therefore it goes as follows: fill in methodology - > structured data -> tool -> strcutured data
+the tool output can be visuallized any way you want as long as it's structured as it is!
+
+Just use nmap as an example for this thing, maybe sdptool if got time
+
+The goal is to move away from learning certain penetration testing tools and their insides as (flags, modes, param) but just work with concepts, abstract and automate implementation details as much as possible and produce structured output that can then easily be visuallized any way required
+====================
+The principle used is one provided by Microsoft
+https://docs.microsoft.com/en-us/previous-versions/msp-n-p/ff648644(v=pandp.10)
+
+For IoT System:
+
+1) Identify IoT assets from a high level:
+
+ID | Asset     | Description
+-------------------------------
+1  | Doorbell  | Smart doobells monitor motion, alert users.. Can connect via p2p with SIP/RTP if users view camera feeds locally in the network.. Data stored on the doorbell itself as well as transmitted to a router for remote access..
+-------------------------------
+2  | Led bulbs | Led bulbs transmit data over Zigbee to an IoT hub to communicate over wifi. LEDs are controller via an IoT hub or through application interface
+-------------------------------
+3  | Mobile app| Mobile app controls various devices in the network; created by device maker or IoT hub vendor; device configuration and secrets may reside in mobile applications; data is transmitted via an API or web service to devices and backend
+-------------------------------
+4  | IoT hub   | Hub combines all protocols into one device for easier administration. Can be controlled via application interface; wireless or Eithernet; stores configuration data, may send data externally to backend systems
+-------------------------------
+5  | Router    | Takes care of network communication. Can block external access or let through.
+
+----------------------------------------------
+
+ID | Asset     | Description
+--------------------------------
+1  | DVR       | (Digital Video Recorder) Describe function, connectivity to other devices, protocols in use, other features
+--------------------------------
+2  | Cameras   | ...
+--------------------------------
+3  | Firmware  | (cameras firmware)
+--------------------------------
+4  | Web app   | (how it works, what's required what purpose, other feateres)
+--------------------------------
+5  | Mobile app| ...
+--------------------------------
+6  | Thick apps| Windows and OSX installers to view camera feeds and configure settings
+--------------------------------
+7  | DVR hardware| Physical outputs, connections, storage, anything else
+--------------------------------
+8  | Radio comm| The DVR connects to comeras via BNC or IP - no wireless; mobile app is connected via wireless
+--------------------------------
+
+
+2) Architectural overview
+    1 - Architectural diagram [screenshots]
+
+    2 - Identify technologies
+Technology           | Details
+------------------------------------------------------
+DVR                  | Embedded Linux 3.10.0; communicates over HTTP and TCP/IP; custom web server (DNVRS-Webs); internal and external storage options.
+------------------------------------------------------
+(Wi-Fi) router       | 2.4 GHz Wi-Fi; 100 m range.
+------------------------------------------------------
+Mobile apps          | Android and iOS applications connect to a third-party service for viewing camera feeds. Data has the option to be stored locally on the device for pictures as well as user credentials.
+------------------------------------------------------
+HTTP                 | Clear text protocol used by default when viewing camera feeds.
+------------------------------------------------------
+HTTPS                | Encrypted communication when viewing camera feeds but needs to be configured manually after generating an SSL certificate through the web interface.
+------------------------------------------------------
+802.11 Wi-Fi         | RF protocol for communication between IP cameras and the DVR.
+------------------------------------------------------
+RTSP                 | Network protocol used to stream camera feeds to applications.
+------------------------------------------------------
+
+
+3) Decomposing the IoT device
+    1 - Map environmental data flow
+
+    2 - Document system entry points
+
+DVR   |
+entry-|
+point | Entry point      | Describtion
+------------------------------------------------------
+1     | Embedded web app | The embedded web application provides an interface to view camera feeds and make changes to the camera details, configurations, as well as networking details(SNMP). Uses SOAP/XML web services for transport communication over HTTP but has the option to use HTTPS by creating a self-signed certificate within the configuration menus. To view an executable is downloaded and an ActiveX plugin is installed in IE. Only works on IE browser.
+------------------------------------------------------
+2     | Vendor web app   | A connection is made from the DVR to a STUN/TURN server owned by the vendor in order to stream camera feeds without opening ports on a router. The vendor application is only available over HTTPS and uses web sockets for communication.
+------------------------------------------------------
+3     | DVR              | The DVR connects to multiple web apps and mobile apps. An embedded web app is a server from the DVR itself and the vendor SaaS application connects to the DVR. The vendor has a mobile app but there is also a third-party app. The DVR also has inputs via hardware peripherals as well as through its main PCB.
+------------------------------------------------------
+4     | Firmware         | The DVR utilizes firmware to control the device but may only be acquired via vendor technical support (per documentation). The embedded web server utilizes the firmware for managing actions.
+------------------------------------------------------
+5     | Cameras          | Cameras can be added to a DVR by adding their IP address to the DVR configuration page. Cameras can also be added by manually plugging in cameras with a BNC connector. 
+------------------------------------------------------
+6     | Mobile app       | Multiple mobile applications are available for download. Each mobile application can make configuration changes to the DVR and cameras. Credentials are required to use the mobile app. All traffic is fed to the vendor environment to view camera details and feeds.
+------------------------------------------------------
+7     | Wireless comm    | Communication traffic from the mobile applications are over wireless technology; either 802.11 or cell provider networks (4G).
+------------------------------------------------------
+
+4) 
+
++.1 Identifying threats use STRIDE
+Threat types       | Analysis
+------------------------------------------------------
+Spoofing Identity  | 
+------------------------------------------------------
+Tampering with data| 
+------------------------------------------------------
+Repudiation        | 
+------------------------------------------------------
+Info disclosure    | 
+------------------------------------------------------
+DoS                | 
+------------------------------------------------------
+Priv elevation     | 
+------------------------------------------------------
+Phys sec bypass    | 
+------------------------------------------------------
+Supply chain issues| 
+
+    OR
+
++.2 List high level threats and later analyse each component separately:
+    - Remotely take over the DVR system
+    - Remotely view camera feeds (spy) without authorization
+    - Turn off camera recording playback features
+    - Track individuals
+    - Break into surrounding areas based upon intelligence gathering
+    - Install malware on the DVR
+    - Gain physical access and sabotage recordings
+    - Overload the DVR with requests to prevent usage
+    - Eavesdrop on DVR communications
+
+5) Document threats from 4.2 (should be skipped if STRIDE is used (4.1))
+
+    Threat 1
+Threat description | Attacker could remotely take over the DVR system
+---------------------------------------------------------------------------
+Threat targe       | DVR customers, DVR network processes, DVR applications.
+---------------------------------------------------------------------------
+Attack techniques  | Attacker intercept wireless communication, API communication, and or network protocol communications for credentials or session cookies. Attackers can social engineer users into accessing their DVR via spoofed user interfaces or exploiting application vulnerabilities to add user accounts using cross-site request forgery (CSRF).
+---------------------------------------------------------------------------
+Countermeasures    | DVR locks out users for 30 mins if failed logins are attempted or too many requests are sent at one time
+---------------------------------------------------------------------------
+
+    Threat 2 ...
+
+6) Rating the threats using DREAD (3 - high, 2 - medium, 1 - low)
+    [Done for every threat in 4-5]
+
+Risk rating | Result
+---------------------
+High        | 12-15
+---------------------
+Medium      | 8-11
+---------------------
+Low         | 5-7
+---------------------
+
+Threat risk rating:
+Attacker could remotely view camera feeds without authorization |
+----------------------------------------------------------------------------
+Item                                                            | Score
+----------------------------------------------------------------------------
+Damage potential                                                | 3
+----------------------------------------------------------------------------
+Reproducibility                                                 | 2
+----------------------------------------------------------------------------
+Exploitability                                                  | 3
+----------------------------------------------------------------------------
+Affected users                                                  | 2
+----------------------------------------------------------------------------
+Discoverability                                                 | 3
+----------------------------------------------------------------------------
+Risk rating score: High                                         |13
+----------------------------------------------------------------------------
+
+[This is needed to prioritise threats testing]
+
+---------
+
+For one part of IoT infrastructure:
+1) Identify the assets (do a table as in previous case)
+    Web server, SSH RTSP, UPnP, DNS
+
+2) Create architectural diagram (smth like in the previous case)
+
+3) Data flow diagram and entry points (not really needed for this case)
+
+4) List high level threats to firmware (just guesses according to available info! same as prev case)
+
+5) Document threat cases (threat target, attack technique, countermeasures; same as prev case)
+
+6) Rate all the threats using DREAD (same as previous case)
+
