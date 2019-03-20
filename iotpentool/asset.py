@@ -48,7 +48,7 @@ class Asset():
 				s = "  '"+self.name+"': '"+self.description+"'\n"
 				assets_file.write(s)
 		except IOError as e:
-			raise ModellingException("Could not create assets file. "+ e.strerror)
+			raise ModellingException("Could not append assets file. "+ e.strerror)
 
 	@staticmethod
 	def fetch_known_assets(assets_filepath):
@@ -67,12 +67,15 @@ class Asset():
 
 		known_assets = {}
 
+		if not os.path.isfile(assets_filepath):
+			Asset.create_file(assets_filepath)
+
 		content = None
 		with open(assets_filepath, 'r') as stream:
 			try:
 				content = yaml.safe_load(stream)
 			except yaml.YAMLError as exc:
-				Message.print_message(MsgType.ERROR, "Could not parse asset file "+ assets_filepath +". \n"+str(exc))
+				raise ModellingException("Could not parse asset file "+ assets_filepath +". \n"+str(exc))
 
 		if not content or 'assets' not in content:
 			raise ModellingException("Asset file is corrupt: " + assets_filepath)
@@ -83,4 +86,16 @@ class Asset():
 
 		return known_assets
 
+	@staticmethod
+	def create_file(assets_filepath):
+		'''Create empty default assets file if it does not exist
 
+		Args:
+			assets_filepath (String): path for empty model_assets.yml file
+		'''
+		try:
+			with open(assets_filepath, 'w') as assets_file:
+				s = "assets:\n"
+				assets_file.write(s)
+		except IOError as e:
+			raise ModellingException("Could not create assets file. "+ e.strerror)

@@ -1,0 +1,13 @@
+technologies:
+  "techName1": 
+    name: "techName1"
+    description: "desc_of_tech1"
+    attributes: 
+      "attribute1Name": "value1"
+      "attribute2Name": "value2"
+  "techName2": 
+    name: "techName2"
+    description: "desc_of_tech2"
+    attributes: 
+      "attribute22Name": "value22"
+      "attribute232Name": "value33"

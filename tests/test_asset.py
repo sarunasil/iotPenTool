@@ -33,8 +33,9 @@ def test_init(name, description, filepath):
 	asset = Asset(name, description, filepath)
 
 	assert asset
-	assert asset.name
-	assert asset.description
+	assert asset.name == name
+	assert asset.description == description
+	assert asset.assets_filepath == filepath
 	assert isinstance(asset.technologies_present, dict)
 
 
@@ -54,23 +55,24 @@ def test_add_technology(asset, name, description, attributes):
 	assert isinstance(asset.technologies_present[name], Technology)
 
 
-@pytest.mark.parametrize(("content"), [
-	([]),
-	(["  'assetName1': 'desc_of_asset1'\n"]),
-	(["  'assetName1': 'desc_of_asset1'\n","  'assetName2': 'desc_of_asset2'\n","  'assetName3': 'desc_of_asset3'\n"])
+@pytest.mark.parametrize(("content","create"), [
+	([], True),
+	([], False),
+	(["  'assetName1': 'desc_of_asset1'\n"], False),
+	(["  'assetName1': 'desc_of_asset1'\n","  'assetName2': 'desc_of_asset2'\n","  'assetName3': 'desc_of_asset3'\n"], False)
 ])
-def test_update_known_assets(asset, content):
+def test_update_known_assets(asset, content, create):
 
 	#create stub model-assets.yml file
-
 	assets_filepath = os.path.join(MODEL_DIR, "model-assets"+ str(random.randint(1,1001)) +".yml")
-	try:
-		with open(assets_filepath, 'w') as configfile:
-			configfile.write("assets:\n")
-			configfile.writelines(content)
-	except IOError as e:
-		print("Could not create assets file. "+ e.strerror)
-		assert False
+	if not create:
+		try:
+			with open(assets_filepath, 'w') as configfile:
+				configfile.write("assets:\n")
+				configfile.writelines(content)
+		except IOError as e:
+			print("Could not create assets file. "+ e.strerror)
+			assert False
 	asset.assets_filepath = assets_filepath
 
 	#get prev assets
@@ -89,36 +91,51 @@ def test_update_known_assets(asset, content):
 	assert { **prev_known_assets, **{asset.name: asset.description} } == current_known_assets
 
 
-
-@pytest.mark.parametrize(("assets_file","outcome"), [
+@pytest.mark.parametrize(("assets_file","outcome","delete"), [
 	(
 		"model-assets.yml",
 		{
 			"assetName1":"desc_of_asset1",
 			"assetName2":"desc_of_asset2",
 			"assetName3":"desc_of_asset3"
-		}
+		},
+		False
 	),
 	(
 		"model-assets_empty.yml",
-		{}
+		{},
+		False
+	),
+	(
+		"model-assets_fake.yml",
+		{},
+		True
 	)
 ])
-def test_fetch_known_assets(assets_file, outcome):
+def test_fetch_known_assets(assets_file, outcome, delete):
 
 	assets_filepath = os.path.join(MODEL_DIR, assets_file)
 	known_assets = Asset.fetch_known_assets(assets_filepath)
 
 	assert known_assets == outcome
 
-@pytest.mark.parametrize(("assets_file","outcome"), [
-	(
-		"model-assets_corrupt.yml",
-		{}
-	)
-])
-def test_fetch_known_assets_exception(assets_file, outcome):
+	if delete:
+		os.remove(assets_filepath)
+
+
+def test_fetch_known_assets_exception():
+
+	#create a corrupted file
+	assets_filepath = os.path.join(MODEL_DIR, "model-assets"+ str(random.randint(1,1001)) +".yml")
+	try:
+		with open(assets_filepath, 'w') as configfile:
+			configfile.write("\n")
+	except IOError as e:
+		print("Could not create assets file. "+ e.strerror)
+		assert False
 
 	with pytest.raises(ModellingException):
-		assets_filepath = os.path.join(MODEL_DIR, assets_file)
 		known_assets = Asset.fetch_known_assets(assets_filepath)
+
+	#cleanup
+	os.remove(assets_filepath)
