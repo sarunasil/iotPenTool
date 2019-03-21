@@ -9,6 +9,7 @@ By sarunasil
 """
 
 import enum
+from PyQt5.QtWidgets import QMessageBox
 
 class MsgType(enum.Enum):
     '''message type enum
@@ -50,6 +51,10 @@ class Message:
 
         print (message)
         return message
+
+    @staticmethod
+    def show_message_box(widget, msgtype, text):
+        QMessageBox.about(widget, msgtype.name, text)
 
 class DataException(Exception):
     '''Exception for corrupt data 

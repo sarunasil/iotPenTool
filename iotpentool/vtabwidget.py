@@ -4,6 +4,11 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 class TabBar(QtWidgets.QTabBar):
+    def __init__(self, direction):
+        super().__init__()
+
+        self.direction = direction
+
     def tabSizeHint(self, index):
         s = QtWidgets.QTabBar.tabSizeHint(self, index)
         s.transpose()
@@ -26,17 +31,20 @@ class TabBar(QtWidgets.QTabBar):
 
             c = self.tabRect(i).center()
             painter.translate(c)
-            painter.rotate(90)
+            if self.direction == QtWidgets.QTabWidget.West:
+                painter.rotate(90)
+            elif self.direction == QtWidgets.QTabWidget.East:
+                painter.rotate(270)
             painter.translate(-c)
             painter.drawControl(QtWidgets.QStyle.CE_TabBarTabLabel, opt);
             painter.restore()
 
 
 class TabWidget(QtWidgets.QTabWidget):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, direction=QtWidgets.QTabWidget.West, *args, **kwargs):
         QtWidgets.QTabWidget.__init__(self, *args, **kwargs)
-        self.setTabBar(TabBar(self))
-        self.setTabPosition(QtWidgets.QTabWidget.West)
+        self.setTabBar(TabBar(direction))
+        self.setTabPosition(direction)
 
 
 if __name__ == '__main__':

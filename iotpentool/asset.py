@@ -27,14 +27,7 @@ class Asset():
 
 		self.name = name
 		self.description = description
-		self.technologies_present = {}
 		self.assets_filepath = assets_filepath
-
-	def add_technology(self, name, description, attributes):
-		if name in self.technologies_present:
-			raise ModellingException("Could not add technology: "+ name)
-
-		self.technologies_present[name] = Technology(name, description, attributes)
 
 	def update_known_assets(self):
 		'''writes current asset value to model-assets.yml file

@@ -29,10 +29,17 @@ Things to do:
     could be implemented by adding keyword list for each tool + generating it from .yml file and matching it with technologies used in that threat
 
 MUST
-6. design methodology data structure
+6. design methodology data structure:
+    implement
+    test
 2. tab window for methodology
-7. create tabs for methodology bits
+    write code
+7. create tabs content for methodology bits
+    dumb guis for each thing
+    write controllers (connect guis with model)
 8. sort and display threat list ranked using DREAD
+    implement sorting
+    display results
 
 SHOULD
 3. export methodology tabs content as some report

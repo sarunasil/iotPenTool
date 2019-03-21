@@ -462,9 +462,6 @@ class ModuleGuiController():
     '''
     def __init__(self, interface, manager):
         '''Init
-
-        Args:
-            modulegui (ModuleGui): callbac to ModuleGui
         '''
         self.interface = interface
         self.flag_widgets = []      #retains order of interface.flags

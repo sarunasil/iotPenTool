@@ -14,6 +14,7 @@ from PyQt5.QtWidgets import QApplication
 from iotpentool.configmanager import ConfigManager
 from iotpentool.maingui import MainGui
 from iotpentool.interfaceloader import InterfaceLoader
+from iotpentool.threatmodel import ThreatModel
 from iotpentool.utils import Outcome, Message, MsgType
 from iotpentool.manager import Manager
 
@@ -24,6 +25,7 @@ class Main():
 	'''Main class of the application
 	Reads configuration file
 	Starts InterfaceLoader
+	Starts ThreatModel
 	Starts MainGUI
 	'''
 
@@ -44,8 +46,9 @@ class Main():
 				return
 
 		self.interface_loader = InterfaceLoader(config_manager.interface_dir)
+		self.threat_model = ThreatModel(config_manager.architecture_site, config_manager.data_flow_site, config_manager.model_dir)
 
-		self.main_gui = MainGui(self.interface_loader.interfaces, self.thread_manager)
+		self.main_gui = MainGui(self.interface_loader.interfaces, self.thread_manager, self.threat_model)
 		self.main_gui.show()
 
 

@@ -55,6 +55,21 @@ class ConfigManager():
 			else:
 				corrupt = True
 
+			if self.config_parser.has_option(section, 'model_dir'):
+				self.model_dir = path.join(self.root_dir, self.config_parser.get(section, 'model_dir'))
+			else:
+				corrupt = True
+
+			if self.config_parser.has_option(section, 'architecture_site'):
+				self.architecture_site = path.join(self.root_dir, self.config_parser.get(section, 'architecture_site'))
+			else:
+				corrupt = True
+
+			if self.config_parser.has_option(section, 'data_flow_site'):
+				self.data_flow_site = path.join(self.root_dir, self.config_parser.get(section, 'data_flow_site'))
+			else:
+				corrupt = True
+
 			if self.config_parser.has_option(section, 'main_gui_file'):
 				self.main_gui_file = path.join(self.root_dir, self.config_parser.get(section, 'main_gui_file'))
 			else:
@@ -84,6 +99,9 @@ class ConfigManager():
 		self.config_parser.add_section(section)
 		self.config_parser.set(section, 'data_dir', 'data/')
 		self.config_parser.set(section, 'interface_dir', 'data/interfaces')
+		self.config_parser.set(section, 'model_dir', 'data/model')
+		self.config_parser.set(section, 'architecture_site', 'https://www.lucidchart.com')
+		self.config_parser.set(section, 'data_flow_site', 'https://www.lucidchart.com')
 		self.config_parser.set(section, 'main_gui_file', 'iotpentool/gui/main_gui.ui')
 
 

@@ -23,14 +23,14 @@ MODEL_DIR = os.path.join(CURRENT_DIR, "stub_model")
 
 @pytest.fixture
 def asset():
-	return Asset("stub","stub","stub")
+	return Asset("stub","stub","stub","stub")
 
 @pytest.mark.parametrize(("name","description", "filepath"), [("router", "router descr", "stub_filepath")])
 def test_init(name, description, filepath):
 	'''create new Asset
 	'''
 
-	asset = Asset(name, description, filepath)
+	asset = Asset(name, description, filepath, filepath)
 
 	assert asset
 	assert asset.name == name
