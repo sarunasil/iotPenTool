@@ -61,12 +61,12 @@ class ConfigManager():
 				corrupt = True
 
 			if self.config_parser.has_option(section, 'architecture_site'):
-				self.architecture_site = path.join(self.root_dir, self.config_parser.get(section, 'architecture_site'))
+				self.architecture_site = self.config_parser.get(section, 'architecture_site')
 			else:
 				corrupt = True
 
 			if self.config_parser.has_option(section, 'data_flow_site'):
-				self.data_flow_site = path.join(self.root_dir, self.config_parser.get(section, 'data_flow_site'))
+				self.data_flow_site = self.config_parser.get(section, 'data_flow_site')
 			else:
 				corrupt = True
 

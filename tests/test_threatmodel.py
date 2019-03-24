@@ -15,18 +15,21 @@ import os
 
 from iotpentool.threatmodel import ThreatModel
 from iotpentool.asset import Asset
+from iotpentool.technology import Technology
 from iotpentool.entrypoint import EntryPoint
 from iotpentool.utils import ModellingException
 
+CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
+MODEL_DIR = os.path.join(CURRENT_DIR, "stub_model")
 @pytest.fixture
 def threat_model():
-	return ThreatModel("stub","stub", "stub")
+	return ThreatModel("stub","stub", MODEL_DIR)
 
 @pytest.mark.parametrize(("arch_site","dataflow_site"), [("https://www.lucidchart.com", "https://www.lucidchart.com")])
 def test_init(arch_site, dataflow_site):
 	'''create config file
 	'''
-	threatmodel = ThreatModel(arch_site, dataflow_site, "stub")
+	threatmodel = ThreatModel(arch_site, dataflow_site, MODEL_DIR)
 
 	assert threatmodel
 	assert threatmodel.id
@@ -36,7 +39,7 @@ def test_init(arch_site, dataflow_site):
 	assert threatmodel.data_flow_diagram_site == dataflow_site
 	assert threatmodel.data_flow_diagram == ''
 	assert isinstance(threatmodel.entry_points, dict)
-	assert threatmodel.model_dir == "stub"
+	assert threatmodel.model_dir == MODEL_DIR
 
 
 @pytest.mark.parametrize(("name", "description"), [
@@ -61,6 +64,22 @@ def test_add_asset_duplicate(threat_model, name, description):
 
 	with pytest.raises(ModellingException):
 		threat_model.add_asset(name, description)
+
+
+@pytest.mark.parametrize(("name","description", "attributes"), [
+	(
+		"HTTP", 
+		"smth about http", 
+		{
+			"Header":"Host: net.tutsplus.com User-Agent: Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.5) Gecko/20091102 Firefox/3.5.5 (.NET CLR 3.5.30729) Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+		}
+	)
+])
+def test_add_technology(threat_model, name, description, attributes):
+	threat_model.add_technology(name, description, attributes);
+
+	assert name in threat_model.technologies
+	assert isinstance(threat_model.technologies[name], Technology)
 
 
 @pytest.mark.parametrize(("name","description"), [

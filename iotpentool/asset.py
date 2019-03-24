@@ -36,10 +36,15 @@ class Asset():
 			ModellingException: 
 		'''
 
+		known_assets = Asset.fetch_known_assets(self.assets_filepath)
+		known_assets[self.name] = self.description
+
 		try:
-			with open(self.assets_filepath, 'a') as assets_file:
-				s = "  '"+self.name+"': '"+self.description+"'\n"
-				assets_file.write(s)
+			with open(self.assets_filepath, 'w') as assets_file:
+				assets_file.write("assets:\n")
+				for name, desc in known_assets.items():
+					s = "  '"+name+"': '"+desc+"'\n"
+					assets_file.write(s)
 		except IOError as e:
 			raise ModellingException("Could not append assets file. "+ e.strerror)
 
@@ -88,7 +93,7 @@ class Asset():
 		'''
 		try:
 			with open(assets_filepath, 'w') as assets_file:
-				s = "assets:\n"
+				s = "assets:\n\n"
 				assets_file.write(s)
 		except IOError as e:
 			raise ModellingException("Could not create assets file. "+ e.strerror)

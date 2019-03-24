@@ -27,37 +27,47 @@ class ThreatModel():
 		'''
 
 		self.id = str(uuid.uuid4())
+		self.model_dir = model_dir
 		self.assets = {}
+		self.assets_file = os.path.join(self.model_dir, "model-assets.yml")
 
 		self.architectural_diagram_site = arch_site
-		self.data_flow_diagram_site = dataflow_site
-		self.model_dir = model_dir
 		self.architectural_diagram = ""
-		self.data_flow_diagram = ""
 
 		self.technologies = {}
+		self.technologies_file = os.path.join(self.model_dir, "model-technologies.yml")
+
+		self.data_flow_diagram_site = dataflow_site
+		self.data_flow_diagram = ""
+
 		self.entry_points = {}
 		self.threats = {}
 
 		self.threat_model_controller = None
-		self.assets_controller = None
 
-	def add_asset(self, name, describtion):
+	def add_asset(self, name, describtion, cache=True):
 		'''add new asset to threat model
 		'''
 		if name in self.assets:
 			raise ModellingException("Could not add duplicate asset: "+name+".")
 
-		assets_file = os.path.join(self.model_dir, "/model-assets.yml")
-		technologies_file = os.path.join(self.model_dir, "/model-technologies.yml")
-		self.assets[name] = Asset(name, describtion, assets_file)
+		self.assets[name] = Asset(name, describtion, self.assets_file)
+		if cache:
+			self.assets[name].update_known_assets()
+
+		return self.assets[name]
+
+	def delete_asset(self, asset):
+		self.assets.pop(asset.name, None)
 
 	def add_technology(self, name, description, attributes):
 		if name in self.technologies:
 			raise ModellingException("Could not add duplicate technology: "+name+".")
 
-		technologies_file = os.path.join(self.model_dir, "/model-technologies.yml")
+		technologies_file = os.path.join(self.model_dir, "model-technologies.yml")
 		self.technologies[name] = Technology(name, description, attributes, technologies_file)
+
+		return self.technologies[name]
 
 	def add_entry_point(self, name, description):
 		'''add new entry point to threat model

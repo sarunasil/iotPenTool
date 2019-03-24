@@ -26,6 +26,7 @@ class Technology():
 		self.description = description
 		self.attributes = attributes
 		self.tech_filepath = tech_filepath
+		self.used_in = {}
 
 	def update_known_technologies(self):
 		'''writes current technology value to model-technologies.yml file
@@ -34,15 +35,24 @@ class Technology():
 			ModellingException
 		'''
 
+		known_technologies = Technology.fetch_known_technologies(self.tech_filepath)
+		known_technologies[self.name] = {
+			"name": self.name,
+			"description": self.description,
+			"attributes": self.attributes
+		}
+
 		try:
-			with open(self.tech_filepath, 'a') as technologies_file:
-				s = "  '"+self.name+"': '"+self.description+"'\n"
-				technologies_file.write("  '"+self.name+"':\n")
-				technologies_file.write("    name: '"+self.name+"'\n")
-				technologies_file.write("    description: '"+self.description+"'\n")
-				technologies_file.write("    attributes: \n")
-				for attr_name, attr_value in self.attributes.items():
-					technologies_file.write("      '"+attr_name+"': '"+attr_value+"' \n")
+			with open(self.tech_filepath, 'w') as technologies_file:
+				technologies_file.write("technologies:\n")
+				for tech_name, tech in known_technologies:
+					s = "  '"+self.name+"': '"+self.description+"'\n"
+					technologies_file.write("  '"+self.name+"':\n")
+					technologies_file.write("    name: '"+self.name+"'\n")
+					technologies_file.write("    description: '"+self.description+"'\n")
+					technologies_file.write("    attributes: \n")
+					for attr_name, attr_value in self.attributes.items():
+						technologies_file.write("      '"+attr_name+"': '"+attr_value+"' \n")
 		except IOError as e:
 			raise ModellingException("Could not append technology file. "+ e.strerror)
 
@@ -91,7 +101,7 @@ class Technology():
 		'''
 		try:
 			with open(tech_filepath, 'w') as technologies_file:
-				s = "technologies:\n"
+				s = "technologies:\n\n"
 				technologies_file.write(s)
 		except IOError as e:
 			raise ModellingException("Could not create technologies file. "+ e.strerror)

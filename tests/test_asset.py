@@ -23,36 +23,20 @@ MODEL_DIR = os.path.join(CURRENT_DIR, "stub_model")
 
 @pytest.fixture
 def asset():
-	return Asset("stub","stub","stub","stub")
+	return Asset("stub","stub","stub")
 
 @pytest.mark.parametrize(("name","description", "filepath"), [("router", "router descr", "stub_filepath")])
 def test_init(name, description, filepath):
 	'''create new Asset
 	'''
 
-	asset = Asset(name, description, filepath, filepath)
+	asset = Asset(name, description, filepath)
 
 	assert asset
 	assert asset.name == name
 	assert asset.description == description
 	assert asset.assets_filepath == filepath
-	assert isinstance(asset.technologies_present, dict)
 
-
-@pytest.mark.parametrize(("name","description", "attributes"), [
-	(
-		"HTTP", 
-		"smth about http", 
-		{
-			"Header":"Host: net.tutsplus.com User-Agent: Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.5) Gecko/20091102 Firefox/3.5.5 (.NET CLR 3.5.30729) Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
-		}
-	)
-])
-def test_add_technology(asset, name, description, attributes):
-	asset.add_technology(name, description, attributes);
-
-	assert name in asset.technologies_present
-	assert isinstance(asset.technologies_present[name], Technology)
 
 
 @pytest.mark.parametrize(("content","create"), [
