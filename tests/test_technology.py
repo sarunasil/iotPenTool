@@ -24,13 +24,14 @@ MODEL_DIR = os.path.join(CURRENT_DIR, "stub_model")
 def technology():
 	return Technology("stub","stub", {"attr1":"value1","stub2":"stub_value2"},"stub")
 
-@pytest.mark.parametrize(("name","description", "attributes"), [
+@pytest.mark.parametrize(("name","description", "attributes", "tech_filepath"), [
 	(
 		"HTTP",
 		"BLABLABLA about HTTP",
 		{
 			"Header":"Host: net.tutsplus.com User-Agent: Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.5) Gecko/20091102 Firefox/3.5.5 (.NET CLR 3.5.30729) Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
-		}
+		},
+		"stub"
 	),
 	(
 		"HTTP",
@@ -38,24 +39,28 @@ def technology():
 		{
 			"Header":"Host: asldkjas",
 			"Smth_more":"morevalue"
-		}
+		},
+		"stub1"
 	),
 	(
 		"HTTP",
 		"BLABLABLA about HTTP",
-		{}
+		{},
+		"stub2"
 	)
 ])
-def test_init(name, description, attributes):
+def test_init(name, description, attributes, tech_filepath):
 	'''create new Asset
 	'''
 
-	technology = Technology(name, description, attributes, "stub")
+	technology = Technology(name, description, attributes, tech_filepath)
 
 	assert technology
 	assert technology.name == name
 	assert technology.description == description
 	assert technology.attributes == attributes
+	assert technology.tech_filepath == tech_filepath
+	assert isinstance(technology.used_in, dict)
 
 
 @pytest.mark.parametrize(("content","create"), [
@@ -127,7 +132,7 @@ def test_update_known_technologies(technology, content, create):
 
 @pytest.mark.parametrize(("tech_file","outcome","delete"), [
 	(
-		"model-technologies.yml",
+		"model-technologies_fetch.yml",
 		{
   			"techName1":{
 				"name": "techName1",
@@ -175,8 +180,8 @@ def test_fetch_known_technologies_exception():
 	#create a corrupted file
 	tech_filepath = os.path.join(MODEL_DIR, "model-technologies"+ str(random.randint(1,1001)) +".yml")
 	try:
-		with open(tech_filepath, 'w') as configfile:
-			configfile.write("\n")
+		with open(tech_filepath, 'w') as tech_file:
+			tech_file.write("\n")
 	except IOError as e:
 		print("Could not create technologies file. "+ e.strerror)
 		assert False

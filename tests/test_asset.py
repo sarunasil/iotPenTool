@@ -77,7 +77,7 @@ def test_update_known_assets(asset, content, create):
 
 @pytest.mark.parametrize(("assets_file","outcome","delete"), [
 	(
-		"model-assets.yml",
+		"model-assets_fetch.yml",
 		{
 			"assetName1":"desc_of_asset1",
 			"assetName2":"desc_of_asset2",
@@ -112,8 +112,8 @@ def test_fetch_known_assets_exception():
 	#create a corrupted file
 	assets_filepath = os.path.join(MODEL_DIR, "model-assets"+ str(random.randint(1,1001)) +".yml")
 	try:
-		with open(assets_filepath, 'w') as configfile:
-			configfile.write("\n")
+		with open(assets_filepath, 'w') as assets_file:
+			assets_file.write("\n")
 	except IOError as e:
 		print("Could not create assets file. "+ e.strerror)
 		assert False

@@ -45,13 +45,12 @@ class Technology():
 		try:
 			with open(self.tech_filepath, 'w') as technologies_file:
 				technologies_file.write("technologies:\n")
-				for tech_name, tech in known_technologies:
-					s = "  '"+self.name+"': '"+self.description+"'\n"
-					technologies_file.write("  '"+self.name+"':\n")
-					technologies_file.write("    name: '"+self.name+"'\n")
-					technologies_file.write("    description: '"+self.description+"'\n")
+				for tech_name, tech in known_technologies.items():
+					technologies_file.write("  '"+tech_name+"':\n")
+					technologies_file.write("    name: '"+tech['name']+"'\n")
+					technologies_file.write("    description: '"+tech['description']+"'\n")
 					technologies_file.write("    attributes: \n")
-					for attr_name, attr_value in self.attributes.items():
+					for attr_name, attr_value in tech['attributes'].items():
 						technologies_file.write("      '"+attr_name+"': '"+attr_value+"' \n")
 		except IOError as e:
 			raise ModellingException("Could not append technology file. "+ e.strerror)

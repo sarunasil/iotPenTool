@@ -42,6 +42,21 @@ class ThreatsGui(QtWidgets.QWidget, Ui_MainWindow):
 		self.controller = controller
 
 
+# THREATDETAILS_GUI_FILEPATH = os.path.join(CURRENT_DIR, "gui/threat.ui")
+# Ui_MainWindow2, QtBaseClass2 = uic.loadUiType(THREATDETAILS_GUI_FILEPATH)
+# class ThreatDetails(QtWidgets.QMainWindow, Ui_MainWindow):
+
+# 	def __init__(self, threats):
+# 		'''Init
+# 		'''
+# 		QtWidgets.QMainWindow.__init__(self)
+
+# 		Ui_MainWindow.__init__(self)
+# 		self.setupUi(self)
+
+
+# 		self.style = ""#TODO
+
 class ThreatsController():
 	'''ThreatsGui action controller
 	'''
@@ -54,5 +69,9 @@ class ThreatsController():
 		self.threats_gui = ThreatsGui(self)
 
 
-		# self.add_btn.pressed.connect(self.add_new_asset)
+		self.threats_gui.add_threat_button.pressed.connect(self.open_new_threat_window)
 
+	def open_new_threat_window(self):
+
+		self.threat_details = ThreatDetails(self)
+		self.threat_details.show()
