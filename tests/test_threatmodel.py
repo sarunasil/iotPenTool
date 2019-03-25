@@ -61,22 +61,23 @@ def test_add_asset_duplicate(threat_model, name, description):
 	'''adding new asset to model
 	'''
 	threat_model.add_asset(name, description)
+	threat_model.add_asset(name, description)
 
-	with pytest.raises(ModellingException):
-		threat_model.add_asset(name, description)
+	assert len(threat_model.assets) == 1
 
 
-@pytest.mark.parametrize(("name","description", "attributes"), [
+@pytest.mark.parametrize(("name","description", "attributes", "used_in"), [
 	(
 		"HTTP", 
 		"smth about http", 
 		{
 			"Header":"Host: net.tutsplus.com User-Agent: Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.5) Gecko/20091102 Firefox/3.5.5 (.NET CLR 3.5.30729) Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
-		}
+		},
+		{"some_name":"Asset_object"}
 	)
 ])
-def test_add_technology(threat_model, name, description, attributes):
-	threat_model.add_technology(name, description, attributes);
+def test_add_technology(threat_model, name, description, attributes, used_in):
+	threat_model.add_technology(name, description, attributes, used_in);
 
 	assert name in threat_model.technologies
 	assert isinstance(threat_model.technologies[name], Technology)

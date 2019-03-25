@@ -22,15 +22,16 @@ MODEL_DIR = os.path.join(CURRENT_DIR, "stub_model")
 
 @pytest.fixture
 def technology():
-	return Technology("stub","stub", {"attr1":"value1","stub2":"stub_value2"},"stub")
+	return Technology("stub","stub", {"attr1":"value1","stub2":"stub_value2"}, {},"stub")
 
-@pytest.mark.parametrize(("name","description", "attributes", "tech_filepath"), [
+@pytest.mark.parametrize(("name","description", "attributes", "used_in", "tech_filepath"), [
 	(
 		"HTTP",
 		"BLABLABLA about HTTP",
 		{
 			"Header":"Host: net.tutsplus.com User-Agent: Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.5) Gecko/20091102 Firefox/3.5.5 (.NET CLR 3.5.30729) Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
 		},
+		{},
 		"stub"
 	),
 	(
@@ -40,20 +41,22 @@ def technology():
 			"Header":"Host: asldkjas",
 			"Smth_more":"morevalue"
 		},
+		{"S":"A"},
 		"stub1"
 	),
 	(
 		"HTTP",
 		"BLABLABLA about HTTP",
 		{},
+		{"A":"A","s":1},
 		"stub2"
 	)
 ])
-def test_init(name, description, attributes, tech_filepath):
+def test_init(name, description, attributes, used_in, tech_filepath):
 	'''create new Asset
 	'''
 
-	technology = Technology(name, description, attributes, tech_filepath)
+	technology = Technology(name, description, attributes, used_in, tech_filepath)
 
 	assert technology
 	assert technology.name == name
