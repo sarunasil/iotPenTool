@@ -1,52 +1,30 @@
 Things to do:
 1. nested tabs for tool grouping                                                                                             +
-2. tab window for methodology                                                                                                +
 3. export methodology tabs content as some report                                                                            +
 4. save report as xml                                                                                                        +
 5. suggest tool for threat according to keywords used
-6. design methodology data structure                                                                                         +
-7. create tabs for methodology bits                                                                                          +
-    - Tab for enter IoT system assets
-        table of ID | Asset     | Description
-    - Tab for architectural overview
-        - Architectural diagram link
-        which helps to
-        - Identify technologies -> which are linked user links to specific assets
-    - Tab for decomposing the IoT devices
-        - Map environmental data flow link
-        which should help to
-        - Document system entry points which are linked to technologies and assets
-    - List high level threats -> mark entry points
-    - Document threats -> threat description
-    - Rating the threats using DREAD
 8. sort and display threat list ranked using DREAD                                                                           +
 9. zoom into threat; tool suggestion buttons 
 10. update interfaces to say what values it expects for some flags
-11. than tool is selected automatically scan a threat data structure in methodology to look for values representing the tags
-12. if tool xml flag is checked - tool output becomes structured and is displayed in xml->html page/structure
-
-5. suggest tool for threat according to keywords used:
-    could be implemented by adding keyword list for each tool + generating it from .yml file and matching it with technologies used in that threat
 
 MUST
-6. design methodology data structure:
-    implement
-    test
-2. tab window for methodology
-    write code
-7. create tabs content for methodology bits
-    dumb guis for each thing
-    write controllers (connect guis with model)
-8. sort and display threat list ranked using DREAD
-    implement sorting
-    display results
+    Technology gui connection
+    Entry Points gui connection
+    Threats ranking gui connection
+    Threat gui
+    Threat ranking and display in Threats tab
 
 SHOULD
-3. export methodology tabs content as some report
+    Export Methodology as serialized data
+    Import Methodology into
+    button "Threat testing" -> fills in some fields of tools
+    Update terminal display
 
 COULD
-1. nested tabs for tool grouping
-4. save report as xml
+    nested tabs for tool grouping
+    clear Assets/Technology cache
+
+    Export everything as html report
 
 WON'T
     - nicer structure for Flags and Values
@@ -67,8 +45,6 @@ wfuzz
 hydra (default password crack)
 MOBILE APPLICATIONS - not a good choice...
 apktool - apk decompiler
-
-perskaityti cook book 2 skyriu apie methodologies
 
 - Draw out IoT device attack surface
 - Identify threat use cases using e.g. STRIDE

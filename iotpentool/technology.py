@@ -18,7 +18,7 @@ class Technology():
 	'''Represents 1 technology used by IoT assets
 	'''
 
-	def __init__(self, name, description, attributes, tech_filepath):
+	def __init__(self, name, description, attributes, used_in, tech_filepath):
 		'''Init
 		'''
 
@@ -26,7 +26,7 @@ class Technology():
 		self.description = description
 		self.attributes = attributes
 		self.tech_filepath = tech_filepath
-		self.used_in = {}
+		self.used_in = used_in
 
 	def update_known_technologies(self):
 		'''writes current technology value to model-technologies.yml file
@@ -50,8 +50,9 @@ class Technology():
 					technologies_file.write("    name: '"+tech['name']+"'\n")
 					technologies_file.write("    description: '"+tech['description']+"'\n")
 					technologies_file.write("    attributes: \n")
-					for attr_name, attr_value in tech['attributes'].items():
-						technologies_file.write("      '"+attr_name+"': '"+attr_value+"' \n")
+					if tech['attributes']:
+						for attr_name, attr_value in tech['attributes'].items():
+							technologies_file.write("      '"+attr_name+"': '"+attr_value+"' \n")
 		except IOError as e:
 			raise ModellingException("Could not append technology file. "+ e.strerror)
 
@@ -86,8 +87,9 @@ class Technology():
 			raise ModellingException("Technology file is corrupt: " + tech_filepath)
 
 		if content['technologies']:
-			for tech, tech_desc in content['technologies'].items():
-				known_technologies[tech] = tech_desc
+			for tech, tech_data in content['technologies'].items():
+				# technology = Technology(tech_data['name'], tech_data['description'], tech_data['attributes'], tech_filepath)
+				known_technologies[tech] = tech_data
 
 		return known_technologies
 

@@ -1,0 +1,27 @@
+technologies:
+  '1':
+    name: '1'
+    description: '1'
+    attributes: 
+  '2':
+    name: '2'
+    description: '2'
+    attributes: 
+      '33': '33' 
+  '222':
+    name: '222'
+    description: '2'
+    attributes: 
+      '33': '33' 
+      'w': 'w' 
+  '4':
+    name: '4'
+    description: '4'
+    attributes: 
+      '33': '33' 
+  '2(@)':
+    name: '2(@)'
+    description: '2'
+    attributes: 
+      '33': '33' 
+      'dd': 'dd' 

@@ -27,11 +27,11 @@ ASSETS_GUI_FILEPATH = os.path.join(CURRENT_DIR, "gui/assets.ui")
 Ui_MainWindow, QtBaseClass = uic.loadUiType(ASSETS_GUI_FILEPATH)
 
 class ComboBox(QtWidgets.QComboBox):
-    popupAboutToBeShown = QtCore.pyqtSignal()
+	popupAboutToBeShown = QtCore.pyqtSignal()
 
-    def showPopup(self):
-        self.popupAboutToBeShown.emit()
-        super(ComboBox, self).showPopup()
+	def showPopup(self):
+		self.popupAboutToBeShown.emit()
+		super(ComboBox, self).showPopup()
 
 class AssetsGui(QtWidgets.QWidget, Ui_MainWindow):
 	'''Deals with Assets tab which is generated from Assets data
@@ -53,16 +53,44 @@ class AssetsGui(QtWidgets.QWidget, Ui_MainWindow):
 
 		self.history_combo_box = ComboBox()
 		self.history_layout.insertWidget(0, self.history_combo_box)
+
+
 		self.history_combo_box.popupAboutToBeShown.connect(self.fill_combobox)
+		self.history_combo_box.currentTextChanged.connect(self.fill_from_history)
+		self.del_button.pressed.connect(self.delete_asset_entry)
+		self.display_list_widget.itemActivated.connect(self.fill_from_item)
 
 
 	def fill_combobox(self):
 		'''Populates history combobox with the content Asset cache file
 		'''
 
+		#clear selection
+		self.display_list_widget.clearSelection()
+
 		self.history_combo_box.clear()
 		for name, descr in self.controller.get_history().items():
 			self.history_combo_box.addItem(name, descr)
+
+	def fill_from_history(self):
+		'''selecting item from combobox action for adding new asset from dropdown list in gui
+		'''
+		name = self.history_combo_box.currentText()
+		desc = self.history_combo_box.currentData()
+
+		if not name or not desc:
+			return
+
+		self.name_input_box.setText(name)
+		self.description_input_box.setPlainText(desc)
+
+	def fill_from_item(self):
+		labels = self.display_list_widget.itemWidget( self.display_list_widget.currentItem() ).findChildren(QtWidgets.QLabel)
+		for l in labels:
+			if "name_" in l.objectName():
+				self.name_input_box.setText(l.text())
+			elif "description_" in l.objectName():
+				self.description_input_box.setPlainText(l.text())
 
 
 	def add_asset_entry(self, asset):
@@ -81,20 +109,13 @@ class AssetsGui(QtWidgets.QWidget, Ui_MainWindow):
 		layout.setSpacing(10)
 
 		name_lbl = QtWidgets.QLabel(asset.name)
-		name_lbl.setObjectName("label_"+asset.name)
+		name_lbl.setObjectName("name_"+asset.name)
 		layout.addWidget(name_lbl)
 
 		desc_lbl = QtWidgets.QLabel(asset.description)
-		desc_lbl.setObjectName("label_"+asset.description)
+		desc_lbl.setObjectName("description_"+asset.description)
 		desc_lbl.setWordWrap(True)
 		layout.addWidget(desc_lbl)
-
-		btn = QtWidgets.QPushButton()
-		btn.setText("Del")
-		btn.setSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
-		btn.setObjectName("button_delete_"+asset.name)
-		btn.pressed.connect(lambda: self.controller.delete_asset(asset))
-		layout.addWidget(btn)
 
 		widget.setLayout(layout)
 		# widget.setToolTip(value.description)
@@ -103,18 +124,40 @@ class AssetsGui(QtWidgets.QWidget, Ui_MainWindow):
 			widget.setStyleSheet(style)
 
 		self.asset_widgets[asset.name] = widget
-		self.display_layout.insertWidget(0, widget)
 
-	def delete_asset_entry(self, asset):
-		'''Removes asset entry from gui
+		new_item = QtWidgets.QListWidgetItem()
+		new_item.setSizeHint(widget.sizeHint())
 
-		Args:
-			asset (Asset):
+		#edit existing item
+		for index in range(0,self.display_list_widget.count()):
+			item = self.display_list_widget.item(index)
+
+			widget_in_list = self.display_list_widget.itemWidget(item)
+			if widget.objectName() == widget_in_list.objectName():
+				self.display_list_widget.setItemWidget(item, widget)
+				self.history_combo_box.clear()
+				return
+
+		self.display_list_widget.addItem(new_item)
+		self.display_list_widget.setItemWidget(new_item, widget)
+
+		#clear combobox selection
+		self.history_combo_box.clear()
+
+	def delete_asset_entry(self):
+		'''Removes selected asset entry from gui
 		'''
 
-		self.display_layout.removeWidget(self.asset_widgets[asset.name])
-		self.asset_widgets[asset.name].deleteLater()
-		self.asset_widgets[asset.name] = None
+		selected_items = self.display_list_widget.selectedItems()
+		for item in selected_items:
+			asset_name = self.display_list_widget.itemWidget( self.display_list_widget.currentItem() ).objectName().replace("asset_","",1)
+			self.controller.delete_asset( self.controller.assets[asset_name] )
+			self.display_list_widget.takeItem(self.display_list_widget.row(item))
+
+		#clear selection
+		self.display_list_widget.clearSelection()
+
+
 
 class AssetsController():
 	'''AssetsGui action controller
@@ -128,9 +171,7 @@ class AssetsController():
 		self.assets_gui = AssetsGui(self)
 
 		self.add_btn = self.assets_gui.add_button
-
 		self.add_btn.pressed.connect(self.add_new_asset)
-		self.assets_gui.history_combo_box.currentTextChanged.connect(self.fill_from_history)
 
 	def add_new_asset(self):
 		'''add_btn action of adding new Asset from gui
@@ -170,18 +211,6 @@ class AssetsController():
 			Message.print_message(MsgType.ERROR, str(e))
 		return assets
 
-	def fill_from_history(self):
-		'''add_history_btn action for adding new asset from dropdown list in gui
-		'''
-		name = self.assets_gui.history_combo_box.currentText()
-		desc = self.assets_gui.history_combo_box.currentData()
-
-		if not name or not desc:
-			return
-
-		self.assets_gui.name_input_box.setText(name)
-		self.assets_gui.description_input_box.setPlainText(desc)
-
 	def delete_asset(self, asset):
 		'''Action called when delete button is clicked of a particular asset entry
 
@@ -190,4 +219,3 @@ class AssetsController():
 		'''
 
 		self.threat_model_controller.threat_model.delete_asset(asset)
-		self.assets_gui.delete_asset_entry(asset)

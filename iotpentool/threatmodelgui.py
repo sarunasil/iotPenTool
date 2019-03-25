@@ -13,7 +13,7 @@ import uuid
 import os
 from collections import OrderedDict
 from PyQt5 import QtWidgets
-from PyQt5.QtCore import Qt
+from PyQt5 import QtCore
 
 from iotpentool.vtabwidget import TabWidget
 
@@ -67,6 +67,10 @@ class ThreatModelGui(QtWidgets.QTabWidget):
 		self.addTab(decomposition_tab, "Decomposition")
 		self.addTab(self.threats_gui, "Threats")
 
+		#for dev
+		self.setCurrentIndex(1)
+		architecture_tab.setCurrentIndex(1)
+
 
 
 class ThreatModelController():
@@ -77,10 +81,16 @@ class ThreatModelController():
 		'''
 		self.threat_model = threat_model
 		self.assets_controller = AssetsController(self, threat_model.assets)
+
 		self.arch_diagram_controller = ArchDiagramController(self, threat_model.architectural_diagram_site, threat_model.architectural_diagram)
+
 		self.technologies_controller = TechnologiesController(self, threat_model.technologies, threat_model.assets)
+		self.threat_model.assets_updated.connect(self.technologies_controller.refresh_assets)
+
 		self.data_flow_diagram_controller = DataFlowDiagramController(self, threat_model.data_flow_diagram_site, threat_model.data_flow_diagram)
+
 		self.entry_points_controller = EntryPointsController(self, threat_model.entry_points)
+
 		self.threats_controller = ThreatsController(self, threat_model.threats)
 
 		self.threat_model_gui = ThreatModelGui(self,
