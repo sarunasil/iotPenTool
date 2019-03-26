@@ -37,22 +37,36 @@ class DataFlowDiagramGui(QtWidgets.QWidget, Ui_MainWindow):
 		Ui_MainWindow.__init__(self)
 		self.setupUi(self)
 
+		self.suggested_link_label.setText("<a href='"+controller.data_flow_diagram_site+"'>"+controller.data_flow_diagram_site+"</a>")
 
 		self.style = ""#TODO
 		self.controller = controller
 
+		self.link_input_box.textChanged.connect(lambda: controller.save_link(self.link_input_box.toPlainText()))
+		self.link_input_box.mousePressEvent = self.add_start
+
+	def add_start(self, event):
+		QtWidgets.QPlainTextEdit.mousePressEvent(self.link_input_box, event)
+
+		if self.link_input_box.toPlainText() == "":
+			self.link_input_box.setPlainText("https://")
+
 
 class DataFlowDiagramController():
-	'''TechnologiesGui action controller
+	'''Data Flow Diagram tab action controller
 	'''
 	def __init__(self, threat_model_controller, data_flow_diagram_site, data_flow_diagram):
 		'''Init
 		'''
 
 		self.threat_model_controller = threat_model_controller
-
+		self.data_flow_diagram_site = data_flow_diagram_site
+		self.data_flow_diagram = data_flow_diagram
 		self.data_flow_diagram_gui = DataFlowDiagramGui(self)
 
+	def save_link(self, new_link):
+		urlLink="<a href='"+new_link+"'>Link to Data Flow diagram</a>"
+		self.threat_model_controller.threat_model.architectural_diagram = new_link
+		self.data_flow_diagram_gui.link_label.setText(urlLink)
 
-		# self.add_btn.pressed.connect(self.add_new_asset)
 

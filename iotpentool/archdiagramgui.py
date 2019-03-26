@@ -37,12 +37,19 @@ class ArchDiagramGui(QtWidgets.QWidget, Ui_MainWindow):
 		Ui_MainWindow.__init__(self)
 		self.setupUi(self)
 
-		self.suggested_link_label.setText(controller.architectural_diagram_site)
+		self.suggested_link_label.setText("<a href='"+controller.architectural_diagram_site+"'>"+controller.architectural_diagram_site+"</a>")
 
 		self.style = ""#TODO
 		self.controller = controller
 
 		self.link_input_box.textChanged.connect(lambda: controller.save_link(self.link_input_box.toPlainText()))
+		self.link_input_box.mousePressEvent = self.add_start
+
+	def add_start(self, event):
+		QtWidgets.QPlainTextEdit.mousePressEvent(self.link_input_box, event)
+
+		if self.link_input_box.toPlainText() == "":
+			self.link_input_box.setPlainText("https://")
 
 
 class ArchDiagramController():
@@ -59,6 +66,7 @@ class ArchDiagramController():
 
 
 	def save_link(self, new_link):
+		urlLink="<a href='"+new_link+"'>Link to Architectural diagram</a>"
 		self.threat_model_controller.threat_model.architectural_diagram = new_link
-		self.arch_diagram_gui.link_label.setText(new_link)
+		self.arch_diagram_gui.link_label.setText(urlLink)
 
