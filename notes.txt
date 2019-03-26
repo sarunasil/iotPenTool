@@ -8,7 +8,6 @@ Things to do:
 10. update interfaces to say what values it expects for some flags
 
 MUST
-    Entry Points gui connection
     Threats ranking gui connection
     Threat gui
     Threat ranking and display in Threats tab

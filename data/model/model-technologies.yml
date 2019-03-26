@@ -25,3 +25,7 @@ technologies:
     attributes: 
       '33': '33' 
       'dd': 'dd' 
+  'd':
+    name: 'd'
+    description: 'd'
+    attributes: 

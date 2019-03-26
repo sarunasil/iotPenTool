@@ -98,7 +98,7 @@ class ThreatModel(QtCore.QObject):
 
 	#ENTRY POINT
 
-	def add_entry_point(self, name, description, asset_used):
+	def add_entry_point(self, name, description, asset_used, cache=True):
 		'''add new entry point to threat model
 
 		Args:
@@ -107,9 +107,12 @@ class ThreatModel(QtCore.QObject):
 			asset_used (Asset): asset where this entry point is present
 		'''
 
-
 		#if name already present - override (update that item)
 		self.entry_points[name] =  EntryPoint(name, description, asset_used, self.entry_points_file)
+		if cache:
+			self.entry_points[name].update_known_entry_points()
+
+		return self.entry_points[name]
 
 	def delete_entry_point(self, entry_point):
 		self.entry_points.pop(entry_point.name, None)

@@ -49,7 +49,7 @@ class TechnologiesGui(QtWidgets.QWidget, Ui_MainWindow):
 		self.controller = controller
 
 		self.history_combo_box = ComboBox()
-		self.history_widget.layout().insertWidget(0, self.history_combo_box)
+		self.history_widget.layout().insertWidget(0, self.history_combo_box, 1)
 
 		self.asset_buttons = {}
 		self.attributes = {}
@@ -66,6 +66,8 @@ class TechnologiesGui(QtWidgets.QWidget, Ui_MainWindow):
 	def fill_combobox(self):
 		'''Populates history combobox with the content Technology cache file
 		'''
+		#clear selection
+		self.display_list_widget.clearSelection()
 
 		self.history_combo_box.clear()
 		for name, techn in self.controller.get_history().items():
@@ -158,6 +160,8 @@ class TechnologiesGui(QtWidgets.QWidget, Ui_MainWindow):
 		self.display_list_widget.clearSelection()
 
 	def cleanup(self):
+		self.name_input_box.clear()
+		self.description_input_box.clear()
 		self.history_combo_box.clear()
 		self.reset_checkable_assets()
 		self.attr_key_text_box.clear()
@@ -376,9 +380,6 @@ class TechnologiesController():
 		try:
 			technology = self.threat_model_controller.threat_model.add_technology(name, desc, attributes, assets)
 			self.technologies_gui.add_technology_entry(technology)
-
-			self.technologies_gui.name_input_box.clear()
-			self.technologies_gui.description_input_box.clear()
 		except ModellingException as e:
 			Message.show_message_box(self.technologies_gui, MsgType.INFO, str(e))
 			Message.print_message(MsgType.INFO, str(e))

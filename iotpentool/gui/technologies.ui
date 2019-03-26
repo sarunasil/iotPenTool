@@ -137,7 +137,7 @@
               <string/>
              </property>
              <property name="placeholderText">
-              <string>Technology name</string>
+              <string>Technology name (e.g. Mobile App)</string>
              </property>
             </widget>
            </item>
@@ -157,7 +157,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
              <property name="placeholderText">
-              <string>Technology description</string>
+              <string>Technology description      (e.g. Android and iOS applications connect to a third-party service for viewing camera feeds. Data has the option to be stored locally on the device for pictures as well as user credentials.)</string>
              </property>
             </widget>
            </item>
@@ -290,14 +290,14 @@ p, li { white-space: pre-wrap; }
            <item>
             <widget class="QLineEdit" name="attr_key_text_box">
              <property name="placeholderText">
-              <string>Key</string>
+              <string>Key (e.g. IOS version)</string>
              </property>
             </widget>
            </item>
            <item>
             <widget class="QLineEdit" name="attr_value_text_box">
              <property name="placeholderText">
-              <string>Value</string>
+              <string>Value (e.g. 10)</string>
              </property>
             </widget>
            </item>

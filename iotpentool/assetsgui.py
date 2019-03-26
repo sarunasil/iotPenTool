@@ -52,8 +52,7 @@ class AssetsGui(QtWidgets.QWidget, Ui_MainWindow):
 		self.asset_widgets = {}
 
 		self.history_combo_box = ComboBox()
-		self.history_widget.layout().insertWidget(0, self.history_combo_box)
-
+		self.history_widget.layout().insertWidget(0, self.history_combo_box, 1)
 
 		self.history_combo_box.popupAboutToBeShown.connect(self.fill_combobox)
 		self.history_combo_box.currentTextChanged.connect(self.fill_from_history)
@@ -147,7 +146,6 @@ class AssetsGui(QtWidgets.QWidget, Ui_MainWindow):
 	def delete_asset_entry(self):
 		'''Removes selected asset entry from gui
 		'''
-
 		selected_items = self.display_list_widget.selectedItems()
 		for item in selected_items:
 			asset_name = self.display_list_widget.itemWidget( self.display_list_widget.currentItem() ).objectName().replace("asset_","",1)
@@ -195,6 +193,15 @@ class AssetsController():
 			Message.show_message_box(self.assets_gui, MsgType.INFO, str(e))
 			Message.print_message(MsgType.INFO, str(e))
 
+	def delete_asset(self, asset):
+		'''Action called when delete button is clicked of a particular asset entry
+
+		Args:
+			asset (Asset): Asset to delete
+		'''
+
+		self.threat_model_controller.threat_model.delete_asset(asset)
+
 	def get_history(self):
 		'''Gets known assets from the cache file
 
@@ -210,12 +217,3 @@ class AssetsController():
 			Message.show_message_box(self.assets_gui, MsgType.ERROR, str(e))
 			Message.print_message(MsgType.ERROR, str(e))
 		return assets
-
-	def delete_asset(self, asset):
-		'''Action called when delete button is clicked of a particular asset entry
-
-		Args:
-			asset (Asset): Asset to delete
-		'''
-
-		self.threat_model_controller.threat_model.delete_asset(asset)
