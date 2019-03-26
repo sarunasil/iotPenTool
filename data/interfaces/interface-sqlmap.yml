@@ -3,6 +3,7 @@
 #   command will be generated with flags and values in order defined in here
 
 tool:
+    category: "WEB APP"
     name: "SQLMAP"
     version: "1.2.4"
     command: "sqlmap"

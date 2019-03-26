@@ -1,6 +1,7 @@
 #ls interface
 ---
 tool:
+    category: "WIRELESS"
     name: "Empty interface"
     version: "8.28"
     command: "empty"

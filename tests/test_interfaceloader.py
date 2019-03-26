@@ -51,6 +51,7 @@ def test_find_interface_files(interface_file):
 
 @pytest.mark.parametrize(("interface_file", "content"), [
     ("interface-ls.yml", {"tool":{
+        "category":"WIRELESS",
         "name":"List items",
         "version":"8.28",
         "command": "ls",
@@ -98,6 +99,7 @@ def test_find_interface_files(interface_file):
         }
     }),
     ("interface-pwd.yml", {"tool":{
+        "category":"WIRELESS",
         "name":"Print Current Working dir",
         "version": "1",
         "command":"pwd",
@@ -131,6 +133,7 @@ def test_find_interface_files(interface_file):
         }
     }),
     ("interface-ls_nested.yml", {"tool":{
+        "category":"WIRELESS",
         "name":"List items",
         "version":"8.28",
         "command": "ls_nested",
@@ -199,9 +202,10 @@ def test_read_interface_file(interface_file, content):
     assert read_content == content
 
 
-@pytest.mark.parametrize(("interface_data", "name", "version", "command", "description", "flag_count", "value_count", "structure"), [
+@pytest.mark.parametrize(("interface_data", "category", "name", "version", "command", "description", "flag_count", "value_count", "structure"), [
     (
         {"tool":{
+            "category":"WIRELESS",
             "name":"List items",
             "version":"8.28",
             "command": "ls",
@@ -247,6 +251,7 @@ def test_read_interface_file(interface_file, content):
                 ]
             }
         },
+        "WIRELESS",
         "List items", 
         "8.28", 
         "ls", 
@@ -261,6 +266,7 @@ def test_read_interface_file(interface_file, content):
     ),
     (
         {"tool":{
+            "category":"MOBILE APP",
             "name":"Print Current Working dir", 
             "version": "1", 
             "command":"pwd", 
@@ -295,6 +301,7 @@ def test_read_interface_file(interface_file, content):
                 ]
             }
         }, 
+        "MOBILE APP",
         "Print Current Working dir", 
         "1", 
         "pwd", 
@@ -309,6 +316,7 @@ def test_read_interface_file(interface_file, content):
     ),
     (
         {"tool":{
+            "category":"FIRMWARE",
             "name":"List items",
             "version":"8.28",
             "command": "ls_nested",
@@ -363,6 +371,7 @@ def test_read_interface_file(interface_file, content):
                 ]
             }
         },
+        "FIRMWARE",
         "List items", 
         "8.28", 
         "ls_nested", 
@@ -376,7 +385,7 @@ def test_read_interface_file(interface_file, content):
         ]
     )
     ])
-def test_create_interface(interface_data, name, version, command, description, flag_count, value_count, structure):
+def test_create_interface(interface_data, category, name, version, command, description, flag_count, value_count, structure):
     '''Create Interface object by parsing interface_data
 
     Args:
@@ -385,6 +394,7 @@ def test_create_interface(interface_data, name, version, command, description, f
 
     interface_created = interfaceloader.InterfaceLoader.create_interface(interface_data)
 
+    assert interface_created.category == category
     assert interface_created.name == name
     assert interface_created.version == version
     assert interface_created.command == command

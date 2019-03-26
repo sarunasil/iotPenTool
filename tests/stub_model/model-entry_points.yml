@@ -1,0 +1,2 @@
+entry_points:
+  'Firmware': 'The DVR utilizes firmware to control the device but may only be acquired via vendor technical support (per documentation). The embedded web server utilizes the firmware for managing actions.'

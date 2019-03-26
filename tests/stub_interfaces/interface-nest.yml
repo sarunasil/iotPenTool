@@ -1,6 +1,7 @@
 #ls interface
 ---
 tool:
+    category: "WIRELESS"
     name: "Structure NESTED keyword test interface"
     version: "8.28"
     command: "nest"

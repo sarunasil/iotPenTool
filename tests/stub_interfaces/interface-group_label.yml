@@ -1,6 +1,7 @@
 #pwd interface
 ---
 tool:
+    category: "WIRELESS"
     name: "Grouping example"
     version: "1"
     command: "group_label"

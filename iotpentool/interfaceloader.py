@@ -93,17 +93,18 @@ class InterfaceLoader():
 			raise DataException("Data file is corrupt. Could not find 'tool' field")
 
 		tool = data.get('tool')
-		if ('name' not in tool or
+		if ('category' not in tool or
+			'name' not in tool or
 			'version' not in tool or
 			'command' not in tool or
 			'description' not in tool or
 			'flags' not in tool or
 			'structure' not in tool
 			):
-			raise DataException("Data file is corrupt. Could not find 'name', 'version', 'command', 'description' or 'flags' or 'structure' fields")
+			raise DataException("Data file is corrupt. Could not find 'category', 'name', 'version', 'command', 'description' or 'flags' or 'structure' fields")
 
 		#setup Interface instance
-		inter = interface.Interface(tool.get('name'), tool.get('version'), tool.get('command'), tool.get('description'), tool.get('structure'))
+		inter = interface.Interface(tool.get('category'), tool.get('name'), tool.get('version'), tool.get('command'), tool.get('description'), tool.get('structure'))
 
 		#parse Interface flags
 		if 'flags' in tool:

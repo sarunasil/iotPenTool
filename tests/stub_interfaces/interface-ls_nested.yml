@@ -1,6 +1,7 @@
 #ls interface
 ---
 tool:
+    category: "WIRELESS"
     name: "List items"
     version: "8.28"
     command: "ls_nested"

@@ -113,7 +113,7 @@ class Interface():
 	Defines all the methods required to interact with the module
 	'''
 
-	def __init__(self, name, version, command, description, structure):
+	def __init__(self, category, name, version, command, description, structure):
 		'''Init
 
 		Args:
@@ -122,6 +122,7 @@ class Interface():
 			command (String): terminal command to execute
 		'''
 
+		self.category = category
 		self.name = name       			#print name
 		self.version = version 			#version
 		self.command = command 			#terminal call name

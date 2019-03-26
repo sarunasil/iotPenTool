@@ -153,15 +153,15 @@ def test__create_value(application, iden, value_data, style):
 	assert widget.findChild(QtWidgets.QLineEdit, "text_box_"+iden)
 
 
-@pytest.mark.parametrize(("name","version","command","description", "structure"), [
-	("name_1", "v1", "cmd_1", "description of name_1",
+@pytest.mark.parametrize(("category","name","version","command","description", "structure"), [
+	("WIRELESS","name_1", "v1", "cmd_1", "description of name_1",
         ["command-sts",{ "FLAGS": [ "_", "FLAG", "<>", "FLAG_VALUE", "?" ] },{ "VALUES": [ "VALUE", " / " ] }]),
-	("name_2", "1", "cmd[?]", "description of name_2",
+	("WIRELESS","name_2", "1", "cmd[?]", "description of name_2",
 		["lhg", { "VALUES": [ "VALUE", "-" ] }, { "FLAGS": [ "-", "FLAG", "?", "FLAG_VALUE", " == " ] }])
 	])
-def test__create_general(application, name, version, command, description, structure):
+def test__create_general(application, category, name, version, command, description, structure):
 
-	interface = Interface(name, version, command, description, structure)
+	interface = Interface(category, name, version, command, description, structure)
 
 	widget = ModuleGui._create_general(interface)
 

@@ -1,6 +1,7 @@
 #example interface blueprint
 
 tool:
+    category: "WIRELESS"
     name: "NMAP"
     version: "7.6"
     command: "nmap"

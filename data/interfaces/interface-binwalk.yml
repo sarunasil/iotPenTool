@@ -3,6 +3,7 @@
 #   command will be generated with flags and values in order defined in here
 
 tool:
+    category: "FIRMWARE"
     name: "tool_name"
     version: "2.1.1"
     command: "binwalk"

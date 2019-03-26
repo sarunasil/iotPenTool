@@ -3,6 +3,7 @@
 #   command will be generated with flags and values in order defined in here
 
 tool:
+    category: "MOBILE APP"
     name: "APKTOOl"
     version: "2.3.1-dirty"
     command: "apktool"

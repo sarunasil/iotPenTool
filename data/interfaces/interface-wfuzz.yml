@@ -3,6 +3,7 @@
 #   command will be generated with flags and values in order defined in here
 
 tool:
+    category: "WEB APP"
     name: "Wfuzz"
     version: "2.2.9"
     command: "wfuzz"

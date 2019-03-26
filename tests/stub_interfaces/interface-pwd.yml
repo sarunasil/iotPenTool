@@ -1,6 +1,7 @@
 #pwd interface
 ---
 tool:
+    category: "WIRELESS"
     name: "Print Current Working dir"
     version: "1"
     command: "pwd"

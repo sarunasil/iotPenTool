@@ -1,6 +1,7 @@
 #example interface blueprint
 
 tool:
+    category: "WEB APP"
     name: "Web Content Scanner"
     version: "2.22"
     command: "dirb"
