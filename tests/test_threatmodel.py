@@ -83,33 +83,35 @@ def test_add_technology(threat_model, name, description, attributes, used_in):
 	assert isinstance(threat_model.technologies[name], Technology)
 
 
-@pytest.mark.parametrize(("name","description"), [
+@pytest.mark.parametrize(("name","description", "asset_used"), [
 	(
-		"Firmware", 
-		"The DVR utilizes firmware to control the device but may only be acquired via vendor technical support (per documentation). The embedded web server utilizes the firmware for managing actions."
+		"Firmware",
+		"The DVR utilizes firmware to control the device but may only be acquired via vendor technical support (per documentation). The embedded web server utilizes the firmware for managing actions.",
+		"stub_ASSET_object"
 	)
 ])
-def test_add_entry_point(threat_model, name, description):
-	threat_model.add_entry_point(name, description)
+def test_add_entry_point(threat_model, name, description, asset_used):
+	threat_model.add_entry_point(name, description, asset_used)
 
 	assert name in threat_model.entry_points
 	assert isinstance(threat_model.entry_points[name], EntryPoint)
 
 
-@pytest.mark.parametrize(("name","description"), [
+@pytest.mark.parametrize(("name","description","asset_used"), [
 	(
 		"Firmware", 
-		"The DVR utilizes firmware to control the device but may only be acquired via vendor technical support (per documentation). The embedded web server utilizes the firmware for managing actions."
+		"The DVR utilizes firmware to control the device but may only be acquired via vendor technical support (per documentation). The embedded web server utilizes the firmware for managing actions.",
+		"stub_ASSET_object"
 	)
 ])
-def test_add_entry_point_duplicate(threat_model, name, description):
+def test_add_entry_point_duplicate(threat_model, name, description, asset_used):
 	'''try adding duplicate entry point to model
 	'''
 
-	threat_model.add_entry_point(name, description)
+	threat_model.add_entry_point(name, description, asset_used)
+	threat_model.add_entry_point(name, description, asset_used)
 
-	with pytest.raises(ModellingException):
-		threat_model.add_entry_point(name, description)
+	assert len(threat_model.entry_points) == 1
 
 
 # def test_add_threat(threat_model, short_desc, target, countermeasures, entry_point):

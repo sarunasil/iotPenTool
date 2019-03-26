@@ -110,7 +110,7 @@
          <widget class="QWidget" name="widget_2" native="true">
           <layout class="QVBoxLayout" name="verticalLayout_3">
            <property name="spacing">
-            <number>0</number>
+            <number>4</number>
            </property>
            <property name="leftMargin">
             <number>0</number>
@@ -132,43 +132,32 @@
             </widget>
            </item>
            <item>
-            <layout class="QVBoxLayout" name="verticalLayout_9">
-             <item>
-              <widget class="QLineEdit" name="name_input_box">
-               <property name="text">
-                <string/>
-               </property>
-               <property name="placeholderText">
-                <string>Technology name</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QTextEdit" name="description_input_box">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="html">
-                <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+            <widget class="QLineEdit" name="name_input_box">
+             <property name="text">
+              <string/>
+             </property>
+             <property name="placeholderText">
+              <string>Technology name</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QTextEdit" name="description_input_box">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="html">
+              <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Ubuntu'; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-               </property>
-               <property name="placeholderText">
-                <string>Technology description</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-           <item>
-            <widget class="QLabel" name="label_3">
-             <property name="text">
-              <string>Add technology from history:</string>
+             </property>
+             <property name="placeholderText">
+              <string>Technology description</string>
              </property>
             </widget>
            </item>
@@ -179,10 +168,13 @@ p, li { white-space: pre-wrap; }
                <number>0</number>
               </property>
               <property name="topMargin">
-               <number>9</number>
+               <number>3</number>
               </property>
               <property name="rightMargin">
                <number>0</number>
+              </property>
+              <property name="bottomMargin">
+               <number>3</number>
               </property>
               <item>
                <widget class="QPushButton" name="add_button">
@@ -233,27 +225,33 @@ p, li { white-space: pre-wrap; }
             </widget>
            </item>
            <item>
-            <widget class="QWidget" name="widget_4" native="true">
+            <widget class="QLabel" name="label_3">
+             <property name="text">
+              <string>Add technology from history:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QWidget" name="history_widget" native="true">
              <layout class="QHBoxLayout" name="horizontalLayout_9">
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <property name="bottomMargin">
+               <number>0</number>
+              </property>
               <item>
-               <layout class="QHBoxLayout" name="history_layout">
-                <item>
-                 <spacer name="horizontalSpacer_3">
-                  <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
-                  </property>
-                  <property name="sizeType">
-                   <enum>QSizePolicy::Preferred</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>60</width>
-                    <height>20</height>
-                   </size>
-                  </property>
-                 </spacer>
-                </item>
-               </layout>
+               <spacer name="horizontalSpacer_3">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
               </item>
              </layout>
             </widget>
@@ -362,7 +360,7 @@ p, li { white-space: pre-wrap; }
              <x>0</x>
              <y>0</y>
              <width>378</width>
-             <height>124</height>
+             <height>68</height>
             </rect>
            </property>
            <layout class="QGridLayout" name="gridLayout"/>
@@ -373,6 +371,19 @@ p, li { white-space: pre-wrap; }
       </widget>
      </item>
     </layout>
+   </item>
+   <item>
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
    </item>
   </layout>
  </widget>

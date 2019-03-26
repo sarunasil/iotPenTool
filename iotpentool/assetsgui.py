@@ -52,7 +52,7 @@ class AssetsGui(QtWidgets.QWidget, Ui_MainWindow):
 		self.asset_widgets = {}
 
 		self.history_combo_box = ComboBox()
-		self.history_layout.insertWidget(0, self.history_combo_box)
+		self.history_widget.layout().insertWidget(0, self.history_combo_box)
 
 
 		self.history_combo_box.popupAboutToBeShown.connect(self.fill_combobox)

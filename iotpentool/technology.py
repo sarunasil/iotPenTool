@@ -25,8 +25,8 @@ class Technology():
 		self.name = name
 		self.description = description
 		self.attributes = attributes
-		self.tech_filepath = tech_filepath
 		self.used_in = used_in
+		self.tech_filepath = tech_filepath
 
 	def update_known_technologies(self):
 		'''writes current technology value to model-technologies.yml file
@@ -68,7 +68,7 @@ class Technology():
 			ModellingException: if a problem arrises report
 
 		Returns:
-			dict(String:String): technologies from file tech_name:{name:tech_name, description:tech_desc, attributes: {attr1:attr1value, atrrX:attrXvalue, ...} }
+			dict(String:dict): technologies from file tech_name:{name:tech_name, description:tech_desc, attributes: {attr1:attr1value, atrrX:attrXvalue, ...} }
 		'''
 
 		known_technologies = {}

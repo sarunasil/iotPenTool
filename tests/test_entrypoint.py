@@ -19,55 +19,112 @@ from iotpentool.asset import Asset
 from iotpentool.technology import Technology
 from iotpentool.utils import ModellingException
 
-# @pytest.fixture
-# def entry_point():
-# 	assets = {}
-# 	for i in range(0,4):
-# 		a = Asset("stub"+str(i),"stub_desc"+str(i), "stub_path"+str(i), "stub_path2"+str(i))
+CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
+MODEL_DIR = os.path.join(CURRENT_DIR, "stub_model")
 
-# 		a.add_technology("tech1","techdesc",{})
-# 		a.add_technology("tech2","tech_desc",{"atr":"val"})
-# 		a.add_technology("tech"+str(random.randint(0,100)),"tech_desc",{})
+@pytest.fixture
+def asset():
+	return Asset("stub","stub","stub")
 
-# 		assets[a.name] = a
+@pytest.fixture
+def entry_point():
+	return EntryPoint("stub","stub","stub_asset","stub_filepath")
 
-# 	return EntryPoint("stub", "stub", assets)
+@pytest.mark.parametrize(("name","description", "filepath"), [("web page", "web page descr", "stub_filepath")])
+def test_init(name, description, asset, filepath):
+	'''create new EntryPoint
+	'''
 
-# @pytest.mark.parametrize(("name","description", "assets"), [("router", "router descr", {})])
-# def test_init(name, description, assets):
-# 	'''create new EntryPoint
-# 	'''
-# 	entry_point = EntryPoint(name, description, assets)
+	entry_point = EntryPoint(name, description, asset, filepath)
 
-# 	assert entry_point
-# 	assert entry_point.name == name
-# 	assert entry_point.description == description
-# 	assert entry_point.assets_in_model == assets
-# 	assert isinstance(entry_point.technologies_used, dict)
-# 	assert isinstance(entry_point.threats, dict)
+	assert entry_point
+	assert entry_point.name == name
+	assert entry_point.description == description
+	assert entry_point.asset_used == asset
+	assert entry_point.entry_points_filepath == filepath
 
 
-# @pytest.mark.parametrize(("name"), [
-# 	"tech1", "tech2"
-# ])
-# def test_add_technology_ref(entry_point, name):
-# 	entry_point.add_technology_ref(name)
+@pytest.mark.parametrize(("content","create"), [
+	([], True),
+	([], False),
+	(["  'entry_pointName1': 'desc_of_entry_point1'\n"], False),
+	(["  'entry_pointName1': 'desc_of_entry_point1'\n","  'entry_pointName2': 'desc_of_entry_point2'\n","  'entry_pointName3': 'desc_of_entry_point3'\n"], False)
+])
+def test_update_known_entry_points(entry_point, content, create):
 
-# 	assert name in entry_point.technologies_used
-# 	assert isinstance(entry_point.technologies_used[name], Technology)
+	#create stub model-entry_points.yml file
+	entry_points_filepath = os.path.join(MODEL_DIR, "model-entry_points"+ str(random.randint(1,1001)) +".yml")
+	if not create:
+		try:
+			with open(entry_points_filepath, 'w') as configfile:
+				configfile.write("entry_points:\n")
+				configfile.writelines(content)
+		except IOError as e:
+			print("Could not create entry_points file. "+ e.strerror)
+			assert False
+	entry_point.entry_points_filepath = entry_points_filepath
+
+	#get prev entry_points
+	prev_known_entry_points = EntryPoint.fetch_known_entry_points(entry_points_filepath)
+
+	#update entry_points file
+	entry_point.update_known_entry_points()
+
+	#get current entry_points
+	current_known_entry_points = EntryPoint.fetch_known_entry_points(entry_points_filepath)
+
+	#delete that file
+	os.remove(entry_points_filepath)
+
+	#check that prev_entry_points + added entry_point == current_asssets
+	assert { **prev_known_entry_points, **{entry_point.name: entry_point.description} } == current_known_entry_points
 
 
-# @pytest.mark.parametrize(("name"), [
-# 	"tech1"
-# ])
-# def test_add_technology_ref_duplicate(entry_point, name):
-# 	entry_point.add_technology_ref(name)
+@pytest.mark.parametrize(("entry_points_file","outcome","delete"), [
+	(
+		"model-entry_points_fetch.yml",
+		{
+			"entry_pointName1":"desc_of_entry_point1",
+			"entry_pointName2":"desc_of_entry_point2",
+			"entry_pointName3":"desc_of_entry_point3"
+		},
+		False
+	),
+	(
+		"model-entry_points_empty.yml",
+		{},
+		False
+	),
+	(
+		"model-entry_points_fake.yml",
+		{},
+		True
+	)
+])
+def test_fetch_known_entry_points(entry_points_file, outcome, delete):
 
-# 	with pytest.raises(ModellingException):
-# 		entry_point.add_technology_ref(name)
+	entry_points_filepath = os.path.join(MODEL_DIR, entry_points_file)
+	known_entry_points = EntryPoint.fetch_known_entry_points(entry_points_filepath)
+
+	assert known_entry_points == outcome
+
+	if delete:
+		os.remove(entry_points_filepath)
 
 
-# def test_add_technology_ref_non_existant(entry_point):
-# 	with pytest.raises(ModellingException):
-# 		entry_point.add_technology_ref("tech_non_existant")
+def test_fetch_known_entry_points_exception():
 
+	#create a corrupted file
+	entry_points_filepath = os.path.join(MODEL_DIR, "model-entry_points"+ str(random.randint(1,1001)) +".yml")
+	try:
+		with open(entry_points_filepath, 'w') as entry_points_file:
+			entry_points_file.write("\n")
+	except IOError as e:
+		print("Could not create entry_points file. "+ e.strerror)
+		assert False
+
+	with pytest.raises(ModellingException):
+		known_entry_points = EntryPoint.fetch_known_entry_points(entry_points_filepath)
+
+	#cleanup
+	os.remove(entry_points_filepath)

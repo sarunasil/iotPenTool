@@ -1,0 +1,4 @@
+entry_points:
+  entry_pointName1: desc_of_entry_point1
+  entry_pointName2: desc_of_entry_point2
+  entry_pointName3: desc_of_entry_point3

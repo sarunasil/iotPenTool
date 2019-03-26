@@ -44,9 +44,14 @@ class ThreatModel(QtCore.QObject):
 		self.data_flow_diagram = ""
 
 		self.entry_points = {}
+		self.entry_points_file = os.path.join(self.model_dir, "model-entry_points.yml")
+
 		self.threats = {}
 
 		self.threat_model_controller = None
+
+
+	#ASSET
 
 	def add_asset(self, name, describtion, cache=True):
 		'''add new asset to threat model
@@ -63,6 +68,9 @@ class ThreatModel(QtCore.QObject):
 		self.assets.pop(asset.name, None)
 		self.assets_updated.emit()
 
+
+	#TECHNOLOGY
+
 	def add_technology(self, name, description, attributes, used_in, cache=True):
 		'''Creates and adds new Technology object
 
@@ -78,8 +86,7 @@ class ThreatModel(QtCore.QObject):
 		'''
 
 		#if name already present - override (update that item)
-		technologies_file = os.path.join(self.model_dir, "model-technologies.yml")
-		self.technologies[name] = Technology(name, description, attributes, used_in, technologies_file)
+		self.technologies[name] = Technology(name, description, attributes, used_in, self.technologies_file)
 		if cache:
 			self.technologies[name].update_known_technologies()
 
@@ -88,14 +95,27 @@ class ThreatModel(QtCore.QObject):
 	def delete_technology(self, technology):
 		self.technologies.pop(technology.name, None)
 
-	def add_entry_point(self, name, description):
+
+	#ENTRY POINT
+
+	def add_entry_point(self, name, description, asset_used):
 		'''add new entry point to threat model
+
+		Args:
+			name (String): EntryPoint name
+			description (String): EntryPoint desc
+			asset_used (Asset): asset where this entry point is present
 		'''
-		if name in self.entry_points:
-			raise ModellingException("Could not add duplicate entry point: "+ name+".")
 
-		self.entry_points[name] =  EntryPoint(name, description, self.assets)
 
+		#if name already present - override (update that item)
+		self.entry_points[name] =  EntryPoint(name, description, asset_used, self.entry_points_file)
+
+	def delete_entry_point(self, entry_point):
+		self.entry_points.pop(entry_point.name, None)
+
+
+	#THREAT
 
 	def add_threat(self):
 		pass

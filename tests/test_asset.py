@@ -38,7 +38,6 @@ def test_init(name, description, filepath):
 	assert asset.assets_filepath == filepath
 
 
-
 @pytest.mark.parametrize(("content","create"), [
 	([], True),
 	([], False),

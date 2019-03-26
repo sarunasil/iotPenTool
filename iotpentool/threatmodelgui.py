@@ -56,20 +56,20 @@ class ThreatModelGui(QtWidgets.QTabWidget):
 		self.addTab(self.assets_gui, "Assets")
 
 		architecture_tab = QtWidgets.QTabWidget()#(direction=QtWidgets.QTabWidget.East)
-		architecture_tab.addTab(self.arch_diagram_gui, "Architectural D.")
+		architecture_tab.addTab(self.arch_diagram_gui, "Architectural Diagram")
 		architecture_tab.addTab(self.technologies_gui, "Technologies") 
 
 		self.addTab(architecture_tab, "Architecture")
 
 		decomposition_tab = QtWidgets.QTabWidget()#(direction=QtWidgets.QTabWidget.East)
-		decomposition_tab.addTab(self.data_flow_diagram_gui, "Data Flow D.")
+		decomposition_tab.addTab(self.data_flow_diagram_gui, "Data Flow Diagram")
 		decomposition_tab.addTab(self.entry_points_gui, "Entry points")
 		self.addTab(decomposition_tab, "Decomposition")
 		self.addTab(self.threats_gui, "Threats")
 
 		#for dev
-		self.setCurrentIndex(1)
-		architecture_tab.setCurrentIndex(1)
+		self.setCurrentIndex(2)
+		decomposition_tab.setCurrentIndex(1)
 
 
 
@@ -89,7 +89,7 @@ class ThreatModelController():
 
 		self.data_flow_diagram_controller = DataFlowDiagramController(self, threat_model.data_flow_diagram_site, threat_model.data_flow_diagram)
 
-		self.entry_points_controller = EntryPointsController(self, threat_model.entry_points)
+		self.entry_points_controller = EntryPointsController(self, threat_model.entry_points, threat_model.assets)
 
 		self.threats_controller = ThreatsController(self, threat_model.threats)
 

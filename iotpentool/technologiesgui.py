@@ -49,7 +49,7 @@ class TechnologiesGui(QtWidgets.QWidget, Ui_MainWindow):
 		self.controller = controller
 
 		self.history_combo_box = ComboBox()
-		self.history_layout.insertWidget(0, self.history_combo_box)
+		self.history_widget.layout().insertWidget(0, self.history_combo_box)
 
 		self.asset_buttons = {}
 		self.attributes = {}
@@ -72,7 +72,7 @@ class TechnologiesGui(QtWidgets.QWidget, Ui_MainWindow):
 			self.history_combo_box.addItem(name, techn)
 
 	def fill_from_history(self):
-		'''selecting item from combobox action for adding new asset from dropdown list in gui
+		'''selecting item from combobox action for adding new technology from dropdown list in gui
 		'''
 		name = self.history_combo_box.currentText()
 		technology = self.history_combo_box.currentData()
@@ -144,15 +144,6 @@ class TechnologiesGui(QtWidgets.QWidget, Ui_MainWindow):
 		#clear
 		self.cleanup()
 
-	def cleanup(self):
-		self.history_combo_box.clear()
-		self.reset_checkable_assets()
-		self.attr_key_text_box.clear()
-		self.attr_value_text_box.clear()
-		self.attributes_list.clear()
-		self.attributes = {}
-
-
 	def delete_technology_entry(self):
 		'''Removes selected Technology entry from gui
 		'''
@@ -166,6 +157,13 @@ class TechnologiesGui(QtWidgets.QWidget, Ui_MainWindow):
 		#clear selection
 		self.display_list_widget.clearSelection()
 
+	def cleanup(self):
+		self.history_combo_box.clear()
+		self.reset_checkable_assets()
+		self.attr_key_text_box.clear()
+		self.attr_value_text_box.clear()
+		self.attributes_list.clear()
+		self.attributes = {}
 
 	#ATTRIBUTES
 
@@ -304,6 +302,7 @@ class TechnologiesGui(QtWidgets.QWidget, Ui_MainWindow):
 			btn = QtWidgets.QPushButton()
 			btn.setCheckable(True)
 			btn.setText(asset_name)
+			btn.setSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
 			self.assets_scroll_area_widget.layout().addWidget(btn, row, column)
 
 			self.asset_buttons[asset_name] = btn
@@ -384,6 +383,15 @@ class TechnologiesController():
 			Message.show_message_box(self.technologies_gui, MsgType.INFO, str(e))
 			Message.print_message(MsgType.INFO, str(e))
 
+	def delete_technology(self, technology):
+		'''Action called when delete button is clicked, called by View delete method
+
+		Args:
+			technology (Technology): Technology to delete
+		'''
+
+		self.threat_model_controller.threat_model.delete_technology(technology)
+
 	def get_history(self):
 		'''Gets known Technologies from the cache file
 
@@ -399,15 +407,6 @@ class TechnologiesController():
 			Message.show_message_box(self.technologies_gui, MsgType.ERROR, str(e))
 			Message.print_message(MsgType.ERROR, str(e))
 		return technologies
-
-	def delete_technology(self, technology):
-		'''Action called when delete button is clicked of a particular technology entry
-
-		Args:
-			technology (String): Technology to delete
-		'''
-
-		self.threat_model_controller.threat_model.delete_technology(technology)
 
 	def refresh_assets(self):
 		self.technologies_gui.add_checkable_assets(self.used_assets)
