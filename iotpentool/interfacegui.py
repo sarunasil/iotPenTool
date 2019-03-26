@@ -18,7 +18,7 @@ from PyQt5.QtCore import Qt
 from iotpentool.line import QHLine
 
 
-class ModuleGui(QtWidgets.QWidget):
+class InterfaceGui(QtWidgets.QWidget):
     '''Deals with module gui which is generated from Interface data
     '''
 
@@ -48,20 +48,20 @@ class ModuleGui(QtWidgets.QWidget):
         layout.setContentsMargins(0,0,0,0)
         layout.setSpacing(0)
 
-        general = ModuleGui._create_general(self.controller.interface)
+        general = InterfaceGui._create_general(self.controller.interface)
         layout.addWidget(general)
 
-        flags = ModuleGui._create_flags(self.controller.interface.flags, self.controller.flag_widgets)
+        flags = InterfaceGui._create_flags(self.controller.interface.flags, self.controller.flag_widgets)
         # flags.setStyleSheet("background-color:grey;")
         layout.addWidget(flags)
 
-        values = ModuleGui._create_values(self.controller.interface.values, self.controller.value_widgets)
+        values = InterfaceGui._create_values(self.controller.interface.values, self.controller.value_widgets)
         # values.setStyleSheet("background-color:brown;")
         layout.addWidget(values)
 
         layout.addStretch(1)
 
-        footer = ModuleGui._create_footer(self.controller.btns)
+        footer = InterfaceGui._create_footer(self.controller.btns)
         layout.addWidget(footer)
         self.updateGeometry()
 
@@ -129,7 +129,7 @@ class ModuleGui(QtWidgets.QWidget):
         Args:
             flag (_Flag): flag to create gui for
             style (String, optional): Default ot None. Provide a StyleSheet if needed
-            flag_widgets (list(QWidget)): reference to the ModuleGui self.flag_widgets list
+            flag_widgets (list(QWidget)): reference to the InterfaceGui self.flag_widgets list
 
         Returns:
             QWidget:
@@ -189,11 +189,11 @@ class ModuleGui(QtWidgets.QWidget):
         layout.addWidget(widget_top)
         #nested flag
         for flag_iden, flag_flag in flag.flag_flags.items():
-            nested_flag = ModuleGui._create_flag(flag_flag, flag_widgets, style)
+            nested_flag = InterfaceGui._create_flag(flag_flag, flag_widgets, style)
             nested_flag.layout().setContentsMargins(20,0,0,0) #make indentation
             nested_flag.setDisabled(True)
 
-            # Add to modulegui flag widgets list to access value later
+            # Add to interfacegui flag widgets list to access value later
             flag_widgets.append(nested_flag)
             layout.addWidget(nested_flag)
 
@@ -275,19 +275,19 @@ class ModuleGui(QtWidgets.QWidget):
         layout_top.setSpacing(0)
         widget_top.setLayout(layout_top)
 
-        name_lbl = ModuleGui._create_label("Module name:", "name", interface.name, False, style)
+        name_lbl = InterfaceGui._create_label("Module name:", "name", interface.name, False, style)
         layout_top.addWidget(name_lbl)
 
-        version_lbl = ModuleGui._create_label("Version:", "version", interface.version, False, style)
+        version_lbl = InterfaceGui._create_label("Version:", "version", interface.version, False, style)
         layout_top.addWidget(version_lbl)
 
-        command_lbl = ModuleGui._create_label("Command:", "command", interface.command, False, style)
+        command_lbl = InterfaceGui._create_label("Command:", "command", interface.command, False, style)
         layout_top.addWidget(command_lbl)
 
         layout.addWidget(widget_top)
 
 
-        description_lbl = ModuleGui._create_label("Description:", "description", interface.description, True, style)
+        description_lbl = InterfaceGui._create_label("Description:", "description", interface.description, True, style)
         layout.addWidget(description_lbl)
         # layout.addStretch(1)
 
@@ -301,7 +301,7 @@ class ModuleGui(QtWidgets.QWidget):
 
         Args:
             flags (OrderedDict(Flag)): module flags
-            flag_widgets (list(QWidget)): reference to the ModuleGui self.flag_widgets list
+            flag_widgets (list(QWidget)): reference to the InterfaceGui self.flag_widgets list
 
         Returns:
             QWidget: flags part of the module tab
@@ -333,9 +333,9 @@ class ModuleGui(QtWidgets.QWidget):
         scroll_w_layout.addWidget(header_lbl)
         for flag in flags:
             position = len(flag_widgets)
-            temp_flag = ModuleGui._create_flag(flags[flag], flag_widgets, style)
+            temp_flag = InterfaceGui._create_flag(flags[flag], flag_widgets, style)
 
-            # Add to modulegui flag widgets list to access value later
+            # Add to interfacegui flag widgets list to access value later
             # insert it before any child flags
             flag_widgets.insert(position, temp_flag)
 
@@ -359,7 +359,7 @@ class ModuleGui(QtWidgets.QWidget):
 
         Args:
             values (OrderedDict(_Value)): module values
-            value_widgets (list(QWidget)): reference to the ModuleGui self.value_widgets
+            value_widgets (list(QWidget)): reference to the InterfaceGui self.value_widgets
 
         Returns:
             QWidget: values part of the module tab
@@ -391,9 +391,9 @@ class ModuleGui(QtWidgets.QWidget):
         header_lbl = QtWidgets.QLabel(header_txt)
         scroll_w_layout.addWidget(header_lbl)
         for value in values:
-            temp_value = ModuleGui._create_value(values[value], style)
+            temp_value = InterfaceGui._create_value(values[value], style)
 
-            # Add to modulegui value widgets list to access value later
+            # Add to interfacegui value widgets list to access value later
             value_widgets.append(temp_value)
 
             scroll_w_layout.addWidget(temp_value)
@@ -457,8 +457,8 @@ class ModuleGui(QtWidgets.QWidget):
         return widget
 
 
-class ModuleGuiController():
-    '''ModuleGui action controller
+class InterfaceGuiController():
+    '''InterfaceGui action controller
     '''
     def __init__(self, interface, manager):
         '''Init
@@ -471,7 +471,7 @@ class ModuleGuiController():
         self.manager = manager #class reference to deal with multithreading
 
         self.execution_id = None
-        self.modulegui = ModuleGui(self)
+        self.interfacegui = InterfaceGui(self)
 
         self.btns["btn_execute"].pressed.connect(self.execute_action)
         self.btns["btn_terminate"].pressed.connect(self.terminate_action)

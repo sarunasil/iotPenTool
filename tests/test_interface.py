@@ -15,7 +15,7 @@ from collections import OrderedDict
 
 from iotpentool import interface
 from iotpentool import interfaceloader
-from iotpentool.modulegui import ModuleGui, ModuleGuiController
+from iotpentool.interfacegui import InterfaceGui, InterfaceGuiController
 from iotpentool.manager import Manager
 
 from iotpentool.utils import DataException
@@ -159,8 +159,8 @@ def test_generate_gui(application, interface_loader, interface_command):
 
 	interface.generate_gui(Manager())
 
-	assert isinstance(interface.gui_controller, ModuleGuiController)
-	assert isinstance(interface.gui_controller.modulegui, ModuleGui)
+	assert isinstance(interface.gui_controller, InterfaceGuiController)
+	assert isinstance(interface.gui_controller.interfacegui, InterfaceGui)
 
 
 @pytest.mark.parametrize(("interface_command","flags","values","check_command"),

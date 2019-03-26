@@ -13,7 +13,7 @@ import pytest
 from collections import OrderedDict
 from PyQt5 import QtWidgets
 
-from iotpentool.modulegui import ModuleGui, ModuleGuiController
+from iotpentool.interfacegui import InterfaceGui, InterfaceGuiController
 from iotpentool.interface import _Flag, _FlagLabel, _Value, Interface, NESTED_SYMBOL
 from iotpentool.interfaceloader import InterfaceLoader
 from iotpentool.manager import Manager
@@ -33,11 +33,11 @@ def application():
 def test_init(application, interface_loader, interface_command):
 
 	interface = interface_loader.interfaces[interface_command]
-	controller = ModuleGuiController(interface, None)
-	widget = ModuleGui(controller)
+	controller = InterfaceGuiController(interface, None)
+	widget = InterfaceGui(controller)
 
 	assert isinstance(widget, QtWidgets.QWidget)
-	assert isinstance(widget.controller, ModuleGuiController)
+	assert isinstance(widget.controller, InterfaceGuiController)
 	assert widget.styleSheet() == widget.style
 	assert widget.objectName() == "widget_interface"
 	assert widget.findChild(QtWidgets.QWidget, "widget_general")
@@ -51,7 +51,7 @@ def test_init(application, interface_loader, interface_command):
 	])
 def test__create_label(application, label, object_name, text, wrap, style):
 
-	widget = ModuleGui._create_label(label, object_name, text, wrap, style)
+	widget = InterfaceGui._create_label(label, object_name, text, wrap, style)
 
 	assert isinstance(widget, QtWidgets.QWidget)
 	assert widget.styleSheet() == style
@@ -113,7 +113,7 @@ def test__create_flag(application, iden, has_value, flag_data, style):
 	else:
 		flag = _Flag(iden, flag_data)
 
-	widget = ModuleGui._create_flag(flag, [], style)
+	widget = InterfaceGui._create_flag(flag, [], style)
 
 	assert isinstance(widget, QtWidgets.QWidget)
 	assert widget.styleSheet() == style
@@ -143,7 +143,7 @@ def test__create_flag(application, iden, has_value, flag_data, style):
 def test__create_value(application, iden, value_data, style):
 	value = _Value(iden, value_data)
 
-	widget = ModuleGui._create_value(value, style)
+	widget = InterfaceGui._create_value(value, style)
 
 	assert isinstance(widget, QtWidgets.QWidget)
 	assert widget.styleSheet() == style
@@ -163,7 +163,7 @@ def test__create_general(application, category, name, version, command, descript
 
 	interface = Interface(category, name, version, command, description, structure)
 
-	widget = ModuleGui._create_general(interface)
+	widget = InterfaceGui._create_general(interface)
 
 	assert isinstance(widget, QtWidgets.QWidget)
 	#style = "smth"
@@ -225,7 +225,7 @@ def test__create_flags(application, flags, flag_widgets):
 		stub_flags[f.iden] = f
 
 	flag_widgets_len = len(flag_widgets)
-	widget = ModuleGui._create_flags(stub_flags, flag_widgets)
+	widget = InterfaceGui._create_flags(stub_flags, flag_widgets)
 	assert len(flag_widgets) == flag_widgets_len + len(flags)
 
 	assert isinstance(widget, QtWidgets.QWidget)
@@ -260,7 +260,7 @@ def test__create_values(application, values, value_widgets):
 	  stub_values[v.iden] = v
 
 	value_widgets_len = len(value_widgets)
-	widget = ModuleGui._create_values(stub_values, value_widgets)
+	widget = InterfaceGui._create_values(stub_values, value_widgets)
 	assert len(value_widgets) == value_widgets_len + len(values)
 
 	assert isinstance(widget, QtWidgets.QWidget)
@@ -280,7 +280,7 @@ def test__create_values(application, values, value_widgets):
 def test__create_footer(application, btns_ref):
 
 	btns_ref_len = len(btns_ref)
-	widget = ModuleGui._create_footer(btns_ref)
+	widget = InterfaceGui._create_footer(btns_ref)
 	assert len(btns_ref) == btns_ref_len + 2
 
 	assert isinstance(widget, QtWidgets.QWidget)
@@ -298,8 +298,8 @@ def test__create_footer(application, btns_ref):
 	])
 def test_gather_params(application, interface_command, flag_states, value_states):
 	interface_obj = InterfaceLoader.create_interface(InterfaceLoader.read_interface_file("tests/stub_interfaces/interface-"+interface_command+".yml")) #get single interface object without using InterfaceLoader instance
-	controller = ModuleGuiController(interface_obj, None)
-	widget = ModuleGui(controller)
+	controller = InterfaceGuiController(interface_obj, None)
+	widget = InterfaceGui(controller)
 
 	#setup flag values
 	#go through each flag_state

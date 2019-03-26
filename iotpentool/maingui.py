@@ -63,7 +63,7 @@ class MainGui(QtWidgets.QMainWindow, Ui_MainWindow):
 			interface.generate_gui(manager) #generates gui for every Interface
 
 
-			self.get_tab(interface.category).addTab(interface.gui_controller.modulegui, name) #adds generated guis to TabWidget
+			self.get_tab(interface.category).addTab(interface.gui_controller.interfacegui, name) #adds generated guis to TabWidget
 
 			# self.resized.connect(interface.gui.print_general_size)
 		self.firmware_tab.layout().addWidget(self.firmware_tabs)

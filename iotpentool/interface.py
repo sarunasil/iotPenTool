@@ -12,7 +12,7 @@ import re
 
 from abc import ABC
 from collections import OrderedDict
-from iotpentool.modulegui import ModuleGuiController
+from iotpentool.interfacegui import InterfaceGuiController
 from iotpentool.utils import DataException
 
 #SYMBOL USED TO MARK NESTED FLAGS
@@ -166,7 +166,7 @@ class Interface():
 			to execute commands outside main event loop
 		'''
 
-		self.gui_controller = ModuleGuiController(self, manager)
+		self.gui_controller = InterfaceGuiController(self, manager)
 
 	def build_command(self, flags, values):
 		'''Takes dicts of flags and values chosen according to gui and creates one complete command string that can be executed in terminal

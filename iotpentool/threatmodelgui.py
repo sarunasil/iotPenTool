@@ -22,7 +22,7 @@ from iotpentool.archdiagramgui import ArchDiagramController
 from iotpentool.technologiesgui import TechnologiesController
 from iotpentool.dataflowdiagramgui import DataFlowDiagramController
 from iotpentool.entrypointsgui import EntryPointsController
-from iotpentool.threatsgui import ThreatsController
+from iotpentool.rankinggui import RankingController
 
 
 class ThreatModelGui(QtWidgets.QTabWidget):
@@ -91,7 +91,7 @@ class ThreatModelController():
 
 		self.entry_points_controller = EntryPointsController(self, threat_model.entry_points, threat_model.assets)
 
-		self.threats_controller = ThreatsController(self, threat_model.threats)
+		self.ranking_controller = RankingController(self, threat_model.threats)
 
 		self.threat_model_gui = ThreatModelGui(self,
 												self.assets_controller.assets_gui,
@@ -99,6 +99,6 @@ class ThreatModelController():
 												self.technologies_controller.technologies_gui,
 												self.data_flow_diagram_controller.data_flow_diagram_gui,
 												self.entry_points_controller.entry_points_gui,
-												self.threats_controller.threats_gui
+												self.ranking_controller.threats_gui
 											)
 

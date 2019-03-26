@@ -19,7 +19,6 @@ SHOULD
     Update terminal display
 
 COULD
-    nested tabs for tool grouping
     clear Assets/Technology cache
 
     Export everything as html report
