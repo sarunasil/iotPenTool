@@ -17,7 +17,7 @@ from iotpentool.entrypoint import EntryPoint
 from iotpentool.utils import ModellingException
 from iotpentool.threatmodelgui import ThreatModelController
 from iotpentool.technology import Technology
-
+from iotpentool.threat import Threat, DreadScore
 
 class ThreatModel(QtCore.QObject):
 	'''Represents the overall threat model
@@ -49,6 +49,25 @@ class ThreatModel(QtCore.QObject):
 		self.threats = {}
 
 		self.threat_model_controller = None
+
+
+		#DEV
+		self.add_asset("123", "bla", cache=False)
+		self.add_asset("456", "blabla", cache=False)
+		self.add_asset("789", "blablablabla blablablabla", cache=False)
+
+		self.add_technology("tech1", "tech_descr", {"Atrr1":"value1"}, {}, cache=False)
+		self.add_technology("tech2", "tech_descrr", {"Atrr1":"value1", "Attr2":"value2"}, {}, cache=False)
+		self.add_technology("tech3", "tech_descrrr", {}, {"123":self.assets["123"]}, cache=False)
+		self.add_technology("tech4", "tech_descrrrr", {"Atrr1":"value1"}, {"123":self.assets["123"]}, cache=False)
+		self.add_technology("tech5", "tech_descrrrrr", {}, {"789":self.assets["789"]}, cache=False)
+		self.add_technology("tech6", "tech_descrrrrrr", {"Atrr1":"value1"}, {"789":self.assets["789"]}, cache=False)
+
+		self.add_entry_point("123_login", "bla bla", self.assets["123"])
+		self.add_entry_point("123_keyboard", "keyboard qwerty", self.assets["123"])
+		self.add_entry_point("456_cable", "bla blaa", self.assets["456"])
+		self.add_entry_point("789_tablet", "bla blaaa", self.assets["789"])
+
 
 
 	#ASSET
@@ -120,8 +139,31 @@ class ThreatModel(QtCore.QObject):
 
 	#THREAT
 
-	def add_threat(self):
-		pass
+	def add_threat(self, desc, target, attack_tech, counter, entry_point, technologies, score, uid):
+		'''Add new threat entry in threat model
+
+		Args:
+			desc (String):
+			target (String):
+			attack_tech (String):
+			counter (String):
+			entry_point (EntryPoint):
+			technologies (dict(String:Technology)):
+			score (list[int]): list of all 5 categories in THAT order (as in the book)
+			uid (String): not None if this is a Threat update
+		'''
+		dread = DreadScore(score)
+
+		#if name already present - override (update that item)
+		threat = Threat(desc, target, attack_tech, counter, entry_point, technologies, dread, uid)
+		self.threats[threat.uid] = threat
+
+		return threat
+
+	def delete_threat(self, threat):
+		self.threats.pop(threat.uid, None)
+
+	# THREAT MODEL GUI
 
 	def generate_gui(self):
 		self.threat_model_controller = ThreatModelController(self)

@@ -9,7 +9,6 @@ cover View and Controller
 By sarunasil
 """
 
-import uuid
 import os
 from collections import OrderedDict
 from PyQt5 import uic
@@ -18,19 +17,13 @@ from PyQt5 import QtCore
 
 from iotpentool.utils import *
 from iotpentool.technology import Technology
+from iotpentool.combobox import ComboBox
 
 
 CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
 TECHNOLOGY_GUI_FILEPATH = os.path.join(CURRENT_DIR, "gui/technologies.ui")
 
 Ui_MainWindow, QtBaseClass = uic.loadUiType(TECHNOLOGY_GUI_FILEPATH)
-
-class ComboBox(QtWidgets.QComboBox):
-	popupAboutToBeShown = QtCore.pyqtSignal()
-
-	def showPopup(self):
-		self.popupAboutToBeShown.emit()
-		super(ComboBox, self).showPopup()
 
 class TechnologiesGui(QtWidgets.QWidget, Ui_MainWindow):
 	'''Gui for adding new technologies and adding asssets ref to them
@@ -56,11 +49,11 @@ class TechnologiesGui(QtWidgets.QWidget, Ui_MainWindow):
 
 		self.history_combo_box.popupAboutToBeShown.connect(self.fill_combobox)
 		self.history_combo_box.currentTextChanged.connect(self.fill_from_history)
-		self.del_button.pressed.connect(self.delete_technology_entry)
+		self.del_button.clicked.connect(self.delete_technology_entry)
 		self.display_list_widget.itemActivated.connect(self.fill_from_item)
 
-		self.add_attribute.pressed.connect(self.add_new_attribute)
-		self.del_attribute.pressed.connect(self.delete_attribute)
+		self.add_attribute.clicked.connect(self.add_new_attribute)
+		self.del_attribute.clicked.connect(self.delete_attribute)
 		self.attributes_list.itemActivated.connect(self.fill_attribute_from_item)
 
 	def fill_combobox(self):
@@ -348,7 +341,7 @@ class TechnologiesController():
 		self.technologies_gui = TechnologiesGui(self)
 
 
-		self.technologies_gui.add_button.pressed.connect(self.add_new_technology)
+		self.technologies_gui.add_button.clicked.connect(self.add_new_technology)
 
 	def get_selected_assets(self):
 		'''Gathers selected Assets objects for this TEchnology

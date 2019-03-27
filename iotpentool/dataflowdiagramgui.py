@@ -9,7 +9,6 @@ cover View and Controller
 By sarunasil
 """
 
-import uuid
 import os
 from collections import OrderedDict
 from PyQt5 import uic

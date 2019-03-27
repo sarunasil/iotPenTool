@@ -9,7 +9,6 @@ covers View and Controller
 By sarunasil
 """
 
-import uuid
 import os
 from collections import OrderedDict
 from PyQt5 import uic
@@ -19,6 +18,7 @@ from PyQt5 import QtCore
 from iotpentool.line import QHLine
 from iotpentool.utils import *
 from iotpentool.asset import Asset
+from iotpentool.combobox import ComboBox
 
 
 CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
@@ -26,12 +26,6 @@ ASSETS_GUI_FILEPATH = os.path.join(CURRENT_DIR, "gui/assets.ui")
 
 Ui_MainWindow, QtBaseClass = uic.loadUiType(ASSETS_GUI_FILEPATH)
 
-class ComboBox(QtWidgets.QComboBox):
-	popupAboutToBeShown = QtCore.pyqtSignal()
-
-	def showPopup(self):
-		self.popupAboutToBeShown.emit()
-		super(ComboBox, self).showPopup()
 
 class AssetsGui(QtWidgets.QWidget, Ui_MainWindow):
 	'''Deals with Assets tab which is generated from Assets data
@@ -56,7 +50,7 @@ class AssetsGui(QtWidgets.QWidget, Ui_MainWindow):
 
 		self.history_combo_box.popupAboutToBeShown.connect(self.fill_combobox)
 		self.history_combo_box.currentTextChanged.connect(self.fill_from_history)
-		self.del_button.pressed.connect(self.delete_asset_entry)
+		self.del_button.clicked.connect(self.delete_asset_entry)
 		self.display_list_widget.itemActivated.connect(self.fill_from_item)
 
 
@@ -169,7 +163,7 @@ class AssetsController():
 		self.assets_gui = AssetsGui(self)
 
 		self.add_btn = self.assets_gui.add_button
-		self.add_btn.pressed.connect(self.add_new_asset)
+		self.add_btn.clicked.connect(self.add_new_asset)
 
 	def add_new_asset(self):
 		'''add_btn action of adding new Asset from gui

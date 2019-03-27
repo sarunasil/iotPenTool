@@ -473,8 +473,8 @@ class InterfaceGuiController():
         self.execution_id = None
         self.interfacegui = InterfaceGui(self)
 
-        self.btns["btn_execute"].pressed.connect(self.execute_action)
-        self.btns["btn_terminate"].pressed.connect(self.terminate_action)
+        self.btns["btn_execute"].clicked.connect(self.execute_action)
+        self.btns["btn_terminate"].clicked.connect(self.terminate_action)
 
     def gather_params(self):
         '''Gathers flag and value states from text fields and checkboxes in the gui

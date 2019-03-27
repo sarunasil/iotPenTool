@@ -9,7 +9,6 @@ responsibility separation via Model<->Controller<->View
 By sarunasil
 """
 
-import uuid
 import os
 from collections import OrderedDict
 from PyQt5 import QtWidgets
@@ -24,12 +23,11 @@ from iotpentool.dataflowdiagramgui import DataFlowDiagramController
 from iotpentool.entrypointsgui import EntryPointsController
 from iotpentool.rankinggui import RankingController
 
-
 class ThreatModelGui(QtWidgets.QTabWidget):
 	'''Deals with module gui which is generated from ThreatModel data
 	'''
 
-	def __init__(self, controller, assets_gui, arch_diagram_gui, technologies_gui, data_flow_diagram_gui, entry_points_gui, threats_gui):
+	def __init__(self, controller, assets_gui, arch_diagram_gui, technologies_gui, data_flow_diagram_gui, entry_points_gui, ranking_gui):
 		'''Init
 		'''
 		super().__init__()
@@ -40,7 +38,7 @@ class ThreatModelGui(QtWidgets.QTabWidget):
 		self.technologies_gui = technologies_gui
 		self.data_flow_diagram_gui = data_flow_diagram_gui
 		self.entry_points_gui = entry_points_gui
-		self.threats_gui = threats_gui
+		self.ranking_gui = ranking_gui
 
 		self.initUI()
 
@@ -65,11 +63,10 @@ class ThreatModelGui(QtWidgets.QTabWidget):
 		decomposition_tab.addTab(self.data_flow_diagram_gui, "Data Flow Diagram")
 		decomposition_tab.addTab(self.entry_points_gui, "Entry points")
 		self.addTab(decomposition_tab, "Decomposition")
-		self.addTab(self.threats_gui, "Threats")
+		self.addTab(self.ranking_gui, "Threats")
 
 		#for dev
-		self.setCurrentIndex(2)
-		decomposition_tab.setCurrentIndex(1)
+		self.setCurrentIndex(3)
 
 
 
@@ -79,26 +76,26 @@ class ThreatModelController():
 	def __init__(self, threat_model):
 		'''Init
 		'''
-		self.threat_model = threat_model
 		self.assets_controller = AssetsController(self, threat_model.assets)
 
 		self.arch_diagram_controller = ArchDiagramController(self, threat_model.architectural_diagram_site, threat_model.architectural_diagram)
 
 		self.technologies_controller = TechnologiesController(self, threat_model.technologies, threat_model.assets)
-		self.threat_model.assets_updated.connect(self.technologies_controller.refresh_assets)
+		threat_model.assets_updated.connect(self.technologies_controller.refresh_assets)
 
 		self.data_flow_diagram_controller = DataFlowDiagramController(self, threat_model.data_flow_diagram_site, threat_model.data_flow_diagram)
 
 		self.entry_points_controller = EntryPointsController(self, threat_model.entry_points, threat_model.assets)
 
-		self.ranking_controller = RankingController(self, threat_model.threats)
+		self.ranking_controller = RankingController(self, threat_model.threats, threat_model.technologies, threat_model.entry_points)
 
+		self.threat_model = threat_model
 		self.threat_model_gui = ThreatModelGui(self,
 												self.assets_controller.assets_gui,
 												self.arch_diagram_controller.arch_diagram_gui,
 												self.technologies_controller.technologies_gui,
 												self.data_flow_diagram_controller.data_flow_diagram_gui,
 												self.entry_points_controller.entry_points_gui,
-												self.ranking_controller.threats_gui
+												self.ranking_controller.ranking_gui
 											)
 

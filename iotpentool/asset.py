@@ -10,7 +10,6 @@ By sarunasil
 """
 
 import os
-import uuid
 import yaml
 
 from iotpentool.technology import Technology

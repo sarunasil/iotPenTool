@@ -2,3 +2,8 @@ entry_points:
   'd': 'd'
   'dddasdas': 'd'
   'dddasdassad': 'd'
+  '123_login': 'bla bla'
+  '123_keyboard': 'keyboard qwerty'
+  '456_cable': 'bla blaa'
+  '789_tablet': 'bla blaaa'
+  'sad': 'sad'
