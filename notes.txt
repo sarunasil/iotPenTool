@@ -1,16 +1,10 @@
-Things to do:
-1. nested tabs for tool grouping                                                                                             +
+Things to do:                                                                                     +
 3. export methodology tabs content as some report                                                                            +
 4. save report as xml                                                                                                        +
-5. suggest tool for threat according to keywords used
-8. sort and display threat list ranked using DREAD                                                                           +
-9. zoom into threat; tool suggestion buttons 
+5. suggest tool for threat according to keywords used                                                                  +
 10. update interfaces to say what values it expects for some flags
 
 MUST
-    Threats ranking gui connection
-    Threat gui
-    Threat ranking and display in Threats tab
 
 SHOULD
     Export Methodology as serialized data
