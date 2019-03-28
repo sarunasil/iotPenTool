@@ -34,8 +34,7 @@ class MainGui(QtWidgets.QMainWindow, Ui_MainWindow):
 		'''STUB OUTPUT FUNCTION
 		'''
 
-		textedit = self.central.findChild(QtWidgets.QPlainTextEdit)
-		textedit.insertPlainText(data)
+		self.main_output_text_box.insertPlainText(data)
 
 	def __init__(self, interfaces, manager, threat_model):
 		'''Init
@@ -76,6 +75,8 @@ class MainGui(QtWidgets.QMainWindow, Ui_MainWindow):
 		#create right side tool menu
 		threat_model.generate_gui()
 		self.metho_bar.layout().addWidget(threat_model.threat_model_controller.threat_model_gui)
+
+		self.module_bar.setCurrentIndex(4)
 
 	# def resizeEvent(self, event):
 	# 	self.resized.emit()

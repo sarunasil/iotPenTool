@@ -169,7 +169,7 @@
      </widget>
     </item>
     <item>
-     <widget class="QPlainTextEdit" name="plainTextEdit">
+     <widget class="QPlainTextEdit" name="main_output_text_box">
       <property name="plainText">
        <string/>
       </property>

@@ -1,2 +1,6 @@
 entry_points:
   'Firmware': 'The DVR utilizes firmware to control the device but may only be acquired via vendor technical support (per documentation). The embedded web server utilizes the firmware for managing actions.'
+  '123_login': 'bla bla'
+  '123_keyboard': 'keyboard qwerty'
+  '456_cable': 'bla blaa'
+  '789_tablet': 'bla blaaa'

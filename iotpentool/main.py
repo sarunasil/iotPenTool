@@ -46,7 +46,8 @@ class Main():
 				return
 
 		self.interface_loader = InterfaceLoader(config_manager.interface_dir)
-		self.threat_model = ThreatModel(config_manager.architecture_site, config_manager.data_flow_site, config_manager.model_dir)
+		self.threat_model = ThreatModel(config_manager.architecture_site, config_manager.data_flow_site, config_manager.model_dir, DEV=True)
+		#DEV adds some predefined values to make testing easier
 
 		self.main_gui = MainGui(self.interface_loader.interfaces, self.thread_manager, self.threat_model)
 		self.main_gui.show()

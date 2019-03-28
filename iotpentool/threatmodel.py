@@ -24,7 +24,7 @@ class ThreatModel(QtCore.QObject):
 	'''
 	assets_updated = QtCore.pyqtSignal()
 
-	def __init__(self, arch_site, dataflow_site, model_dir):
+	def __init__(self, arch_site, dataflow_site, model_dir, DEV=False):
 		'''Init
 		'''
 		super(ThreatModel, self).__init__()
@@ -52,21 +52,22 @@ class ThreatModel(QtCore.QObject):
 
 
 		#DEV
-		self.add_asset("123", "bla", cache=False)
-		self.add_asset("456", "blabla", cache=False)
-		self.add_asset("789", "blablablabla blablablabla", cache=False)
+		if DEV:
+			self.add_asset("123", "bla", cache=False)
+			self.add_asset("456", "blabla", cache=False)
+			self.add_asset("789", "blablablabla blablablabla", cache=False)
 
-		self.add_technology("tech1", "tech_descr", {"Atrr1":"value1"}, {}, cache=False)
-		self.add_technology("tech2", "tech_descrr", {"Atrr1":"value1", "Attr2":"value2"}, {}, cache=False)
-		self.add_technology("tech3", "tech_descrrr", {}, {"123":self.assets["123"]}, cache=False)
-		self.add_technology("tech4", "tech_descrrrr", {"Atrr1":"value1"}, {"123":self.assets["123"]}, cache=False)
-		self.add_technology("tech5", "tech_descrrrrr", {}, {"789":self.assets["789"]}, cache=False)
-		self.add_technology("tech6", "tech_descrrrrrr", {"Atrr1":"value1"}, {"789":self.assets["789"]}, cache=False)
+			self.add_technology("tech1", "tech_descr", {"Atrr1":"value1"}, {}, cache=False)
+			self.add_technology("tech2", "tech_descrr", {"Atrr1":"value1", "Attr2":"value2"}, {}, cache=False)
+			self.add_technology("tech3", "tech_descrrr", {}, {"123":self.assets["123"]}, cache=False)
+			self.add_technology("tech4", "tech_descrrrr", {"Atrr1":"value1"}, {"123":self.assets["123"]}, cache=False)
+			self.add_technology("tech5", "tech_descrrrrr", {}, {"789":self.assets["789"]}, cache=False)
+			self.add_technology("tech6", "tech_descrrrrrr", {"Atrr1":"value1"}, {"789":self.assets["789"]}, cache=False)
 
-		self.add_entry_point("123_login", "bla bla", self.assets["123"])
-		self.add_entry_point("123_keyboard", "keyboard qwerty", self.assets["123"])
-		self.add_entry_point("456_cable", "bla blaa", self.assets["456"])
-		self.add_entry_point("789_tablet", "bla blaaa", self.assets["789"])
+			self.add_entry_point("123_login", "bla bla", self.assets["123"])
+			self.add_entry_point("123_keyboard", "keyboard qwerty", self.assets["123"])
+			self.add_entry_point("456_cable", "bla blaa", self.assets["456"])
+			self.add_entry_point("789_tablet", "bla blaaa", self.assets["789"])
 
 
 
