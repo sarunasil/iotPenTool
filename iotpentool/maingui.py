@@ -49,6 +49,10 @@ class MainGui(QtWidgets.QMainWindow, Ui_MainWindow):
 		Ui_MainWindow.__init__(self)
 		self.setupUi(self)
 
+		self.actionClear_Assets_cache.triggered.connect(threat_model.clear_assets_cache)
+		self.actionClear_Technologies_cache.triggered.connect(threat_model.clear_technologies_cache)
+		self.actionClear_Entry_Points_cache.triggered.connect(threat_model.clear_entry_points_cache)
+
 		#create left side tool menu
 		self.firmware_tabs = TabWidget()
 		self.web_app_tabs = TabWidget()
@@ -103,4 +107,5 @@ class MainGui(QtWidgets.QMainWindow, Ui_MainWindow):
 		elif category == "WIRELESS":
 			return self.wireless_tabs
 
-		return self.wireless
+		return self.wireless_tabs
+

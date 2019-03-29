@@ -13,8 +13,6 @@ SHOULD
     Update terminal display
 
 COULD
-    clear Assets/Technology cache
-
     Export everything as html report
 
 WON'T

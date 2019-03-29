@@ -14,7 +14,7 @@ from PyQt5 import QtCore
 
 from iotpentool.asset import Asset
 from iotpentool.entrypoint import EntryPoint
-from iotpentool.utils import ModellingException
+from iotpentool.utils import ModellingException, Message, MsgType
 from iotpentool.threatmodelgui import ThreatModelController
 from iotpentool.technology import Technology
 from iotpentool.threat import Threat, DreadScore
@@ -169,5 +169,28 @@ class ThreatModel(QtCore.QObject):
 	def generate_gui(self):
 		self.threat_model_controller = ThreatModelController(self)
 
+	def clear_assets_cache(self):
+		if os.path.exists(self.assets_file):
+			try:
+				os.remove(self.assets_file)
+			except OSError:
+				Message.print_message(MsgType.ERROR, "Could not delete Assets cache file "+self.assets_file)
+				Message.show_message_box(self.threat_model_controller.threat_model_gui, MsgType.ERROR, "Could not delete Assets cache file "+self.assets_file)
+
+	def clear_technologies_cache(self):
+		if os.path.exists(self.technologies_file):
+			try:
+				os.remove(self.technologies_file)
+			except OSError:
+				Message.print_message(MsgType.ERROR, "Could not delete Technologies cache file "+self.technologies_file)
+				Message.show_message_box(self.threat_model_controller.threat_model_gui, MsgType.ERROR, "Could not delete Technologies cache file "+self.technologies_file)
+
+	def clear_entry_points_cache(self):
+		if os.path.exists(self.entry_points_file):
+			try:
+				os.remove(self.technologies_file)
+			except OSError:
+				Message.print_message(MsgType.ERROR, "Could not delete Technologies cache file "+self.technologies_file)
+				Message.show_message_box(self.threat_model_controller.threat_model_gui, MsgType.ERROR, "Could not delete Entry Points cache file "+self.entry_points_file)
 
 

@@ -230,6 +230,9 @@
     <property name="title">
      <string>&amp;Cache</string>
     </property>
+    <addaction name="actionClear_Assets_cache"/>
+    <addaction name="actionClear_Technologies_cache"/>
+    <addaction name="actionClear_Entry_Points_cache"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuCache"/>
@@ -240,6 +243,21 @@
     <bool>true</bool>
    </property>
   </widget>
+  <action name="actionClear_Assets_cache">
+   <property name="text">
+    <string>Clear Assets cache</string>
+   </property>
+  </action>
+  <action name="actionClear_Technologies_cache">
+   <property name="text">
+    <string>Clear Technologies cache</string>
+   </property>
+  </action>
+  <action name="actionClear_Entry_Points_cache">
+   <property name="text">
+    <string>Clear Entry Points cache</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>
