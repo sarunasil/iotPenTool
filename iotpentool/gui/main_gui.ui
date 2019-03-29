@@ -225,10 +225,11 @@
     <addaction name="actionOpen_Threat_Model"/>
     <addaction name="separator"/>
     <addaction name="actionSave_Threat_Model"/>
-    <addaction name="actionExport_as_html"/>
-    <addaction name="actionExport_as_xml"/>
+    <addaction name="actionGenerate_html_report"/>
+    <addaction name="actionExport_as_yaml"/>
     <addaction name="separator"/>
     <addaction name="actionExit"/>
+    <addaction name="separator"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -284,17 +285,22 @@
   </action>
   <action name="actionExport_as_html">
    <property name="text">
-    <string>Export as html</string>
+    <string>Generate html report</string>
    </property>
   </action>
-  <action name="actionExport_as_xml">
+  <action name="actionExport_as_yaml">
    <property name="text">
-    <string>Export as xml</string>
+    <string>Export as yaml</string>
    </property>
   </action>
   <action name="actionExit">
    <property name="text">
     <string>Exit</string>
+   </property>
+  </action>
+  <action name="actionGenerate_html_report">
+   <property name="text">
+    <string>Generate html report</string>
    </property>
   </action>
  </widget>

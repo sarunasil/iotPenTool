@@ -9,6 +9,7 @@ By sarunasil
 
 import sys
 import pickle
+import yaml
 from os import path
 
 from PyQt5.QtWidgets import QApplication
@@ -55,11 +56,26 @@ class Main():
 		self.main_gui.show()
 
 	def create_threat_model(self):
+		'''Open new threat model object
+
+		Returns:
+			ThreatModel: new threat model object
+		'''
+
 		return ThreatModel(self.config_manager.architecture_site, self.config_manager.data_flow_site, self.config_manager.model_dir, DEV=True)
 
 	def open_threat_model(self, file_path):
-		#check file
-		#deserialize?
+		'''Open threat saved as Python serialized (.pickle) object
+
+		Args:
+			file_path (String): file to open
+
+		Raises:
+			PersistenceException: Exception to throw if error - generalizes error type
+
+		Returns:
+			ThreatModel: deseraliazed threat model object
+		'''
 
 		threat_model = None
 		try:
@@ -73,8 +89,16 @@ class Main():
 
 
 	def save_threat_model(self, file_path, threat_model):
-		#serialize file
-		#if failure - exception
+		'''Saves given ThreatModel object as python serialized file (.pickle)
+
+		Args:
+			file_path (String): file_path to save new file
+			threat_model (ThreatModel): object to save
+
+		Raises:
+			PersistenceException: Exception to throw if error (generalises exact exceptions)
+		'''
+
 
 		try:
 			with open(file_path, 'wb') as binary_file:
@@ -82,6 +106,24 @@ class Main():
 		except (OSError, IOError, pickle.UnpicklingError, pickle.PicklingError, pickle.PickleError) as e:
 			raise PersistenceException(e)
 
+	def export_yaml(self, file_path, threat_model):
+		'''Export current threat model to yaml
+		------------------------------
+		USES DUMP INSTEAD OF SAFE_DUMP
+
+		Args:
+			file_path (String): file path to save to
+			threat_model (ThreatModel): current threat model instance
+
+		Raises:
+			PersistenceException: Exception to throw if error (generalises exact exceptions)
+		'''
+
+		with open(file_path, 'w') as stream:
+			try:
+				yaml.dump(threat_model, stream)
+			except yaml.YAMLError as e:
+				raise PersistenceException(e)
 
 
 if __name__ == "__main__":
@@ -89,5 +131,3 @@ if __name__ == "__main__":
 	main = Main()
 	sys.exit(app.exec_())
 
-
-# gui load all data and not just the one that's enter by itself

@@ -95,6 +95,7 @@ class MainGui(QtWidgets.QMainWindow, Ui_MainWindow):
 		self.actionClear_Assets_cache.triggered.connect(threat_model.clear_assets_cache)
 		self.actionClear_Technologies_cache.triggered.connect(threat_model.clear_technologies_cache)
 		self.actionClear_Entry_Points_cache.triggered.connect(threat_model.clear_entry_points_cache)
+		self.actionExport_as_yaml.triggered.connect(self.export_yaml_button_action)
 
 		#create right side tool menu
 		threat_model.generate_gui()
@@ -211,3 +212,27 @@ class MainGui(QtWidgets.QMainWindow, Ui_MainWindow):
 		'''Check is the Threat Model saved and exit
 		'''
 		self.close()
+
+	def export_yaml_button_action(self):
+		'''Exports current threat model as yaml file
+		'''
+
+		yml_extension = ".yml"
+		yaml_extension = ".yaml"
+		filepath, _ = QtWidgets.QFileDialog.getSaveFileName(self, "Export Threat Model", "", filter="*.yml | *.yaml")
+
+		if not filepath:
+			return
+
+		filepath += yml_extension if not (filepath.endswith(yml_extension) or filepath.endswith(yaml_extension)) else ""
+
+		try:
+			self.main.export_yaml(filepath, self.threat_model)
+		except PersistenceException as e:
+			Message.print_message(MsgType.ERROR, "Could not export Threat Model as " + filepath + ". " + str(e))
+			Message.show_message_box(self, MsgType.ERROR, "Could not export Threat Model as " + filepath + ". " + str(e))
+			self.threat_model.saved = False
+			return
+
+		Message.show_message_box(self, MsgType.INFO, "Threat Model exported successfully")
+
