@@ -3,7 +3,6 @@ MUST
 
 SHOULD
     button "Threat testing" -> fills in some fields of tools
-    Update terminal display
 
 COULD
     Export everything as html report
@@ -27,18 +26,6 @@ wfuzz
 hydra (default password crack)
 MOBILE APPLICATIONS - not a good choice...
 apktool - apk decompiler
-
-- Draw out IoT device attack surface
-- Identify threat use cases using e.g. STRIDE
-- Rate threats using DREAD or CVSS
-
-
-To discover flaws:
-    - Document assets and functionality
-    - Architectural diagram of ecosystem
-    - Identify the technologies in use
-------
-
 
 ====================
 IDEA:

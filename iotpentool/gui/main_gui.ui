@@ -169,13 +169,6 @@
      </widget>
     </item>
     <item>
-     <widget class="QPlainTextEdit" name="main_output_text_box">
-      <property name="plainText">
-       <string/>
-      </property>
-     </widget>
-    </item>
-    <item>
      <widget class="QWidget" name="metho_bar" native="true">
       <property name="maximumSize">
        <size>

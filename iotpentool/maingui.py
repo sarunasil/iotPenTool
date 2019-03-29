@@ -33,12 +33,6 @@ class MainGui(QtWidgets.QMainWindow, Ui_MainWindow):
 	interfaces_categories = ["Firmware", "Web App", "Mobile App", "Hardware", "Wireless"]
 	extension = ".pickle"
 
-	def output(self, data):
-		'''STUB OUTPUT FUNCTION
-		'''
-
-		self.main_output_text_box.insertPlainText(data)
-
 	def __init__(self, main, interfaces, manager, threat_model):
 		'''Init
 
@@ -55,25 +49,55 @@ class MainGui(QtWidgets.QMainWindow, Ui_MainWindow):
 		self.setupUi(self)
 
 		self.main = main
-
 		self.threat_model = None
+		self.module_bar.currentChanged.connect(self.module_bar_switch_action)
 
 		#create left side tool menu
 		self.firmware_tabs = TabWidget()
-		self.web_app_tabs = TabWidget()
-		self.mobile_app_tabs = TabWidget()
-		self.remote_access_tabs = TabWidget()
-		self.wireless_tabs = TabWidget()
+		self.firmware_tabs.setObjectName("FIRMWARE")
+		self.firmware_tabs.currentChanged.connect(self.nested_tab_switch_action)
 
+		self.web_app_tabs = TabWidget()
+		self.web_app_tabs.setObjectName("WEB APP")
+		self.web_app_tabs.currentChanged.connect(self.nested_tab_switch_action)
+
+		self.mobile_app_tabs = TabWidget()
+		self.mobile_app_tabs.setObjectName("MOBILE APP")
+		self.mobile_app_tabs.currentChanged.connect(self.nested_tab_switch_action)
+
+		self.remote_access_tabs = TabWidget()
+		self.remote_access_tabs.setObjectName("REMOTE")
+		self.remote_access_tabs.currentChanged.connect(self.nested_tab_switch_action)
+
+		self.wireless_tabs = TabWidget()
+		self.wireless_tabs.setObjectName("WIRELESS")
+		self.wireless_tabs.currentChanged.connect(self.nested_tab_switch_action)
+
+		self.show_terminal_func = [[], [], [], [], []]
+		# manager.add_cleaner(self.hide_all_terminal) no cleaner required - maingui cleans instead of manager
 		self.firmware_tabs.setMaximumWidth(500)
 		for name, interface in interfaces.items():
-			manager.add_output_func(name, self.output) #adds functions to deal with each separate interface output independantly
-			interface.generate_gui(manager) #generates gui for every Interface
 
+			position = -1
+			if interface.category == "FIRMWARE":
+				position = 0
+			elif interface.category == "WEB APP":
+				position = 1
+			elif interface.category == "MOBILE APP":
+				position = 2
+			elif interface.category == "REMOTE ACCESS":
+				position = 3
+			elif interface.category == "WIRELESS":
+				position = 4
+
+			output_func, show_func = self.output(name)
+			self.show_terminal_func[position].append(show_func)
+			manager.add_output_func(name, output_func) #adds functions to deal with each separate interface output independantly
+			interface.generate_gui(manager) #generates gui for every Interface
 
 			self.get_tab(interface.category).addTab(interface.gui_controller.interfacegui, name) #adds generated guis to TabWidget
 
-			# self.resized.connect(interface.gui.print_general_size)
+		#add QTabWidgets to module_bar tabs
 		self.firmware_tab.layout().addWidget(self.firmware_tabs)
 		self.web_app_tab.layout().addWidget(self.web_app_tabs)
 		self.mobile_app_tab.layout().addWidget(self.mobile_app_tabs)
@@ -82,11 +106,9 @@ class MainGui(QtWidgets.QMainWindow, Ui_MainWindow):
 
 		#initialise GUI that regards Threat Model
 		self.init_threat_model(threat_model)
-
 		self.actionNew_Threat_Model.triggered.connect(self.new_model_button_action)
 		self.actionOpen_Threat_Model.triggered.connect(self.open_model_button_action)
 		self.actionSave_Threat_Model.triggered.connect(self.save_model_button_action)
-
 		self.actionExit.triggered.connect(self.exit_button_action)
 
 	def init_threat_model(self, threat_model):
@@ -119,10 +141,76 @@ class MainGui(QtWidgets.QMainWindow, Ui_MainWindow):
 
 		event.accept()
 
+	def output(self, identifier):
+		'''Generates "terminals" for each identifier and returns
+		a function which would insert givent data to that
+		terminal
 
-	# def resizeEvent(self, event):
-	# 	self.resized.emit()
-	# 	return super(MainGui, self).resizeEvent(event)
+		Args:
+			identifier (String): terminal identifier
+
+		Returns:
+			func: function to print data
+			func: function to show terminal
+		'''
+
+		terminal = QtWidgets.QPlainTextEdit()
+		terminal.setObjectName("terminal_"+identifier)
+		terminal.hide()
+
+		self.centralwidget.layout().insertWidget(1, terminal)
+
+		def out(data):
+			terminal.show()
+			terminal.insertPlainText(data)
+
+		def show():
+			terminal.show()
+
+		return out, show
+
+	def hide_all_terminal(self):
+		'''Hides all "terminals" a.k.a. QPlainTextWidgets in MainWindow
+		'''
+
+		for terminal in self.centralwidget.findChildren(QtWidgets.QPlainTextEdit):
+			terminal.hide()
+
+	def module_bar_switch_action(self, index):
+		'''Action called when module_bar tab index changes - active tab is switched
+
+		Args:
+			index (int): tab index
+		'''
+
+		tab_widget = None
+		if index == 0:
+			tab_widget = self.firmware_tabs
+		elif index == 1:
+			tab_widget = self.web_app_tabs
+		elif index == 2:
+			tab_widget = self.mobile_app_tabs
+		elif index == 3:
+			tab_widget = self.remote_access_tabs
+		elif index == 4:
+			tab_widget = self.wireless_tabs
+
+		tab_index = tab_widget.currentIndex()
+		if tab_index >= 0:
+			self.hide_all_terminal()
+			self.show_terminal_func[index][tab_index]()
+
+	def nested_tab_switch_action(self, index):
+		'''Action whan tabs are switch between the same tab
+
+		Args:
+			index (int): tab index
+		'''
+		module_bar_index = self.module_bar.currentIndex()
+		if index < len(self.show_terminal_func[module_bar_index]):
+			self.hide_all_terminal()
+			self.show_terminal_func[module_bar_index][index]()
+
 
 	def get_tab(self, category):
 		'''Returns the qtabwidget tab to which particular interface has to be added

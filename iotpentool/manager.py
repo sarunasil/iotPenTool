@@ -142,6 +142,8 @@ class Manager():
 		self._output_funcs = {} #dict of output functions
 		self._workers = {}
 
+		self.cleaner = None 
+
 	def add_output_func(self, iden, func):
 		'''Adds function that deal with thread output
 		as dict entry with appropriate identifier
@@ -151,6 +153,15 @@ class Manager():
 			func (function): function to deal with output of 'iden'
 		'''
 		self._output_funcs[iden] = func
+
+	def add_cleaner(self, cleaner):
+		'''Adds function to be run before each execution to cleanup after previous run
+
+		Args:
+			cleaner (func): function to run
+		'''
+		self.cleaner = cleaner
+
 
 	def run_executor(self, iden, execution_id, command_string, callback):
 		'''Run command line tool
@@ -170,6 +181,7 @@ class Manager():
 
 		self._workers[execution_id] = worker #remember worker for termination if needed
 
+		self.cleanup_before_run()
 		self.threadpool.start(worker)
 
 	def terminate_executor(self, executor_id):
@@ -184,3 +196,10 @@ class Manager():
 
 			if result == utils.Outcome.FAILURE:
 				utils.Message.print_message(utils.MsgType.WARNING, "Failed to kill a subprocess with SIGTERM command.")
+
+	def cleanup_before_run(self):
+		'''Self explanatory name
+		'''
+
+		if callable(self.cleaner):
+			self.cleaner()
