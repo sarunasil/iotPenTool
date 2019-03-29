@@ -56,6 +56,11 @@ class TechnologiesGui(QtWidgets.QWidget, Ui_MainWindow):
 		self.del_attribute.clicked.connect(self.delete_attribute)
 		self.attributes_list.itemActivated.connect(self.fill_attribute_from_item)
 
+		#load all present technologies to gui if any:
+		for _, tech in self.controller.technologies.items():
+			self.add_technology_entry(tech)
+
+
 	def fill_combobox(self):
 		'''Populates history combobox with the content Technology cache file
 		'''

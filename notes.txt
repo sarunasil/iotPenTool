@@ -1,14 +1,11 @@
 Things to do:                                                                                     +
 3. export methodology tabs content as some report                                                                            +
 4. save report as xml                                                                                                        +
-5. suggest tool for threat according to keywords used                                                                  +
 10. update interfaces to say what values it expects for some flags
 
 MUST
 
 SHOULD
-    Export Methodology as serialized data
-    Import Methodology into
     button "Threat testing" -> fills in some fields of tools
     Update terminal display
 

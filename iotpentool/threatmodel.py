@@ -10,7 +10,6 @@ By sarunasil
 
 import os
 import uuid
-from PyQt5 import QtCore
 
 from iotpentool.asset import Asset
 from iotpentool.entrypoint import EntryPoint
@@ -19,15 +18,20 @@ from iotpentool.threatmodelgui import ThreatModelController
 from iotpentool.technology import Technology
 from iotpentool.threat import Threat, DreadScore
 
-class ThreatModel(QtCore.QObject):
+class ThreatModel():
 	'''Represents the overall threat model
 	'''
-	assets_updated = QtCore.pyqtSignal()
 
 	def __init__(self, arch_site, dataflow_site, model_dir, DEV=False):
 		'''Init
+
+		Args:
+			arch_site (String): Architectural site link
+			dataflow_site (String): Data Flow site link
+			model_dir (String): this threat model file dir
+			DEV (bool, optional): Defaults to False. Put in development values or not
 		'''
-		super(ThreatModel, self).__init__()
+		self.saved = True #current version saved or not
 
 		self.id = str(uuid.uuid4())
 		self.model_dir = model_dir
@@ -64,12 +68,30 @@ class ThreatModel(QtCore.QObject):
 			self.add_technology("tech5", "tech_descrrrrr", {}, {"789":self.assets["789"]}, cache=False)
 			self.add_technology("tech6", "tech_descrrrrrr", {"Atrr1":"value1"}, {"789":self.assets["789"]}, cache=False)
 
-			self.add_entry_point("123_login", "bla bla", self.assets["123"])
-			self.add_entry_point("123_keyboard", "keyboard qwerty", self.assets["123"])
-			self.add_entry_point("456_cable", "bla blaa", self.assets["456"])
-			self.add_entry_point("789_tablet", "bla blaaa", self.assets["789"])
+			self.add_entry_point("123_login", "bla bla", self.assets["123"], cache=False)
+			self.add_entry_point("123_keyboard", "keyboard qwerty", self.assets["123"], cache=False)
+			self.add_entry_point("456_cable", "bla blaa", self.assets["456"], cache=False)
+			self.add_entry_point("789_tablet", "bla blaaa", self.assets["789"], cache=False)
+			self.saved = True
 
+	def __getstate__(self):
+		'''What to pickle and leave
+		QtWidgets can't be pickled
+		'''
 
+		state = self.__dict__.copy()
+
+		del state['threat_model_controller']
+		return state
+
+	def __setstate__(self, state):
+		'''Restore states as by default
+
+		Args:
+			state (dict): instance data read from file
+		'''
+
+		self.__dict__.update(state)
 
 	#ASSET
 
@@ -81,12 +103,12 @@ class ThreatModel(QtCore.QObject):
 		if cache:
 			self.assets[name].update_known_assets()
 
-		self.assets_updated.emit()
+		self.saved = False
 		return self.assets[name]
 
 	def delete_asset(self, asset):
 		self.assets.pop(asset.name, None)
-		self.assets_updated.emit()
+		self.saved = False
 
 
 	#TECHNOLOGY
@@ -110,10 +132,12 @@ class ThreatModel(QtCore.QObject):
 		if cache:
 			self.technologies[name].update_known_technologies()
 
+		self.saved = False
 		return self.technologies[name]
 
 	def delete_technology(self, technology):
 		self.technologies.pop(technology.name, None)
+		self.saved = False
 
 
 	#ENTRY POINT
@@ -132,10 +156,12 @@ class ThreatModel(QtCore.QObject):
 		if cache:
 			self.entry_points[name].update_known_entry_points()
 
+		self.saved = False
 		return self.entry_points[name]
 
 	def delete_entry_point(self, entry_point):
 		self.entry_points.pop(entry_point.name, None)
+		self.saved = False
 
 
 	#THREAT
@@ -159,10 +185,12 @@ class ThreatModel(QtCore.QObject):
 		threat = Threat(desc, target, attack_tech, counter, entry_point, technologies, dread, uid)
 		self.threats[threat.uid] = threat
 
+		self.saved = False
 		return threat
 
 	def delete_threat(self, threat):
 		self.threats.pop(threat.uid, None)
+		self.saved = False
 
 	# THREAT MODEL GUI
 

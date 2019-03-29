@@ -55,6 +55,11 @@ class EntryPointsGui(QtWidgets.QWidget, Ui_MainWindow):
 		self.del_button.clicked.connect(self.delete_entry_point_entry)
 		self.display_list_widget.itemActivated.connect(self.fill_from_item)
 
+		#load all present entry_points to gui if any:
+		for _, entry_point in self.controller.entry_points.items():
+			self.add_entry_point_entry(entry_point)
+
+
 	def fill_history_combobox(self):
 		'''Populate history combobox with Entry Points from history
 		'''

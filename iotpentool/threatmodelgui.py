@@ -75,13 +75,17 @@ class ThreatModelController():
 	'''
 	def __init__(self, threat_model):
 		'''Init
+
+		Args:
+			threat_model (ThreatModel): threat modelling Model part
 		'''
+
 		self.assets_controller = AssetsController(self, threat_model.assets)
 
 		self.arch_diagram_controller = ArchDiagramController(self, threat_model.architectural_diagram_site, threat_model.architectural_diagram)
 
 		self.technologies_controller = TechnologiesController(self, threat_model.technologies, threat_model.assets)
-		threat_model.assets_updated.connect(self.technologies_controller.refresh_assets)
+		self.assets_controller.assets_gui.assets_updated.connect(self.technologies_controller.refresh_assets)
 
 		self.data_flow_diagram_controller = DataFlowDiagramController(self, threat_model.data_flow_diagram_site, threat_model.data_flow_diagram)
 

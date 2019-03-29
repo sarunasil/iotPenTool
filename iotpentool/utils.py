@@ -67,3 +67,12 @@ class ModellingException(Exception):
     '''
 
     pass
+
+class PersistenceException(Exception):
+    '''Exception for failures of creation of 
+            new Threat Model (overall),
+            openning Threat Model,
+            saving Threat Model
+    '''
+
+    pass

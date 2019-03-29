@@ -44,6 +44,11 @@ class RankingGui(QtWidgets.QWidget, Ui_MainWindow):
 		self.display_list_widget.itemActivated.connect(self.edit_threat)
 		self.del_threat_button.clicked.connect(self.delete_threat_entry)
 
+		#load all assets to gui if any:
+		for _, threat in self.controller.threats.items():
+			self.add_threat_entry(threat)
+
+
 	def add_threat_entry(self, threat):
 		'''Add new entry to gui
 		'''

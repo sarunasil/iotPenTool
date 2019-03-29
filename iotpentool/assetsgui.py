@@ -31,6 +31,8 @@ class AssetsGui(QtWidgets.QWidget, Ui_MainWindow):
 	'''Deals with Assets tab which is generated from Assets data
 	'''
 
+	assets_updated = QtCore.pyqtSignal()
+
 	def __init__(self, controller):
 		'''Init
 		'''
@@ -52,6 +54,10 @@ class AssetsGui(QtWidgets.QWidget, Ui_MainWindow):
 		self.history_combo_box.currentTextChanged.connect(self.fill_from_history)
 		self.del_button.clicked.connect(self.delete_asset_entry)
 		self.display_list_widget.itemActivated.connect(self.fill_from_item)
+
+		#load all present assets to gui if any:
+		for _, asset in self.controller.assets.items():
+			self.add_asset_entry(asset)
 
 
 	def fill_combobox(self):
@@ -178,6 +184,7 @@ class AssetsController():
 
 		try:
 			asset = self.threat_model_controller.threat_model.add_asset(name, desc)
+			self.assets_gui.assets_updated.emit()
 
 			self.assets_gui.add_asset_entry(asset)
 
@@ -195,6 +202,7 @@ class AssetsController():
 		'''
 
 		self.threat_model_controller.threat_model.delete_asset(asset)
+		self.assets_gui.assets_updated.emit()
 
 	def get_history(self):
 		'''Gets known assets from the cache file

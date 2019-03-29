@@ -13,8 +13,10 @@ from os import path
 from PyQt5 import uic
 from PyQt5 import QtWidgets
 from PyQt5 import QtCore
+from PyQt5.QtWidgets import QApplication
 
 from iotpentool.vtabwidget import TabWidget
+from iotpentool.utils import *
 
 CURRENT_DIR = path.dirname(path.realpath(__file__))
 MAIN_GUI_FILEPATH = path.join(CURRENT_DIR, "gui/main_gui.ui")
@@ -29,6 +31,7 @@ class MainGui(QtWidgets.QMainWindow, Ui_MainWindow):
 	'''
 	# resized = QtCore.pyqtSignal()
 	interfaces_categories = ["Firmware", "Web App", "Mobile App", "Hardware", "Wireless"]
+	extension = ".pickle"
 
 	def output(self, data):
 		'''STUB OUTPUT FUNCTION
@@ -36,12 +39,14 @@ class MainGui(QtWidgets.QMainWindow, Ui_MainWindow):
 
 		self.main_output_text_box.insertPlainText(data)
 
-	def __init__(self, interfaces, manager, threat_model):
+	def __init__(self, main, interfaces, manager, threat_model):
 		'''Init
 
 		Args:
+			main (Main): callback to main
 			interfaces (Interface): receives interfaces to be displayed
 			manager (Manager): deals with multithreading
+			threat_model (ThreatModel): Model part of the MVC
 		'''
 		QtWidgets.QMainWindow.__init__(self)
 
@@ -49,9 +54,9 @@ class MainGui(QtWidgets.QMainWindow, Ui_MainWindow):
 		Ui_MainWindow.__init__(self)
 		self.setupUi(self)
 
-		self.actionClear_Assets_cache.triggered.connect(threat_model.clear_assets_cache)
-		self.actionClear_Technologies_cache.triggered.connect(threat_model.clear_technologies_cache)
-		self.actionClear_Entry_Points_cache.triggered.connect(threat_model.clear_entry_points_cache)
+		self.main = main
+
+		self.threat_model = None
 
 		#create left side tool menu
 		self.firmware_tabs = TabWidget()
@@ -75,12 +80,44 @@ class MainGui(QtWidgets.QMainWindow, Ui_MainWindow):
 		self.remote_access_tab.layout().addWidget(self.remote_access_tabs)
 		self.wireless_tab.layout().addWidget(self.wireless_tabs)
 
+		#initialise GUI that regards Threat Model
+		self.init_threat_model(threat_model)
+
+		self.actionNew_Threat_Model.triggered.connect(self.new_model_button_action)
+		self.actionOpen_Threat_Model.triggered.connect(self.open_model_button_action)
+		self.actionSave_Threat_Model.triggered.connect(self.save_model_button_action)
+
+		self.actionExit.triggered.connect(self.exit_button_action)
+
+	def init_threat_model(self, threat_model):
+		self.threat_model = threat_model
+
+		self.actionClear_Assets_cache.triggered.connect(threat_model.clear_assets_cache)
+		self.actionClear_Technologies_cache.triggered.connect(threat_model.clear_technologies_cache)
+		self.actionClear_Entry_Points_cache.triggered.connect(threat_model.clear_entry_points_cache)
 
 		#create right side tool menu
 		threat_model.generate_gui()
-		self.metho_bar.layout().addWidget(threat_model.threat_model_controller.threat_model_gui)
 
+		#remove previous threat model
+		for children in self.metho_bar.findChildren(QtWidgets.QWidget):
+			children.setParent(None)
+
+		self.metho_bar.layout().addWidget(threat_model.threat_model_controller.threat_model_gui)
 		self.module_bar.setCurrentIndex(4)
+
+	def closeEvent(self, event):
+		if not self.threat_model.saved:
+			response = QMessageBox.question(self, "Quiting", "Save Threat Model before closing?", QMessageBox.Cancel | QMessageBox.No | QMessageBox.Yes, QMessageBox.No)
+
+			if response == QMessageBox.Cancel:
+				event.ignore()
+				return
+			elif response == QMessageBox.Yes:
+				self.save_model_button_action()
+
+		event.accept()
+
 
 	# def resizeEvent(self, event):
 	# 	self.resized.emit()
@@ -109,3 +146,68 @@ class MainGui(QtWidgets.QMainWindow, Ui_MainWindow):
 
 		return self.wireless_tabs
 
+	def new_model_button_action(self):
+		'''Loads a new ThreatModel instance
+		'''
+
+		if not self.threat_model.saved:
+			response = QMessageBox.question(self, "Quiting", "Save Threat Model before closing?", QMessageBox.Cancel | QMessageBox.No | QMessageBox.Yes, QMessageBox.No)
+
+			if response == QMessageBox.Cancel:
+				return
+			elif response == QMessageBox.Yes:
+				self.save_model_button_action()
+
+		try:
+			threat_model = self.main.create_threat_model()
+		except PersistenceException as e:
+			Message.print_message(MsgType.ERROR, "Could not create new Threat Model instance. "+ str(e))
+			Message.show_message_box(self, MsgType.ERROR, "Could not create new Threat Model instance. "+ str(e))
+
+		self.init_threat_model(threat_model)
+
+	def open_model_button_action(self):
+		'''Loads a saved ThreatModel instance from a file
+		'''
+
+		filepath, _ = QtWidgets.QFileDialog.getOpenFileName(self, "Save Threat Model", "", filter="Threat Model obj (*" + MainGui.extension + ")")
+
+		if not filepath:
+			return
+
+		threat_model = None
+		try:
+			threat_model = self.main.open_threat_model(filepath)
+		except PersistenceException as e:
+			Message.print_message(MsgType.ERROR, "Could not open Threat Model " + filepath + ". " + str(e))
+			Message.show_message_box(self, MsgType.ERROR, "Could not open Threat Model " + filepath + ". " + str(e))
+			return
+
+		self.init_threat_model(threat_model)
+
+	def save_model_button_action(self):
+		'''Saves current ThreatModel instance to a file
+		'''
+
+		filepath, _ = QtWidgets.QFileDialog.getSaveFileName(self, "Save Threat Model", "", filter="Threat Model obj (*" + MainGui.extension + ")")
+
+		if not filepath:
+			return
+
+		filepath += MainGui.extension if not filepath.endswith(MainGui.extension) else ""
+
+		self.threat_model.saved = True
+		try:
+			self.main.save_threat_model(filepath, self.threat_model)
+		except PersistenceException as e:
+			Message.print_message(MsgType.ERROR, "Could not save Threat Model as " + filepath + ". " + str(e))
+			Message.show_message_box(self, MsgType.ERROR, "Could not save Threat Model as " + filepath + ". " + str(e))
+			self.threat_model.saved = False
+			return
+
+		Message.show_message_box(self, MsgType.INFO, "Threat Model saved successfully")
+
+	def exit_button_action(self):
+		'''Check is the Threat Model saved and exit
+		'''
+		self.close()
