@@ -63,7 +63,7 @@ class ThreatGui(QtWidgets.QMainWindow, Ui_MainWindow):
 		self.description_text_box.setPlainText(threat.description)
 		self.target_text_box.setText(threat.target)
 		self.attack_techniques_text_box.setPlainText(threat.attack_tech)
-		self.countermeassures_text_box.setPlainText(threat.countermeassures)
+		self.countermeasures_text_box.setPlainText(threat.countermeasures)
 
 		self.fill_entry_points_combobox()
 		index = self.entry_points_combobox.findText(threat.entry_point_used.name)
@@ -110,7 +110,7 @@ class ThreatGui(QtWidgets.QMainWindow, Ui_MainWindow):
 		desc = self.description_text_box.toPlainText()
 		target = self.target_text_box.text()
 		attack_tech = self.attack_techniques_text_box.toPlainText()
-		counter = self.countermeassures_text_box.toPlainText()
+		counter = self.countermeasures_text_box.toPlainText()
 		entry_point = self.entry_points_combobox.currentData()
 		technologies = self.controller.get_selected_technologies()
 		dread_score = [self.damage_spin_box.value(), self.reproducibility_spin_box.value(), self.exploitability_spin_box.value(), self.affected_spin_box.value(), self.discoverability_spin_box.value()]

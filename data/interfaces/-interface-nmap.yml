@@ -39,14 +39,31 @@ tool:
             flag: "iL"
             has_value: True
             description: "Scans a file of targets"
+            patterns:
+                - 'target.\.* '
+                - 'file.\.* '
         - exclude_target:
             flag: "-exclude"
             has_value: True
             description: "<host1[,host2][,host3],...>: Exclude hosts/networks"
+            keywords:
+                - IP
+                - ips
+                - host
+                - hosts
+                - address
+                - addresses
+            patterns:
+                - '(\d{0,3}\.){4}'
+                - '(([a-z]|\d){0,4}:){8}'
+                - '(([a-z]|\d){0,4}:){0,7}:'
         - exclude_file:
             flag: "-excludefile"
             has_value: True
             description: "<host1[,host2][,host3],...>: Exclude hosts/networks"
+            patterns:
+                - 'target.\.* '
+                - 'file.\.* '
         - GROUP_2: "MISC"
         - os_detection:
             flag: "A"

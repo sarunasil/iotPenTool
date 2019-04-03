@@ -95,6 +95,7 @@ class EntryPointsGui(QtWidgets.QWidget, Ui_MainWindow):
 			elif l.objectName().startswith("description_"):
 				self.description_input_box.setPlainText(l.text())
 			elif l.objectName().startswith("asset_"):
+				self.fill_assets_combobox()
 				index = self.assets_combo_box.findText(l.text())
 				if index >= 0:
 					self.assets_combo_box.setCurrentIndex(index)

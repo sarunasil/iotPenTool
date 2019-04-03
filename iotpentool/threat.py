@@ -48,7 +48,7 @@ class Threat():
 	'''Single discovered or theoretical IoT system threat
 	'''
 
-	def __init__(self, description, target, attack_tech, countermeassures, entry_point, technologies, dread, uid=None):
+	def __init__(self, description, target, attack_tech, countermeasures, entry_point, technologies, dread, uid=None):
 		'''Init
 		Args:
 			desc (String):
@@ -67,7 +67,7 @@ class Threat():
 		self.description = description
 		self.target = target
 		self.attack_tech = attack_tech
-		self.countermeassures = countermeassures
+		self.countermeasures = countermeasures
 		self.entry_point_used = entry_point
 		self.technologies_used = technologies
 		self.dread = dread

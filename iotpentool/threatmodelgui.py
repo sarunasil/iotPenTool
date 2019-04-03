@@ -73,12 +73,14 @@ class ThreatModelGui(QtWidgets.QTabWidget):
 class ThreatModelController():
 	'''ThreatModelGui action controller
 	'''
-	def __init__(self, threat_model):
-		'''Init
+	def __init__(self, threat_model, completer):
+		'''Overall threat model controller
 
 		Args:
 			threat_model (ThreatModel): threat modelling Model part
+			completer (Completer): pass object to RankingController
 		'''
+
 
 		self.assets_controller = AssetsController(self, threat_model.assets)
 
@@ -91,7 +93,7 @@ class ThreatModelController():
 
 		self.entry_points_controller = EntryPointsController(self, threat_model.entry_points, threat_model.assets)
 
-		self.ranking_controller = RankingController(self, threat_model.threats, threat_model.technologies, threat_model.entry_points)
+		self.ranking_controller = RankingController(self, threat_model.threats, threat_model.technologies, threat_model.entry_points, completer)
 
 		self.threat_model = threat_model
 		self.threat_model_gui = ThreatModelGui(self,

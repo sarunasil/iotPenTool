@@ -2,9 +2,9 @@
 MUST
 
 SHOULD
-    button "Threat testing" -> fills in some fields of tools
 
 COULD
+    Finish up interface-nmap.yml
     Export everything as html report
 
 WON'T
@@ -24,7 +24,7 @@ sqlmap
 wfuzz
 + REMOTE ACCESS
 hydra (default password crack)
-MOBILE APPLICATIONS - not a good choice...
+MOBILE APPLICATIONS
 apktool - apk decompiler
 
 ====================

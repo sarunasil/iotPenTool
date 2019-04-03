@@ -145,9 +145,9 @@
            </widget>
           </item>
           <item>
-           <widget class="QPlainTextEdit" name="countermeassures_text_box">
+           <widget class="QPlainTextEdit" name="countermeasures_text_box">
             <property name="placeholderText">
-             <string>Enter vulnerability countermeassures (e.g.   Enforce authentication to sensitive features as well as multifactor authentication)</string>
+             <string>Enter vulnerability countermeasures (e.g.   Enforce authentication to sensitive features as well as multifactor authentication)</string>
             </property>
            </widget>
           </item>

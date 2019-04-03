@@ -194,8 +194,14 @@ class ThreatModel():
 
 	# THREAT MODEL GUI
 
-	def generate_gui(self):
-		self.threat_model_controller = ThreatModelController(self)
+	def generate_gui(self, completer):
+		'''Generates gui for this threat model
+
+		Args:
+			completer (Completer): pass to ThreatModelController
+		'''
+
+		self.threat_model_controller = ThreatModelController(self, completer)
 
 	def clear_assets_cache(self):
 		if os.path.exists(self.assets_file):

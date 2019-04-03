@@ -20,6 +20,7 @@ from iotpentool.interfaceloader import InterfaceLoader
 from iotpentool.threatmodel import ThreatModel
 from iotpentool.utils import Outcome, Message, MsgType, PersistenceException
 from iotpentool.manager import Manager
+from iotpentool.completer import Completer
 
 CURRENT_DIR = path.dirname(path.realpath(__file__))
 CONFIG_FILE = path.join(CURRENT_DIR, "../data/config.ini")
@@ -50,9 +51,10 @@ class Main():
 
 		self.interface_loader = InterfaceLoader(self.config_manager.interface_dir)
 		self.threat_model = self.create_threat_model()
-		#DEV adds some predefined values to make testing easier
 
-		self.main_gui = MainGui(self, self.interface_loader.interfaces, self.thread_manager, self.threat_model)
+		self.completer = Completer(self.interface_loader.interfaces)
+
+		self.main_gui = MainGui(self, self.interface_loader.interfaces, self.thread_manager, self.completer, self.threat_model)
 		self.main_gui.show()
 
 	def create_threat_model(self):

@@ -41,20 +41,20 @@ def technologies():
 
 	return techs
 
-@pytest.mark.parametrize(("desc","target", "attack_tech", "countermeassures", "uid"), [
+@pytest.mark.parametrize(("desc","target", "attack_tech", "countermeasures", "uid"), [
 	("some threat bla bla", "all people of the World", "the best ever", "eating nutella", "123:456:789")
 ])
-def test_init(desc,target, attack_tech, countermeassures, uid, entry_point, technologies, dread_score):
+def test_init(desc,target, attack_tech, countermeasures, uid, entry_point, technologies, dread_score):
 	'''create new Threat
 	'''
 
-	threat = Threat(desc,target, attack_tech, countermeassures, entry_point, technologies, dread_score, uid)
+	threat = Threat(desc,target, attack_tech, countermeasures, entry_point, technologies, dread_score, uid)
 
 	assert isinstance(threat, Threat)
 	assert threat.description == desc
 	assert threat.target == target
 	assert threat.attack_tech == attack_tech
-	assert threat.countermeassures == countermeassures
+	assert threat.countermeasures == countermeasures
 	assert threat.entry_point_used == entry_point
 	assert isinstance(threat.entry_point_used, EntryPoint)
 	assert threat.technologies_used == technologies

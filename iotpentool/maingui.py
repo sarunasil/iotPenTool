@@ -33,13 +33,14 @@ class MainGui(QtWidgets.QMainWindow, Ui_MainWindow):
 	interfaces_categories = ["Firmware", "Web App", "Mobile App", "Hardware", "Wireless"]
 	extension = ".pickle"
 
-	def __init__(self, main, interfaces, manager, threat_model):
+	def __init__(self, main, interfaces, manager, completer, threat_model):
 		'''Init
 
 		Args:
 			main (Main): callback to main
 			interfaces (Interface): receives interfaces to be displayed
 			manager (Manager): deals with multithreading
+			completer (Completer): generates input suggestions from threat model
 			threat_model (ThreatModel): Model part of the MVC
 		'''
 		QtWidgets.QMainWindow.__init__(self)
@@ -105,22 +106,22 @@ class MainGui(QtWidgets.QMainWindow, Ui_MainWindow):
 		self.wireless_tab.layout().addWidget(self.wireless_tabs)
 
 		#initialise GUI that regards Threat Model
-		self.init_threat_model(threat_model)
+		self.init_threat_model(threat_model, completer)
 		self.actionNew_Threat_Model.triggered.connect(self.new_model_button_action)
 		self.actionOpen_Threat_Model.triggered.connect(self.open_model_button_action)
 		self.actionSave_Threat_Model.triggered.connect(self.save_model_button_action)
+		self.actionExport_as_yaml.triggered.connect(self.export_yaml_button_action)
 		self.actionExit.triggered.connect(self.exit_button_action)
 
-	def init_threat_model(self, threat_model):
+	def init_threat_model(self, threat_model, completer):
 		self.threat_model = threat_model
 
 		self.actionClear_Assets_cache.triggered.connect(threat_model.clear_assets_cache)
 		self.actionClear_Technologies_cache.triggered.connect(threat_model.clear_technologies_cache)
 		self.actionClear_Entry_Points_cache.triggered.connect(threat_model.clear_entry_points_cache)
-		self.actionExport_as_yaml.triggered.connect(self.export_yaml_button_action)
 
 		#create right side tool menu
-		threat_model.generate_gui()
+		threat_model.generate_gui(completer)
 
 		#remove previous threat model
 		for children in self.metho_bar.findChildren(QtWidgets.QWidget):
@@ -253,7 +254,7 @@ class MainGui(QtWidgets.QMainWindow, Ui_MainWindow):
 			Message.print_message(MsgType.ERROR, "Could not create new Threat Model instance. "+ str(e))
 			Message.show_message_box(self, MsgType.ERROR, "Could not create new Threat Model instance. "+ str(e))
 
-		self.init_threat_model(threat_model)
+		self.init_threat_model(threat_model, self.main.completer)
 
 	def open_model_button_action(self):
 		'''Loads a saved ThreatModel instance from a file
@@ -272,7 +273,7 @@ class MainGui(QtWidgets.QMainWindow, Ui_MainWindow):
 			Message.show_message_box(self, MsgType.ERROR, "Could not open Threat Model " + filepath + ". " + str(e))
 			return
 
-		self.init_threat_model(threat_model)
+		self.init_threat_model(threat_model, self.main.completer)
 
 	def save_model_button_action(self):
 		'''Saves current ThreatModel instance to a file

@@ -26,11 +26,18 @@ class Argument(ABC):
 		'''Init
 		'''
 
-		if ("description" not in data):
+		if "description" not in data:
 				raise DataException("Data file is corrupt. Could not find 'description' fields in "+iden)
 
 		self.iden = iden
 		self.description = data['description']
+		self.keywords = []
+		if 'keywords' in data:
+			self.keywords = data['keywords']
+		self.patterns = []
+		if 'patterns' in data:
+			self.patterns = data['patterns']
+		self.suggestions = []
 
 	def __eq__(self, other):
 		'''Overwrite == comparison operation for _Flag objects. != overwritten automatically

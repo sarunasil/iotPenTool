@@ -44,6 +44,7 @@ class RankingGui(QtWidgets.QWidget, Ui_MainWindow):
 
 		self.display_list_widget.itemActivated.connect(self.edit_threat)
 		self.del_threat_button.clicked.connect(self.delete_threat_entry)
+		self.investigate_button.clicked.connect(self.investigate_threat)
 
 		#load all assets to gui if any:
 		for _, threat in self.controller.threats.items():
@@ -185,23 +186,45 @@ class RankingGui(QtWidgets.QWidget, Ui_MainWindow):
 		selected_items = self.display_list_widget.selectedItems()
 		for item in selected_items:
 			threat_uid = self.display_list_widget.itemWidget( self.display_list_widget.currentItem() ).objectName().replace("threat_","",1)
-			self.controller.delete_threat( self.controller.threats[threat_uid] )
+			self.controller.delete_threat( threat_uid )
 			self.display_list_widget.takeItem(self.display_list_widget.row(item))
 
 		#clear selection
 		self.display_list_widget.clearSelection()
 
+	def investigate_threat(self):
+		'''Call completer for selected threat
+		'''
+
+		selected_items = self.display_list_widget.selectedItems()
+		for item in selected_items:
+			threat_uid = self.display_list_widget.itemWidget( self.display_list_widget.currentItem() ).objectName().replace("threat_","",1)
+
+			self.controller.investigate_threat(threat_uid)
+
+			return
+
+
 class RankingController():
 	'''RankingGui action controller
 	'''
-	def __init__(self, threat_model_controller, threats, technologies, entry_points):
-		'''Init
+	def __init__(self, threat_model_controller, threats, technologies, entry_points, completer):
+		'''Ranking tab controller
+
+		Args:
+			threat_model_controller (ThreatModelController): callback
+			threats (dict(String:Threat)): Model threats
+			technologies (dict(String:Technology)): Model technologies
+			entry_points (dict(String:EntryPoint)): Model entry points
+			completer (Completer): Completer object to work on "Investigate button"
 		'''
+
 
 		self.threat_model_controller = threat_model_controller
 		self.threats = threats
-		self.entry_points = entry_points
 		self.technologies = technologies
+		self.entry_points = entry_points
+		self.completer = completer
 		self.ranking_gui = RankingGui(self)
 
 		self.threat_controllers = []
@@ -249,11 +272,21 @@ class RankingController():
 		self.threat_controllers.append(ThreatController(self, self.entry_points, self.technologies, threat=self.threats[uid]))
 
 
-	def delete_threat(self, threat):
+	def delete_threat(self, uid):
 		'''Action called when delete button is clicked, called by View delete method
 
 		Args:
-			threat (Threat): threat to delete
+			uid (String): id of threat to delete
 		'''
 
-		self.threat_model_controller.threat_model.delete_threat(threat)
+		self.threat_model_controller.threat_model.delete_threat(self.threats[uid])
+
+	def investigate_threat(self, uid):
+		'''Action called when 'Investigate' button is clicked, called by View Investigate method
+
+		Args:
+			uid (String): id of threat to investigate
+		'''
+
+		self.completer.generateSuggestions(self.threats[uid])
+		self.completer.updateCompleters()

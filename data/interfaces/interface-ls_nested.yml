@@ -1,6 +1,7 @@
 #ls interface
 ---
 tool:
+    category: "STUB"
     name: "List items"
     version: "8.28"
     command: "ls_nested"
@@ -19,6 +20,18 @@ tool:
                     flag: "flag2^2"
                     has_value: False
                     description: "[flag] [flag] description12312 12 flag flag description12312 12flag flag description12312 12"
+            keywords:
+                - IP
+                - ip
+                - ips
+                - host
+                - hosts
+                - address
+                - addresses
+            patterns:
+                - '(\d{0,3}\.){4}'
+                - '(([a-z]|\d){0,4}:){8}'
+                - '(([a-z]|\d){0,4}:){0,7}:'
         - call_content:
             flag: "x"
             has_value: False
@@ -27,6 +40,19 @@ tool:
             flag: "a"
             has_value: True
             description: "print all content"
+    values:
+        - path:
+            default_value: "."
+            description: "path to folder"
+            keywords:
+                - keyword1
+                - keyword2
+        - path2:
+            default_value: "."
+            description: "path2 to folder"
+            keywords:
+                - keyword12
+                - keyword22
     structure:
         - "COMMAND"
         - "FLAGS":
@@ -41,3 +67,4 @@ tool:
             - "VALUE"
             - " "
 ...
+
