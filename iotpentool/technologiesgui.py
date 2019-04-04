@@ -344,6 +344,7 @@ class TechnologiesController():
 		self.technologies = technologies
 		self.used_assets = used_assets	#assets in the system (in total)
 		self.technologies_gui = TechnologiesGui(self)
+		self.refresh_assets()
 
 
 		self.technologies_gui.add_button.clicked.connect(self.add_new_technology)

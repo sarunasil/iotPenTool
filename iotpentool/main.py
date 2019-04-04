@@ -103,7 +103,6 @@ class Main():
 			PersistenceException: Exception to throw if error (generalises exact exceptions)
 		'''
 
-
 		try:
 			with open(file_path, 'wb') as binary_file:
 				pickle.dump(threat_model, binary_file)
@@ -123,6 +122,9 @@ class Main():
 
 		with open(file_path, 'w') as stream:
 			try:
+				jsonpickle.set_encoder_options('simplejson', indent=4)
+				jsonpickle.set_encoder_options('json', indent=4)
+				jsonpickle.set_encoder_options('demjson', indent=4)
 				json_object = jsonpickle.encode(threat_model, unpicklable=False)
 				stream.write(json_object)
 			except Exception as e:

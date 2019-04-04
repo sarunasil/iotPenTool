@@ -65,9 +65,6 @@ class ThreatModelGui(QtWidgets.QTabWidget):
 		self.addTab(decomposition_tab, "Decomposition")
 		self.addTab(self.ranking_gui, "Threats")
 
-		#DEV
-		self.setCurrentIndex(3)
-
 
 
 class ThreatModelController():

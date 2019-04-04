@@ -56,12 +56,6 @@ class AssetsGui(QtWidgets.QWidget, Ui_MainWindow):
 		self.display_list_widget.itemActivated.connect(self.fill_from_item)
 
 
-		test_values = ["alpha", "omega", "omicron", "zeta"]
-		self.qcompleter = QtWidgets.QCompleter(test_values)
-		self.name_input_box.setCompleter(self.qcompleter)
-		self.name_input_box.installEventFilter(self)
-
-
 		#load all present assets to gui if any:
 		for _, asset in self.controller.assets.items():
 			self.add_asset_entry(asset)

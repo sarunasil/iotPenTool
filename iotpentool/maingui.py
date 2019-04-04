@@ -276,7 +276,15 @@ class MainGui(QtWidgets.QMainWindow, Ui_MainWindow):
 		'''Loads a saved ThreatModel instance from a file
 		'''
 
-		filepath, _ = QtWidgets.QFileDialog.getOpenFileName(self, "Save Threat Model", "", filter="Threat Model obj (*" + MainGui.extension + ")")
+		if not self.threat_model.saved:
+			response = QMessageBox.question(self, "Quiting", "Save Threat Model before closing?", QMessageBox.Cancel | QMessageBox.No | QMessageBox.Yes, QMessageBox.No)
+
+			if response == QMessageBox.Cancel:
+				return
+			elif response == QMessageBox.Yes:
+				self.save_model_button_action()
+
+		filepath, _ = QtWidgets.QFileDialog.getOpenFileName(self, "Open Threat Model", "", filter="Threat Model obj (*" + MainGui.extension + ")")
 
 		if not filepath:
 			return

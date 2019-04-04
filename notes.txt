@@ -4,7 +4,6 @@ MUST
 SHOULD
 
 COULD
-    Export everything as html report
 
 WON'T
     - nicer structure for Flags and Values
@@ -26,6 +25,8 @@ hydra (default password crack)
 MOBILE APPLICATIONS
 apktool - apk decompiler
 
+
+NOT doing HTML REPORT because it is just a redo of python qt gui and there is json that you can use to do whatever you want with data anyway
 ====================
 IDEA:
 you fill in this methodology in 6 steps adding as much detail as you can

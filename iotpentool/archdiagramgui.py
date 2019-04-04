@@ -14,6 +14,7 @@ from collections import OrderedDict
 from PyQt5 import uic
 from PyQt5 import QtWidgets
 from PyQt5 import QtCore
+from PyQt5 import QtGui
 
 from iotpentool.utils import *
 
@@ -41,6 +42,12 @@ class ArchDiagramGui(QtWidgets.QWidget, Ui_MainWindow):
 		self.style = ""#TODO
 		self.controller = controller
 
+		#set values from loaded threat
+		self.link_input_box.setPlainText(controller.architectural_diagram)
+		urlLink="<a href='"+controller.architectural_diagram+"'>Link to Architectural diagram</a>"
+		self.link_label.setText(urlLink)
+
+
 		self.link_input_box.textChanged.connect(lambda: controller.save_link(self.link_input_box.toPlainText()))
 		self.link_input_box.mousePressEvent = self.add_start
 
@@ -49,6 +56,7 @@ class ArchDiagramGui(QtWidgets.QWidget, Ui_MainWindow):
 
 		if self.link_input_box.toPlainText() == "":
 			self.link_input_box.setPlainText("https://")
+			self.link_input_box.moveCursor(QtGui.QTextCursor.End)
 
 
 class ArchDiagramController():
@@ -67,5 +75,6 @@ class ArchDiagramController():
 	def save_link(self, new_link):
 		urlLink="<a href='"+new_link+"'>Link to Architectural diagram</a>"
 		self.threat_model_controller.threat_model.architectural_diagram = new_link
+		self.threat_model_controller.threat_model.saved = False
 		self.arch_diagram_gui.link_label.setText(urlLink)
 
