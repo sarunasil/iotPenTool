@@ -16,6 +16,11 @@
             "assets_filepath": "/home/saras/Desktop/iotPenTool/iotpentool/../data/model/model-assets.yml",
             "description": "blablablabla blablablabla",
             "name": "789"
+        },
+        "xxx": {
+            "assets_filepath": "/home/saras/Desktop/iotPenTool/iotpentool/../data/model/model-assets.yml",
+            "description": "xxx",
+            "name": "xxx"
         }
     },
     "assets_file": "/home/saras/Desktop/iotPenTool/iotpentool/../data/model/model-assets.yml",

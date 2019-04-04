@@ -59,61 +59,61 @@ class Completer():
 		Returns:
 			list(String): found suggestions
 		'''
-		suggestions = []
+		suggestions = set()
 
-		text = threat.description.lower()
-		suggestions += self.look_for(text, keywords, patterns)
+		text = threat.description.lower().replace('\n', ' ').replace('\n', ' ')
+		suggestions |= self.look_for(text, keywords, patterns)
 
-		text = threat.target.lower()
-		suggestions += self.look_for(text, keywords, patterns)
+		text = threat.target.lower().replace('\n', ' ')
+		suggestions |= self.look_for(text, keywords, patterns)
 
-		text = threat.attack_tech.lower()
-		suggestions += self.look_for(text, keywords, patterns)
+		text = threat.attack_tech.lower().replace('\n', ' ')
+		suggestions |= self.look_for(text, keywords, patterns)
 
-		text = threat.countermeasures.lower()
-		suggestions += self.look_for(text, keywords, patterns)
+		text = threat.countermeasures.lower().replace('\n', ' ')
+		suggestions |= self.look_for(text, keywords, patterns)
 
-		suggestions += self._scan_entry_point(threat.entry_point_used, keywords, patterns)
-		suggestions += self._scan_technologies(threat.technologies_used, keywords, patterns)
+		suggestions |= self._scan_entry_point(threat.entry_point_used, keywords, patterns)
+		suggestions |= self._scan_technologies(threat.technologies_used, keywords, patterns)
 
-		return suggestions
+		return list(suggestions)
 
 	def _scan_entry_point(self, entry_point, keywords, patterns):
-		suggestions = []
+		suggestions = set()
 
-		text = entry_point.description.lower()
-		suggestions += self.look_for(text, keywords, patterns)
+		text = entry_point.description.lower().replace('\n', ' ')
+		suggestions |= self.look_for(text, keywords, patterns)
 
-		suggestions += self._scan_asset(entry_point.asset_used, keywords, patterns)
+		suggestions |= self._scan_asset(entry_point.asset_used, keywords, patterns)
 
 		return suggestions
 
 	def _scan_asset(self, asset, keywords, patterns):
-		suggestions = []
+		suggestions = set()
 
-		text = asset.description.lower()
-		suggestions += self.look_for(text, keywords, patterns)
+		text = asset.description.lower().replace('\n', ' ')
+		suggestions |= self.look_for(text, keywords, patterns)
 
 		return suggestions
 
 	def _scan_technologies(self, technologies, keywords, patterns):
-		suggestions = []
+		suggestions = set()
 
 		for _, technology in technologies.items():
-			text = technology.description.lower()
-			suggestions += self.look_for(text, keywords, patterns)
+			text = technology.description.lower().replace('\n', ' ')
+			suggestions |= self.look_for(text, keywords, patterns)
 
 			#check all technology attributes
 			for attrk, attrv in technology.attributes.items():
-				attrk = attrk.lower()
-				attrv = attrv.lower()
+				attrk = attrk.lower().replace('\n', ' ')
+				attrv = attrv.lower().replace('\n', ' ')
 				#if attribute key in keywords - easy; just add value
 				if attrk in keywords:
-					suggestions += [attrv]
+					suggestions.add(attrv)
 
 				# if attribute value matches regex - just add it
 				for regex in patterns:
-					suggestions += self.look_for_regex(attrv, regex)
+					suggestions |= self.look_for_regex(attrv, regex)
 
 
 		return suggestions
@@ -130,11 +130,11 @@ class Completer():
 			list(String):
 		'''
 
-		suggestions = []
+		suggestions = set()
 		for key in keywords:
-			suggestions += self.look_for_key(text, key)
+			suggestions |= self.look_for_key(text, key)
 		for regex in patterns:
-			suggestions += self.look_for_regex(text, regex)
+			suggestions |= self.look_for_regex(text, regex)
 
 		return suggestions
 
@@ -151,7 +151,7 @@ class Completer():
 			list(String): list of words after keyword
 		'''
 
-		results = []
+		results = set()
 		index = 0
 		while index != -1:
 			index = text.find(key, index)
@@ -166,9 +166,9 @@ class Completer():
 
 			end_index = text.find(separator, index)
 			if end_index == -1:
-				results.append( text[index:] )
+				results.add( text[index:] )
 			else:
-				results.append( text[index:end_index] )
+				results.add( text[index:end_index] )
 
 		return results
 
@@ -183,7 +183,11 @@ class Completer():
 			list(String): word matching the regex
 		'''
 
-		return re.findall(regex, text)
+		result = set()
+		for match in re.finditer(regex, text):
+			result.add(match.group(0))
+
+		return result
 
 
 	def updateCompleters(self):
