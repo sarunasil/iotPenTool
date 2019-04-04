@@ -107,18 +107,22 @@ class MainGui(QtWidgets.QMainWindow, Ui_MainWindow):
 
 		#initialise GUI that regards Threat Model
 		self.init_threat_model(threat_model, completer)
-		self.actionNew_Threat_Model.triggered.connect(self.new_model_button_action)
-		self.actionOpen_Threat_Model.triggered.connect(self.open_model_button_action)
-		self.actionSave_Threat_Model.triggered.connect(self.save_model_button_action)
+		self.actionNew.triggered.connect(self.new_model_button_action)
+		self.actionOpen.triggered.connect(self.open_model_button_action)
+		self.actionSave.triggered.connect(self.save_model_button_action)
+		self.actionSave_as.triggered.connect(self.save_as_model_button_action)
 		self.actionExport_as_yaml.triggered.connect(self.export_yaml_button_action)
+		self.actionExit.setShortcut('Ctrl+Q')
 		self.actionExit.triggered.connect(self.exit_button_action)
+
+		self.statusbar.showMessage("Ready!")
 
 	def init_threat_model(self, threat_model, completer):
 		self.threat_model = threat_model
 
-		self.actionClear_Assets_cache.triggered.connect(threat_model.clear_assets_cache)
-		self.actionClear_Technologies_cache.triggered.connect(threat_model.clear_technologies_cache)
-		self.actionClear_Entry_Points_cache.triggered.connect(threat_model.clear_entry_points_cache)
+		self.actionClear_Assets_cache.triggered.connect(self.clear_assets_cache_button_action)
+		self.actionClear_Technologies_cache.triggered.connect(self.clear_technologies_cache_button_action)
+		self.actionClear_Entry_Points_cache.triggered.connect(self.clear_entry_points_cache_button_action)
 
 		#create right side tool menu
 		threat_model.generate_gui(completer)
@@ -129,6 +133,18 @@ class MainGui(QtWidgets.QMainWindow, Ui_MainWindow):
 
 		self.metho_bar.layout().addWidget(threat_model.threat_model_controller.threat_model_gui)
 		self.module_bar.setCurrentIndex(4)
+
+	def clear_assets_cache_button_action(self):
+		self.threat_model.clear_assets_cache()
+		self.statusbar.showMessage("Assets cache cleared.")
+
+	def clear_technologies_cache_button_action(self):
+		self.threat_model.clear_technologies_cache()
+		self.statusbar.showMessage("Technologies cache cleared.")
+
+	def clear_entry_points_cache_button_action(self):
+		self.threat_model.clear_entry_points_cache()
+		self.statusbar.showMessage("Entry points cache cleared.")
 
 	def closeEvent(self, event):
 		if not self.threat_model.saved:
@@ -268,6 +284,7 @@ class MainGui(QtWidgets.QMainWindow, Ui_MainWindow):
 		threat_model = None
 		try:
 			threat_model = self.main.open_threat_model(filepath)
+			self.statusbar.showMessage("Opened: "+filepath)
 		except PersistenceException as e:
 			Message.print_message(MsgType.ERROR, "Could not open Threat Model " + filepath + ". " + str(e))
 			Message.show_message_box(self, MsgType.ERROR, "Could not open Threat Model " + filepath + ". " + str(e))
@@ -276,7 +293,19 @@ class MainGui(QtWidgets.QMainWindow, Ui_MainWindow):
 		self.init_threat_model(threat_model, self.main.completer)
 
 	def save_model_button_action(self):
-		'''Saves current ThreatModel instance to a file
+		'''Try saving to an already used file if not - call save as
+		Overwrites previously saved file
+		'''
+
+		if self.threat_model.save_file:
+			self.general_gui_save(self.threat_model.save_file)
+		else:
+			self.save_as_model_button_action()
+
+
+	def save_as_model_button_action(self):
+		'''Saves current ThreatModel instance to a file (as user specified file)
+		Not overwriting previously saved file
 		'''
 
 		filepath, _ = QtWidgets.QFileDialog.getSaveFileName(self, "Save Threat Model", "", filter="Threat Model obj (*" + MainGui.extension + ")")
@@ -286,9 +315,17 @@ class MainGui(QtWidgets.QMainWindow, Ui_MainWindow):
 
 		filepath += MainGui.extension if not filepath.endswith(MainGui.extension) else ""
 
+		self.general_gui_save(filepath)
+
+	def general_gui_save(self, filepath):
+		'''Called by both 'Save' and 'Save as'
+		'''
+
 		self.threat_model.saved = True
 		try:
 			self.main.save_threat_model(filepath, self.threat_model)
+			self.threat_model.save_file = filepath
+			self.statusbar.showMessage("Saved as: "+filepath)
 		except PersistenceException as e:
 			Message.print_message(MsgType.ERROR, "Could not save Threat Model as " + filepath + ". " + str(e))
 			Message.show_message_box(self, MsgType.ERROR, "Could not save Threat Model as " + filepath + ". " + str(e))
@@ -296,6 +333,7 @@ class MainGui(QtWidgets.QMainWindow, Ui_MainWindow):
 			return
 
 		Message.show_message_box(self, MsgType.INFO, "Threat Model saved successfully")
+
 
 	def exit_button_action(self):
 		'''Check is the Threat Model saved and exit
@@ -317,6 +355,7 @@ class MainGui(QtWidgets.QMainWindow, Ui_MainWindow):
 
 		try:
 			self.main.export_yaml(filepath, self.threat_model)
+			self.statusbar.showMessage("Threat model exported as: "+filepath)
 		except PersistenceException as e:
 			Message.print_message(MsgType.ERROR, "Could not export Threat Model as " + filepath + ". " + str(e))
 			Message.show_message_box(self, MsgType.ERROR, "Could not export Threat Model as " + filepath + ". " + str(e))

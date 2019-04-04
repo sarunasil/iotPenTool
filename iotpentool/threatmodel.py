@@ -31,7 +31,8 @@ class ThreatModel():
 			model_dir (String): this threat model file dir
 			DEV (bool, optional): Defaults to False. Put in development values or not
 		'''
-		self.saved = True #current version saved or not
+		self.saved = True 		#current version saved or not
+		self.save_file = None
 
 		self.id = str(uuid.uuid4())
 		self.model_dir = model_dir
@@ -222,7 +223,7 @@ class ThreatModel():
 	def clear_entry_points_cache(self):
 		if os.path.exists(self.entry_points_file):
 			try:
-				os.remove(self.technologies_file)
+				os.remove(self.entry_points_file)
 			except OSError:
 				Message.print_message(MsgType.ERROR, "Could not delete Technologies cache file "+self.technologies_file)
 				Message.show_message_box(self.threat_model_controller.threat_model_gui, MsgType.ERROR, "Could not delete Entry Points cache file "+self.entry_points_file)

@@ -213,16 +213,17 @@
     <property name="title">
      <string>Fi&amp;le</string>
     </property>
-    <addaction name="actionNew_Threat_Model"/>
+    <addaction name="actionNew"/>
+    <addaction name="actionOpen"/>
     <addaction name="separator"/>
-    <addaction name="actionOpen_Threat_Model"/>
+    <addaction name="actionSave"/>
+    <addaction name="actionSave_as"/>
     <addaction name="separator"/>
-    <addaction name="actionSave_Threat_Model"/>
     <addaction name="actionGenerate_html_report"/>
     <addaction name="actionExport_as_yaml"/>
     <addaction name="separator"/>
-    <addaction name="actionExit"/>
     <addaction name="separator"/>
+    <addaction name="actionExit"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -248,32 +249,50 @@
   </widget>
   <action name="actionClear_Assets_cache">
    <property name="text">
-    <string>Clear Assets cache</string>
+    <string>&amp;Clear Assets cache</string>
    </property>
   </action>
   <action name="actionClear_Technologies_cache">
    <property name="text">
-    <string>Clear Technologies cache</string>
+    <string>C&amp;lear Technologies cache</string>
    </property>
   </action>
   <action name="actionClear_Entry_Points_cache">
    <property name="text">
-    <string>Clear Entry Points cache</string>
+    <string>Clear &amp;Entry Points cache</string>
    </property>
   </action>
-  <action name="actionNew_Threat_Model">
+  <action name="actionNew">
    <property name="text">
-    <string>New Threat model</string>
+    <string>New</string>
+   </property>
+   <property name="iconText">
+    <string>New</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+N</string>
    </property>
   </action>
-  <action name="actionOpen_Threat_Model">
+  <action name="actionOpen">
    <property name="text">
-    <string>Open Threat model</string>
+    <string>Open</string>
+   </property>
+   <property name="iconText">
+    <string>Open</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
    </property>
   </action>
-  <action name="actionSave_Threat_Model">
+  <action name="actionSave">
    <property name="text">
-    <string>Save Threat model</string>
+    <string>Save</string>
+   </property>
+   <property name="iconText">
+    <string>Save</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
    </property>
   </action>
   <action name="actionExport_as_html">
@@ -290,10 +309,21 @@
    <property name="text">
     <string>Exit</string>
    </property>
+   <property name="shortcut">
+    <string/>
+   </property>
   </action>
   <action name="actionGenerate_html_report">
    <property name="text">
     <string>Generate html report</string>
+   </property>
+  </action>
+  <action name="actionSave_as">
+   <property name="text">
+    <string>Save as...</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+S</string>
    </property>
   </action>
  </widget>

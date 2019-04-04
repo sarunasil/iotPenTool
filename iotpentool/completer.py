@@ -61,16 +61,16 @@ class Completer():
 		'''
 		suggestions = []
 
-		text = threat.description
+		text = threat.description.lower()
 		suggestions += self.look_for(text, keywords, patterns)
 
-		text = threat.target
+		text = threat.target.lower()
 		suggestions += self.look_for(text, keywords, patterns)
 
-		text = threat.attack_tech
+		text = threat.attack_tech.lower()
 		suggestions += self.look_for(text, keywords, patterns)
 
-		text = threat.countermeasures
+		text = threat.countermeasures.lower()
 		suggestions += self.look_for(text, keywords, patterns)
 
 		suggestions += self._scan_entry_point(threat.entry_point_used, keywords, patterns)
@@ -81,7 +81,7 @@ class Completer():
 	def _scan_entry_point(self, entry_point, keywords, patterns):
 		suggestions = []
 
-		text = entry_point.description
+		text = entry_point.description.lower()
 		suggestions += self.look_for(text, keywords, patterns)
 
 		suggestions += self._scan_asset(entry_point.asset_used, keywords, patterns)
@@ -91,7 +91,7 @@ class Completer():
 	def _scan_asset(self, asset, keywords, patterns):
 		suggestions = []
 
-		text = asset.description
+		text = asset.description.lower()
 		suggestions += self.look_for(text, keywords, patterns)
 
 		return suggestions
@@ -100,18 +100,20 @@ class Completer():
 		suggestions = []
 
 		for _, technology in technologies.items():
-			text = technology.description
+			text = technology.description.lower()
 			suggestions += self.look_for(text, keywords, patterns)
 
 			#check all technology attributes
 			for attrk, attrv in technology.attributes.items():
+				attrk = attrk.lower()
+				attrv = attrv.lower()
 				#if attribute key in keywords - easy; just add value
 				if attrk in keywords:
 					suggestions += [attrv]
 
-				#if attribute value matches regex - just add it
-				# for regex in patterns:
-					# suggestions += self.look_for_regex(attrv, regex)
+				# if attribute value matches regex - just add it
+				for regex in patterns:
+					suggestions += self.look_for_regex(attrv, regex)
 
 
 		return suggestions

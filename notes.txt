@@ -4,7 +4,6 @@ MUST
 SHOULD
 
 COULD
-    Finish up interface-nmap.yml
     Export everything as html report
 
 WON'T

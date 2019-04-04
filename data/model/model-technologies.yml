@@ -1,7 +1,0 @@
-technologies:
-  't1':
-    name: 't1'
-    description: 't with ip'
-    attributes: 
-      'ip': '192.168.0.1' 
-      'IP': '123456' 

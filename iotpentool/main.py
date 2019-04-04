@@ -47,6 +47,7 @@ class Main():
 			result = self.config_manager.create_config(CONFIG_FILE)
 			if result == Outcome.FAILURE:
 				Message.print_message(MsgType.ERROR, "CAN'T READ OR RECREATE CONFIG FILE. ABORT.")
+				input("Press any key...")
 				return
 
 		self.interface_loader = InterfaceLoader(self.config_manager.interface_dir)

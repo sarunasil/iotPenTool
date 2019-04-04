@@ -47,7 +47,7 @@ tool:
             has_value: True
             description: "<host1[,host2][,host3],...>: Exclude hosts/networks"
             keywords:
-                - IP
+                - ip
                 - ips
                 - host
                 - hosts
@@ -55,8 +55,8 @@ tool:
                 - addresses
             patterns:
                 - '(\d{0,3}\.){4}'
-                - '(([a-z]|\d){0,4}:){8}'
-                - '(([a-z]|\d){0,4}:){0,7}:'
+                - '(([a-f]|\d){0,4}:){8}'
+                - '(([a-f]|\d){0,4}:){0,7}:'
         - exclude_file:
             flag: "-excludefile"
             has_value: True
@@ -135,14 +135,41 @@ tool:
             flag: "PS"
             has_value: True
             description: "TCP SYN discovery to given ports"
+            keywords:
+                - port
+                - ports
+                - endpoint
+                - endpoints
+                - tcp
+                - udp
+            patterns:
+                - '\[\d{0,5}\]'
         - tcp_ack_disc:
             flag: "PA"
             has_value: True
             description: "TCP ACK discovery to given ports"
+            keywords:
+                - port
+                - ports
+                - endpoint
+                - endpoints
+                - tcp
+                - udp
+            patterns:
+                - '\[\d{0,5}\]'
         - udp_disc:
             flag: "PU"
             has_value: True
             description: "UDP ACK discovery to given ports"
+            keywords:
+                - port
+                - ports
+                - endpoint
+                - endpoints
+                - tcp
+                - udp
+            patterns:
+                - '\[\d{0,5}\]'
         - GROUP_8: "Scan Techniques"
         - ip_prot_scan:
             flag: "sO"
@@ -169,11 +196,24 @@ tool:
             flag: "-spoof-mac"
             has_value: True
             description: "Spoof NMAP MAC address"
+            keywords:
+                - mac
+                - address
+            patterns:
+                - '(([a-f]|\d){2}:){6}'
 
     values:
         - target_address:
             default_value: ""
             description: "OPTIONAL: Target to be scanned"
+            keywords:
+                - ip
+                - host
+                - address
+            patterns:
+                - '(\d{0,3}\.){4}'
+                - '(([a-f]|\d){0,4}:){8}'
+                - '(([a-f]|\d){0,4}:){0,7}:'
     structure:
         - "COMMAND"
         - "FLAGS":
