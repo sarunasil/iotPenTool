@@ -220,8 +220,7 @@
     <addaction name="actionSave_as"/>
     <addaction name="separator"/>
     <addaction name="actionGenerate_html_report"/>
-    <addaction name="actionExport_as_yaml"/>
-    <addaction name="separator"/>
+    <addaction name="actionExport_as_json"/>
     <addaction name="separator"/>
     <addaction name="actionExit"/>
    </widget>
@@ -324,6 +323,11 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+S</string>
+   </property>
+  </action>
+  <action name="actionExport_as_json">
+   <property name="text">
+    <string>Export as json</string>
    </property>
   </action>
  </widget>

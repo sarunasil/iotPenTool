@@ -9,7 +9,8 @@ By sarunasil
 
 import sys
 import pickle
-import yaml
+from ruamel import yaml
+import jsonpickle
 from os import path
 
 from PyQt5.QtWidgets import QApplication
@@ -109,10 +110,8 @@ class Main():
 		except (OSError, IOError, pickle.UnpicklingError, pickle.PicklingError, pickle.PickleError) as e:
 			raise PersistenceException(e)
 
-	def export_yaml(self, file_path, threat_model):
-		'''Export current threat model to yaml
-		------------------------------
-		USES DUMP INSTEAD OF SAFE_DUMP
+	def export_json(self, file_path, threat_model):
+		'''Export current threat model to json
 
 		Args:
 			file_path (String): file path to save to
@@ -124,8 +123,9 @@ class Main():
 
 		with open(file_path, 'w') as stream:
 			try:
-				yaml.dump(threat_model, stream)
-			except yaml.YAMLError as e:
+				json_object = jsonpickle.encode(threat_model, unpicklable=False)
+				stream.write(json_object)
+			except Exception as e:
 				raise PersistenceException(e)
 
 

@@ -111,7 +111,7 @@ class MainGui(QtWidgets.QMainWindow, Ui_MainWindow):
 		self.actionOpen.triggered.connect(self.open_model_button_action)
 		self.actionSave.triggered.connect(self.save_model_button_action)
 		self.actionSave_as.triggered.connect(self.save_as_model_button_action)
-		self.actionExport_as_yaml.triggered.connect(self.export_yaml_button_action)
+		self.actionExport_as_json.triggered.connect(self.export_json_button_action)
 		self.actionExit.setShortcut('Ctrl+Q')
 		self.actionExit.triggered.connect(self.exit_button_action)
 
@@ -340,21 +340,20 @@ class MainGui(QtWidgets.QMainWindow, Ui_MainWindow):
 		'''
 		self.close()
 
-	def export_yaml_button_action(self):
+	def export_json_button_action(self):
 		'''Exports current threat model as yaml file
 		'''
 
-		yml_extension = ".yml"
-		yaml_extension = ".yaml"
-		filepath, _ = QtWidgets.QFileDialog.getSaveFileName(self, "Export Threat Model", "", filter="*.yml | *.yaml")
+		json_extension = ".json"
+		filepath, _ = QtWidgets.QFileDialog.getSaveFileName(self, "Export Threat Model", "", filter="*.json")
 
 		if not filepath:
 			return
 
-		filepath += yml_extension if not (filepath.endswith(yml_extension) or filepath.endswith(yaml_extension)) else ""
+		filepath += json_extension if not (filepath.endswith(json_extension)) else ""
 
 		try:
-			self.main.export_yaml(filepath, self.threat_model)
+			self.main.export_json(filepath, self.threat_model)
 			self.statusbar.showMessage("Threat model exported as: "+filepath)
 		except PersistenceException as e:
 			Message.print_message(MsgType.ERROR, "Could not export Threat Model as " + filepath + ". " + str(e))

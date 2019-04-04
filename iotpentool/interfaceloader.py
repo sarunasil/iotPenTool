@@ -10,7 +10,7 @@ By sarunasil
 
 import re
 from os import listdir, path
-import yaml
+from ruamel import yaml
 
 from iotpentool import interface
 from iotpentool.utils import Message, MsgType, Outcome, DataException

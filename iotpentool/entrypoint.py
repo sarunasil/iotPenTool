@@ -9,7 +9,7 @@ By sarunasil
 """
 
 import os
-import yaml
+from ruamel import yaml
 
 from iotpentool.utils import ModellingException
 

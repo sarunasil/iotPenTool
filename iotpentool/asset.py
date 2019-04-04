@@ -10,7 +10,7 @@ By sarunasil
 """
 
 import os
-import yaml
+from ruamel import yaml
 
 from iotpentool.technology import Technology
 from iotpentool.utils import Message, MsgType, ModellingException
