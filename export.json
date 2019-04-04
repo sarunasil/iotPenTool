@@ -1,5 +1,5 @@
 {
-    "architectural_diagram": "",
+    "architectural_diagram": "https://www.not_your-businesss.co.uk",
     "architectural_diagram_site": "https://www.lucidchart.com",
     "assets": {
         "123": {
@@ -16,11 +16,6 @@
             "assets_filepath": "/home/saras/Desktop/iotPenTool/iotpentool/../data/model/model-assets.yml",
             "description": "blablablabla blablablabla",
             "name": "789"
-        },
-        "AA": {
-            "assets_filepath": "/home/saras/Desktop/iotPenTool/iotpentool/../data/model/model-assets.yml",
-            "description": "A",
-            "name": "AA"
         }
     },
     "assets_file": "/home/saras/Desktop/iotPenTool/iotpentool/../data/model/model-assets.yml",
@@ -43,7 +38,7 @@
                 "description": "bla",
                 "name": "123"
             },
-            "description": "bla bla\n192.168.0.1",
+            "description": "bla bla",
             "entry_points_filepath": "/home/saras/Desktop/iotPenTool/iotpentool/../data/model/model-entry_points.yml",
             "name": "123_login"
         },
@@ -69,27 +64,11 @@
         }
     },
     "entry_points_file": "/home/saras/Desktop/iotPenTool/iotpentool/../data/model/model-entry_points.yml",
-    "id": "ecbb1825-6148-4f00-b8f4-e498ef96b3d4",
+    "id": "17990217-6383-4f9c-b625-a036777ccf8b",
     "model_dir": "/home/saras/Desktop/iotPenTool/iotpentool/../data/model",
     "save_file": "/home/saras/Desktop/iotPenTool/testas.pickle",
     "saved": true,
     "technologies": {
-        "t1": {
-            "attributes": {
-                "IP": "123456",
-                "ip": "192.168.0.1"
-            },
-            "description": "t with ip",
-            "name": "t1",
-            "tech_filepath": "/home/saras/Desktop/iotPenTool/iotpentool/../data/model/model-technologies.yml",
-            "used_in": {
-                "123": {
-                    "assets_filepath": "/home/saras/Desktop/iotPenTool/iotpentool/../data/model/model-assets.yml",
-                    "description": "bla",
-                    "name": "123"
-                }
-            }
-        },
         "tech1": {
             "attributes": {
                 "Atrr1": "value1"
@@ -152,33 +131,39 @@
         },
         "tech6": {
             "attributes": {
-                "Atrr1": "value1"
+                "Atrr1": "value1",
+                "x": "x"
             },
             "description": "tech_descrrrrrr",
             "name": "tech6",
             "tech_filepath": "/home/saras/Desktop/iotPenTool/iotpentool/../data/model/model-technologies.yml",
             "used_in": {
-                "789": {
+                "123": {
                     "assets_filepath": "/home/saras/Desktop/iotPenTool/iotpentool/../data/model/model-assets.yml",
-                    "description": "blablablabla blablablabla",
-                    "name": "789"
+                    "description": "bla",
+                    "name": "123"
+                },
+                "456": {
+                    "assets_filepath": "/home/saras/Desktop/iotPenTool/iotpentool/../data/model/model-assets.yml",
+                    "description": "blabla",
+                    "name": "456"
                 }
             }
         }
     },
     "technologies_file": "/home/saras/Desktop/iotPenTool/iotpentool/../data/model/model-technologies.yml",
     "threats": {
-        "46581661-fbaa-4519-813b-b5feb26506bc": {
-            "attack_tech": "asd",
-            "countermeasures": "asd",
-            "description": "ads\nip 987654 gfds",
+        "81985981-f9fc-401f-9a6a-01cae3d7800d": {
+            "attack_tech": "x",
+            "countermeasures": "x",
+            "description": "x\nip 123.123.123.123\n192.168.0.1",
             "dread": {
-                "affected_users": 0,
+                "affected_users": 1,
                 "damage": 0,
                 "discoverability": 0,
                 "exploitability": 0,
-                "reproducibility": 0,
-                "total": 0
+                "reproducibility": 2,
+                "total": 3
             },
             "entry_point_used": {
                 "asset_used": {
@@ -186,19 +171,18 @@
                     "description": "bla",
                     "name": "123"
                 },
-                "description": "bla bla\n192.168.0.1",
+                "description": "bla bla",
                 "entry_points_filepath": "/home/saras/Desktop/iotPenTool/iotpentool/../data/model/model-entry_points.yml",
                 "name": "123_login"
             },
-            "target": "asd",
+            "target": "x",
             "technologies_used": {
-                "t1": {
+                "tech4": {
                     "attributes": {
-                        "IP": "123456",
-                        "ip": "192.168.0.1"
+                        "Atrr1": "value1"
                     },
-                    "description": "t with ip",
-                    "name": "t1",
+                    "description": "tech_descrrrr",
+                    "name": "tech4",
                     "tech_filepath": "/home/saras/Desktop/iotPenTool/iotpentool/../data/model/model-technologies.yml",
                     "used_in": {
                         "123": {
@@ -209,7 +193,7 @@
                     }
                 }
             },
-            "uid": "46581661-fbaa-4519-813b-b5feb26506bc"
+            "uid": "81985981-f9fc-401f-9a6a-01cae3d7800d"
         }
     }
 }

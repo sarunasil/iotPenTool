@@ -227,6 +227,7 @@
     <property name="title">
      <string>Help</string>
     </property>
+    <addaction name="actionAbout"/>
    </widget>
    <widget class="QMenu" name="menuCache">
     <property name="title">
@@ -327,6 +328,11 @@
   <action name="actionExport_as_json">
    <property name="text">
     <string>&amp;Export as json</string>
+   </property>
+  </action>
+  <action name="actionAbout">
+   <property name="text">
+    <string>About</string>
    </property>
   </action>
  </widget>

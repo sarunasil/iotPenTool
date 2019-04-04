@@ -1,0 +1,7 @@
+technologies:
+  'tech6':
+    name: 'tech6'
+    description: 'tech_descrrrrrr'
+    attributes: 
+      'Atrr1': 'value1' 
+      'x': 'x' 

@@ -114,6 +114,7 @@ class MainGui(QtWidgets.QMainWindow, Ui_MainWindow):
 		self.actionExport_as_json.triggered.connect(self.export_json_button_action)
 		self.actionExit.setShortcut('Ctrl+Q')
 		self.actionExit.triggered.connect(self.exit_button_action)
+		self.actionAbout.triggered.connect(self.about_button_action)
 
 		self.statusbar.showMessage("Ready!")
 
@@ -349,7 +350,7 @@ class MainGui(QtWidgets.QMainWindow, Ui_MainWindow):
 		self.close()
 
 	def export_json_button_action(self):
-		'''Exports current threat model as yaml file
+		'''Exports current threat model as json file
 		'''
 
 		json_extension = ".json"
@@ -370,4 +371,10 @@ class MainGui(QtWidgets.QMainWindow, Ui_MainWindow):
 			return
 
 		Message.show_message_box(self, MsgType.INFO, "Threat Model exported successfully")
+
+	def about_button_action(self):
+		'''Open About window
+		'''
+
+		Message.show_message_box(self, MsgType.INFO, "Electronics and Computer Science \nUniversity of Southampton \n\nSarunas Iljeitis \n2019 \n\nPart III Individual Project \n\nInternet of Things (IoT) \nPenetration Testing Toolset")
 
