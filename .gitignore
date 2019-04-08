@@ -107,3 +107,8 @@ venv.bak/
 #environment
 .vscode/*
 environment/*
+
+#pickle
+*.pickle
+*.json
+*/model/*

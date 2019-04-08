@@ -1,0 +1,152 @@
+extract each bit of testing iot network from the book
+write functional and non-functional requirements for the software (functionality pointers and how to test for it, tests for functionality)
+
+
+update UML diagram with the criteria above. And think of the timeline for those functionality implementation;
+
+bullet points are fine
+
+----------------------
+
+How to test / What to test in IoT networks while doing a penetration scan:
+- Hardware vulnerabilities 
+- Firmware / OS level checks
+- Application (on the device) vulnerabilities
+- Communication layer / network vulnerabilities (sniffing traffic, etc)
+- Web application vulnerabilities
+- Mobile app interface vulnerabilities
+
+Threat modelling:
+1. Document all the system assets using publicly available information:
+	protocols used, functions and features of a device
+2. Create architecture overview:
+	- document iot system functionality and features (write use cases)
+	- create architectural diagram (which devices connect via what protocols to where?)
+	- identify technologies used (from the diagram - each unique device, each protocol)
+3. Map device infrastructure 
+	- show data flow between different parts of the system
+	- Access points
+	- possible higher privillege access points
+	- identify trust boundaries between technologies and features
+4. Write down all found entry points (attack surface)
+5. Using mapped infrastructure and identified entry points to WRITE DOWN POSSIBLE THREATS
+	(mainly ideas, does not have to be exact or backed up by any evidence. Just possibilities)
+6. For each thread (or atleast the most likely threads) write down
+	- threat targets
+	- possible exploitation techniques
+	- countermeasures
+7. Rate the threats using DREAD rating system and group them accordingly (High 12-15, Medium 8-11, Low 5-7)
+	D - damage potential
+	R - Reproducibility
+	E - exploitability
+	A - Affected users
+	D - Discoverability
+
+8. After the whole system overview is finished. Repeat the same process examining each part of the iot system separately. Reuse previously created resources (mapping) and include new information to reflect case specific threats. This is the place to logically and realistically evaluate each part of the system. Write down possible threats, map attack surface and identify vulnerabilities which would lead to exploitation for PARTICULAR threats. 
+
+9. Next step is to analyse and try to exploit top ranking vulnerabilities on each the systems components (firmware, mobile app, communication, etc.)
+### At this point book goes into exact details how to do it for every part of the system taking up around 260 pages ###
+
+#think of tests for all requirements
+#make the tests simple as possible
+#add more constraints to the requirements
+
+Requirements:
+* Func:
+gui
+- allow addition of new security tools
+- produce a proof-of-concept set of tools to demonstrate functionality
+- provide IoT penetration testing methodology guidelines
+- map network infrastructure providing device level information
+- support multiple communication protocols (Wifi, Bluetooth)
+- allow chaining individual tools
+
+* Non-Func:
+- completely portable with little to no setup required
+- compatible with most popular Linux distributions
+- responsive 
+
+#find smth about standard gui design methotology, easy design practises and follow it to design the interface
+
+
+
+
+
+
+
+
+-----------------
+- scan the wifi network the device is currently connected to
+- port scanning of a specific devices on the network
+- find what protocols that are being used to communicate with a specific device
+- find if a device has a web interface
+  - if a device has a web interface, do url fuzzing
+  - if a device has an automatic login, use to use a predefined set of username-passwords to login
+- find if a device has a different web based (not http) service like FTP
+  - try brute forcing a set of logins
+- runs on Linux systems
+- has all the required packages and dependencies packaged with it
+- display a map of all discovered devices on the network
+- supports multiple Linux tools and modules to be added 
+- abstracts individual tool parameters/setup using an interface file
+- allow adding new tools by providing an interface
+- allow chaining tools to use ones output as anothers input
+
+
+
+
+
+\iffalse
+\section{Random stuff}
+Our consumer driven society demands continues supply of new innovative but affordable gadgets. Such pressure on manufacturers forces them to the point there taking proper security measures cannot be afforded. Such negligence creates a numerous lot of high availability, fairly computationally capable, unprotected devices that can with little effort be exploited by cyber criminals.
+
+This project purpose is to provide clear guidelines and little technical knowledge requiring tool simplifying IoT network penetration testing. It will cover techniques and methods used to identify and map all the IoT network components providing guidelines on how to find specific vulnerabilities in individual devices. Apart from the concise IoT penetration testing model this project goal is to create a tool that automates network scanning, device discovery and information gathering process. The key piece of the tool functionality is it's extend-ability and versatility allowing new components to be easily included depending on users needs.
+
+
+IoT term is used to describe an incredibly wide variety of devices. From electronic thermometers to security cameras to industrial crop field monitoring systems. 
+IoT security is very bad. Loads of low quality manufacturers are trying to make new gadgets as cheaply as possible. They don't care about security. The idea is to develop fast, low-cost and sell as much as possible. It is safe to say that manufacturers are not concerned about devices security, thus they use default passwords, un-encrypted communications, provide no ways of updating software and even use old, probably faulty and with known vulnerabilities but extremely cheap microchips. All of these add up to create highly vulnerable environment. 
+And smart devices numbers are only going to keep growing. With huge numbers of devices with the same vulnerabilities and Internet connectivity and reasonable computational power, it is no wonder IoT devices gain increasing amount of cyber criminals interest. Relatively recent attacks in Year (Miray botnet) have shown that significant amount of damage can be inflicted using share numbers of from the first sight innocent internet connected gadgets. 
+It is clear that IoT security is an increasingly important topic therefore manufacturers and owners need to take greater care securing their devices. One of the best ways to identify real threats especially in environment where different pieces of software and hardware are provided by different (usually, completely unrelated) manufacturers is attack your own system. As the IoT technology is fairly new and consists of an immense variety of completely different components, there are not many resources available that provide explain how to properly do Penetration testing for it. 
+
+
+Problem:
+
+Nowadays people tend to use more and more low-end consumer-based electronics. Such sensor based or smart-devices are used to create highly automated networks (IoT networks) that assist humans in performing various tasks. Unfortunately, product manufacturers are driven by ever-increasing demand for highly functional affordable gadgets, because of that security is usually not their top priority. The current IoT gadget market is filled with low-quality inexpensive devices that implement poor security standards. Some security vulnerabilities could be easily prevented by device users simply following mutual security standards guidelines. As consumers are usually negligent to properly secure their new gadgets and device manufacturers are more concerned about minimizing the production cost such devices become favorable targets for attackers wishing to compromise owner’s network.
+
+2. Goal:
+
+Penetration testing is an essential aspect of any modern device, application or network development. It is the single most effective way of finding security breaches before the actual attack happens. The goal of this project is to provide a set of tools that can be automatically applied to IoT networks or individual devices to scan for common IoT vulnerabilities. The toolset is intended to be used to find vulnerable devices which use different communication methods, apply customizable vulnerability tests and provide test results in a report. The toolset would follow most common IoT device testing methodology and vulnerability testing best practice.
+
+3. Scope:
+
+This project cannot possibly find all existing IoT device vulnerabilities nor address specific device level implementation details; thus, it will only check for most frequent IoT device weak points. The toolset will concentrate on testing mutual device properties providing a certain level of configuration for different tests following common testing patterns. It will not however be able to expand over bigger IoT infrastructures as it concentrates on testing singular devices or a small set of devices on the same network. 
+
+
+    
+Prevention methods
+    Legal bindings and legislation (who get's the blame if hacked?)
+    Penetration testing - the liable approach to a complex environment testing
+    Penetration testing methodology
+        Attack surfaces mapping
+        Information gathering
+        Possible vulnerabilities ranking using X method
+
+Project goals
+    Goal
+    Requirements (keep testing to yourself)
+    Limitations
+    Risk evaluation???
+    
+Application design
+    Portable design, dependencies included, desktop application, no web browser dependencies
+    Modular design, addition of new modules, interface to connect new tools (wrapper for gui level)
+    Default toolset provided (scanner, login (and input) fuzzer, automatic login bruteforcer? ) find actual tools that will be used
+    User Orientated design decisions 
+    
+Remaining work
+    Work schedule using Gannt chart
+    The writing of the whole software. The whole implementation.
+    Use UML diagram describing each part of the functionality of the software. Pay attention to core parts - discovery, visualization and actions that can be taken about specific devices. Manual and automatic actions.
+        
+References
+\fi
