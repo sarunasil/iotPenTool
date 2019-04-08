@@ -261,3 +261,6 @@ TSWLatexianTemp*
 # standalone packages
 *.sta
 
+
+#pdf
+Final_report/main.pdf
