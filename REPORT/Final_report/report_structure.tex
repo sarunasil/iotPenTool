@@ -66,31 +66,33 @@ Report structure:
 			\item Libraries choice
 			\item Development tools choice
 		\end{enumerate}
+	\item Application structure
 	\item Source control
 	\item Class diagrams and planning
 	
 	\end{enumerate}
 
-	\Implementation details
-	
-	\item User preferences and setting files
-	\item Interface loader and yml parsing
-	\item Interface generation, recursion and extendability
-	\item Multithreaded run and options to stop execution
-	\item Dynamically bind seperate output for each interface - output abstraction using functional programming
-	\item Interface tabular structure in accordance with methodology tool separation
-	
-	\item Threat Model design using tabular structure 
-	\item Dynamic and responsive information display kept up to date in multiple places using QT signal-slot pattern
-	\item Global scope Threat Model item cache (remembers entered values even between separate Threat Models to easy repetitive assets imports)
-	\item Threat sorting and information add-edit-delete capabilities
-	\item Interface flag and value suggestion generation in extendable manner parsing only current threat information (done in native style as text completion)
-	
-	\item Threat Model persistence via pickling
-	\item Expected tool interface for new/open/save and save as with keyboard shortcuts and, obviously, remembering saved file existence, remembering saved/unsaved state and verification before discarding unsaved information
-	\item Inter version compatibility due to pickling (can load not exactly the same attribute files and fill in not existing attributes with defaults)
-	\item export to tabulated json as a universal format
-	\item Global cache clearance separated into assets/technologies and entry points
+	\item Implementation details
+	\begin{enumerate}
+		\item User preferences and setting files
+		\item Interface loader and yml parsing
+		\item Interface generation, recursion and extendability
+		\item Multithreaded run and options to stop execution
+		\item Dynamically bind seperate output for each interface - output abstraction using functional programming
+		\item Interface tabular structure in accordance with methodology tool separation
+		
+		\item Threat Model design using tabular structure 
+		\item Dynamic and responsive information display kept up to date in multiple places using QT signal-slot pattern
+		\item Global scope Threat Model item cache (remembers entered values even between separate Threat Models to easy repetitive assets imports)
+		\item Threat sorting and information add-edit-delete capabilities
+		\item Interface flag and value suggestion generation in extendable manner parsing only current threat information (done in native style as text completion)
+		
+		\item Threat Model persistence via pickling
+		\item Expected tool interface for new/open/save and save as with keyboard shortcuts and, obviously, remembering saved file existence, remembrance of saved/unsaved state and verification before discarding unsaved information
+		\item Inter version compatibility due to pickling (can load not exactly the same attribute files and fill in not existing attributes with defaults)
+		\item export to tabulated json as a universal format
+		\item Global cache clearance separated into assets/technologies and entry points
+	\end{enumerate}
   
 \end{enumerate}
 
