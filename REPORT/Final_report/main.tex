@@ -1,25 +1,10 @@
 \documentclass{article}
-\usepackage[utf8]{inputenc}
-\usepackage{hyperref}
-\usepackage{authblk}
-\usepackage{tocbibind}
-\usepackage{titlesec}
-\usepackage{natbib}
 \usepackage{graphicx}    
 \graphicspath{ {./media/} }
 \usepackage{url}
 \usepackage{array}
 
-\makeatletter
-\def\@seccntformat#1{%
-  \expandafter\ifx\csname c@#1\endcsname\c@section\else
-  \csname the#1\endcsname\quad
-  \fi}
-\makeatother
-
-\makeatletter
-\renewcommand*\l@section{\@dottedtocline{1}{1.5em}{2.3em}}
-\makeatother
+\usepackage[parfill]{parskip}
 
 
 \bibliographystyle{plain}
@@ -30,11 +15,16 @@
 
 \input{title.tex}
 \input{abstract.tex}
+
 \newpage
 \tableofcontents
+
+\newpage
+\input{acknowledgements}
+\input{statement_of_originality}
+
 \newpage
 \input{content.tex}
-
 
 \bibliography{references}
 
