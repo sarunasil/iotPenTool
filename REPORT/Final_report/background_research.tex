@@ -1,0 +1,65 @@
+\section{Background research}
+
+\subsection{Penetration testing}
+Penetration testing in general is a controlled form of hacking in which the tester acts as an attacker in order to find system misconfigurations and bugs that may lead to security threats {1}. There are generally two distinct approaches to penetration testing: White box and Black box. White box testing is also called structural testing because the test cases are designed based on the source code and are usually executed by software developers which are aware of internal code structure. Black box testing corresponds to functional testing and is intended to be performed without prior knowledge of the software internal mechanisms. The Black box pen testers focus on testing applications functionality and are only concerned about program input and output {2}. It has been noted that by combining these two methods it is possible to systematically discover target vulnerabilities and propose remediation {3}. It has further been proposed that penetration testing must not be regarded as the final stage before releases but become an integral part of the development cycle in order to prevent similar vulnerabilities from appearing in future applications {4}. 
+
+There are numerous books written about penetration testing{5}, secure development cycles{x} and best practises regarding web applications{x}, embedded systems{x} and networking{x} but only a limited amount of information is available about IoT penetration testing specifically\cite{cookbook}. As later explained, IoT technologies just combine and modify previously developed solutions rather than inventing completely new technologies. The shift in use cases of well developed mechanisms and the amount of possible variations in the IoT environment requires a distinct look at it's security. That is one of the reasons why there is the need to adapt parts of classical infrastructure pen testing to rather distinct IoT field. Another important reason, is to make penetration testing less complicated for developers and people with less in-depth security related knowledge as well as create a convenience tool for existing penetration testers.
+
+\subsection{Internet of Things}
+There is no clear definition for the phrase Internet of Things, it is reasonable to define it as "the concept of every device blending with the existence of human beings"\cite{DBLP:journals/corr/MendezPY17}. Which means that smart devices mimic human interaction and other systems would not be able to distinguish a human interacting with it from another system. In it's simplest form IoT system definition can be rephrased as a decentralized network there multiple, usually, limited capabilities embedded processing units communicate between each other in various ways\cite{itu-t2060}. The fact that they have communication capabilities implies that they can change their behaviour depending on their network interface input and can essentially be controlled remotely. That is what exposes "smart objects" to outside threats\cite{riahi:hal-00868362}. Therefore, embedded system engineers, that were used to developing independent devices or small singular purpose closely bound networks, nowadays have to consider what consequences their decisions may have on the overall users infrastructure. Similarly the penetration testing complexity increases relative to the system size and technology set used. The addition of a network interface converts a narrow purpose device into an interactive Internet component.
+
+Inserting a previously isolated technology into the global Internet network attracts malicious users attention. Unprotected log-ins, outdated software and insecure communication would not cause major security issues for hidden away, stand-alone embedded devices as long as they function properly (e.g. medical equipment). Situation changes drastically if a device can be discovered and interacted with by anyone on the network. Moreover, IoT devices can be extremely favourable targets for hackers that are expanding their bot nets. Unlike regular computers, IoT devices usually run continuously round-the-clock and can be exploited without owners knowledge\cite{191952}. It seems that traditional approaches of securing devices are not effective\cite{DBLP:journals/corr/abs-1803-05022} due to IoT technologies uniqueness and variety. Therefore, penetration testing is proposed as a way to imitate hacker attacks and evaluate IoT technologies security near to real world environment.
+
+\subsection{IoT penetration testing}
+
+Above listed IoT inherited vulnerabilities require pen testing to be performed for every system layer, breaking down IoT network infrastructure and exposing hidden attack vectors. Testers must take into account 5 different aspects of IoT infrastructure. Hardware vulnerabilities can be exploited by anyone who has physical access to the device. Such vulnerabilities may be an open debugging port, password reset button and tapping into hardware level communication (e.g. UART)\cite{attify}. Firmware in this context stands for device operating system which can be rather primitive or extensive and may be using third party SDK and libraries that could introduce possible vulnerabilities\cite {cookbook}. Application level threats usually happen due to a software bug or a logic error\cite{cookbook}. If a device or an IoT system has a web interface, it essentially becomes a web host, thus it may have all the vulnerabilities of a regular website\cite{2007:WAH:1406550}. Communication and network exploits happen due to man-in-the-middle attacks and usage of insecure communication protocols assuming security by obscurity. Lastly, some IoT vendors release mobile applications complimenting their products. That is another new and troublesome attack vector as hackers may get access not only to victims IoT devices but also get a foot hold in users' smart phone and might be able to access personal information stored in there\cite{cookbook}. Only by addressing each part of the infrastructure individually and later as a whole one can thoroughly test an IoT system.
+
+\subsection{Threat modelling}
+
+Threat modelling is a technique to identify infrastructures weak spots and suggest countermeasures for any vulnerabilities discovered in the process. When performed and maintained from early stages of development it helps to map likely system vulnerabilities that may result in a malicious event that may compromise the systems integrity {6}. For some small scale applications threat modelling might seem in-efficient and unnecessary as the system assets are not numerous and they do not have complicated relations. For larger scale enterprise applications threat modelling has become a crucial part of development process and a valuable asset for risk management continuum {7}. 
+
+Over time many different threat modelling approaches have been developed in order to adapt to distinct enterprise fields in which they were used. The author of the book "IoT Penetration Testing Cookbook"\cite{cookbook} suggests using a well known STRIDE threat model in combination with the DREAD threat evaluation model to describe likely IoT system vulnerabilities. The book author also suggest simply listing each individual asset vulnerabilities (later exaplained in more detail) as an alternative to rather binding STRIDE framework\cite{cookbook}.
+
+\subsubsection{STRIDE}
+The STRIDE threat modelling framework has been developed by Microsoft and divides security threats to six categories {8} in accordance to each letter in the name.
+\begin {itemize}
+\item Spoffing of user identity
+\item Tampering - altering equipment in order to cause malicious behaviour
+\item Repudiation - ability to modify information without taking responsibility or being detected
+\item Information disclosure - improper management of sensitive information
+\item Denial of Service - degrading the quality or completely eliminating a service
+\item Elevation of Privilege - gaining system rights without proper authorization
+\end{itemize}
+
+A Data Flow diagram is expected to be used together with STRIDE model. This way every node of the system under consideration can be visualized and examined separately. After thorough analysis it is expected to have full list of system vulnerabilities.
+
+\subsection{STRIDE alternative}
+Plainly every system node vulnerabilities may seem unorderly and counter intuitive but there cases there such solution is advantageous. It fairly closely follows Agile development principles and is, although not directly referenced, similar to Abuser Stories threat modelling method. As the name might suggests the tester is encouraged to think as an attack and design attacks that could later on be launched on the system in hopes of confirming the raised hypothesis for existance of a specific vulnerability. Abuser stories method emphasises on finding possible system entry points that could be used by the malicious attacker. It also requires that for every suspected threat a possible mitigation technique and it accompanying test be specified {9}.
+
+A dynamic approach like this may be rather appealing in IoT environment there sometimes threats cannot be clearly assigned to one particular group. It may also be complicated to distinguish system components due to the vast variety of possible IoT system compoenets. As each individual device is usually small and of limited capabilities the overall system model and relations between it's nodes may provide much more information than in-depth analysis of each node.
+
+\subsection{DREAD ranking}
+DREAD ranking is (find some article to talk about)
+
+\subsection{IoT threat modelling}
+Referencing the same book, IoT threat modelling is suggested to be performed in these steps:
+\begin{enumerate}
+	\item Document all system assets using publicly available information: try to identify each device, write down all applicable information that may provide any hints on systems internal processes.
+	\item Create architecture overview:
+	\begin{itemize}
+		\item Document IoT system functionality and features, create use cases
+		\item Create architectural diagram that shows what components control flow
+		\item Using architectural diagram and created use cases identify each individual component and communication method system communication method.
+	\end{itemize}
+	\item Use acquired system picture to identify entry points and write down possible threats. It does not have to be exact but it has to be backed up by some evidence.
+	\item Starting with most likely threats determine:
+	\begin{itemize}
+		\item Threat targets 
+		\item Possible exploitation techniques
+		\item Possible countermeasures
+	\end{itemize}
+	\item Rate threats using DREAD rating system\cite{dread} and group them accordingly (High 12-15, Medium 8-11, Low 5-7)
+	\item After the overall system analysis is finished, repeat the same process examining each part of the IoT system separately. Reuse previously created mapping and include new information reflecting on device specific threats. This is the time to logically and realistically evaluate each part of the system.
+	Writing down possible threats for individual devices, mapping attack surfaces and identifying vulnerabilities which may lead to exploitation of distinct device weaknesses.
+	\item Final step is to analyze and attack top ranking vulnerabilities of each system component (firmware, mobile application, communication, etc.) looking for a way in.
+\end{enumerate}
