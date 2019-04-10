@@ -1,34 +1,32 @@
 
-\section{Project Goals}
-This project goal is to collect information about IoT penetration testing and provide a tool that allows the generalized methodology to be easily applied in practise. The tool should be able to execute different types of network scans and display discovered devices in a user-friendly manner. The tool is also supposed to be able to apply information gathering techniques to individual devices such as port scanning. The idea is to visually present device and network specific information gathered from automatic and manual tests to get a better understanding of the system. By following penetration testing methodology it is then possible to identify attack surfaces and exposed entry points.
 
-With initially gathered information a user can then choose one of the modular tools added to the application and apply device or protocol specific tests. The biggest advantage of a tool like this is its ability to use preexisting penetration tools to achieve individual tasks. As the IoT technology stack is so diverse it is impossible to design a tool that covers all the use cases. Instead, this project should provides a "tool box" which comes with a few basic testing tools and ability to add new tools if a need arises. The basic tools allow users to get a first view at the system of interest and make decisions about the next step.
 
-As one of the emphasis of this application is to make IoT penetration testing more accessible and coherent for a diverse audience the ease-of-use and simplistic design are key aspects of the application. The whole tools functionality needs to be accessible via a graphical user interface with hints and explanations reducing the learning curve.
 
-\subsection{Requirements}
-    \subsubsection{Functional}
-        \begin{itemize}
-            \item Functionality to add and remove new security tools to and from the application
-            \item Contain an initial proof-of-concept set of tools
-            \item Scan local network, map network infrastructure and identify its components
-            \item Support at least 2 communication protocols: WiFi and Bluetooth
-            \item Provide guidelines and best practice for IoT penetration testing
-            \item Give suggestions of most likely vulnerabilities in response to the initial network scan
-            \item Allow chaining separate tool execution
-            \item User is able to interact with the application via a graphical user interface
-        \end{itemize}
-    
-    \subsubsection{Non-functional}
-        \begin{itemize}
-            \item Contains all required dependencies and is portable with little to no setup
-            \item Compatible with most popular Linux distributions
-            \item Must provide user with feedback within 2 second of user interaction
-            \item Must be able to identify at least 25 unique devices on the network
-        \end{itemize}
+\section{Application design}
+The penetration testing tool is chosen to be a desktop based GUI application. Desktop applications will have no dependencies on browsers. Server side - client side code complications and JavaScript engine dependencies are also removed. It is planned that all libraries and resources required for the application to run would be included in the final deliverable, thus increasing portability and reducing setup complexity. Additional features as automatic update service and application error scan is planned in order to keep software up to date by using git repository as a code base.
 
-\subsection{Limitations}
-This project cannot possibly find all existing IoT device vulnerabilities nor address specific firmware or hardware details; thus, it will only check for most frequent IoT device weak points. The tool set concentrates on finding application and communication level vulnerabilities. Some communication protocols may require special hardware tools and are harder to test. Because of the modular nature of the application design it may be possible to use such tools e.g. for capturing GSM communication packages \cite{DBLP:journals/corr/ShaikBANS15} but due to time and resource limitations it is out of scope of this module. It is also impossible to use the same technique to test an area as diverse as IoT networks. Therefore, the methodology provided is only guidelines gathered from multiple sources and may need alterations.
+Application will implement modular design to re-use existing penetration tools and follow usage-centered design principles. In order to add a tool to the tool set, a user will have to define an interface/wrapper for the new tool. The wrapper will contain instructions on how to convert GUI input to tool specific commands as well as interpret tools output. This design allows flexibility and makes no assumptions about individual tool input or output. By prioritizing usability and clarity the application will remain user friendly and minimize new users learning curve \cite{user}.
+
+It has been decided that the application will be written in Python. Python is a dynamic scripting language suitable for rapid development and prototyping. There will be no learning curve to use it as work experience is already present. Graphic User Interface will be developed using PyQT library as it is highly customize and popular between Python developers. Python is also by default present in the majority of Linux distributions, therefore no additional setup will be required. Other alternatives as Java, JavaScript and C++ were considered but were dismissed due slower development cycle, steeper learning curve or lack. One may point out Python lesser performance as a disadvantage but as the majority of computationally heavy tasks will be executed by other tools that does not make any difference.
+
+A UML diagram present describes general application structure.
+
+\begin{figure}[h!]
+\caption{UML diagram}
+\includegraphics[width=\linewidth]{UML-diagram}
+\centering
+\end{figure}
+
+\section{Remaining work}
+
+Work completed up to this point and the remaining work is visualized using Gannt chart. The application design and background research phases are completed. The remaining development time will be mostly divided into sprints of 10-14 days in order to assign time for inevitable other module assignments. Each sprint will have a predefined set of tasks prioritized in Agile manner. After the sprint is completed planned functionality is supposed to be fully functional and tested to constantly add value. The Christmas period, January exam period and Easter periods are planned in looser manner in order to accommodate vacations, assess progress and re-think design decisions. The last weeks of the project are reserved for writing final report.
+
+\begin{figure}
+\caption{Gannt chart}
+\includegraphics[width=\linewidth]{Gannt}
+\centering
+\end{figure}
+
 
 \subsection{Risk analysis}
 Probability and Impact are rated in a scale from 1 to 5.
@@ -58,47 +56,22 @@ Probability and Impact are rated in a scale from 1 to 5.
 \def \impactaaaaa {3}
 \def \mitigationaaaaa {Complete limited or partial testing concentrating on core functionality, document causes and reasoning. If difficulties arise in early stages of development  due to technical limitations, seek support from university staff that have more experience in similar situations. }
 
-\begin{center}
-\begin{tabular}{ |m{5cm}|m{2cm}|m{1cm}|m{6cm}| } 
- \hline
- Risk & Probably & Impact & Mitigation \\ 
- \hline
- \riska & \probabilitya & \impacta & \mitigationa \\ 
- \hline
- \riskaa & \probabilityaa & \impactaa & \mitigationaa \\ 
- \hline
- \riskaaa & \probabilityaaa & \impactaaa & \mitigationaaa \\ 
- \hline
- \riskaaaa & \probabilityaaaa & \impactaaaa & \mitigationaaaa \\ 
- \hline
- \riskaaaaa & \probabilityaaaaa & \impactaaaaa & \mitigationaaaaa \\ 
- \hline
-\end{tabular}
-\end{center}
-
-
-
-\section{Application design}
-The penetration testing tool is chosen to be a desktop based GUI application. Desktop applications will have no dependencies on browsers. Server side - client side code complications and JavaScript engine dependencies are also removed. It is planned that all libraries and resources required for the application to run would be included in the final deliverable, thus increasing portability and reducing setup complexity. Additional features as automatic update service and application error scan is planned in order to keep software up to date by using git repository as a code base.
-
-Application will implement modular design to re-use existing penetration tools and follow usage-centered design principles. In order to add a tool to the tool set, a user will have to define an interface/wrapper for the new tool. The wrapper will contain instructions on how to convert GUI input to tool specific commands as well as interpret tools output. This design allows flexibility and makes no assumptions about individual tool input or output. By prioritizing usability and clarity the application will remain user friendly and minimize new users learning curve \cite{user}.
-
-It has been decided that the application will be written in Python. Python is a dynamic scripting language suitable for rapid development and prototyping. There will be no learning curve to use it as work experience is already present. Graphic User Interface will be developed using PyQT library as it is highly customize and popular between Python developers. Python is also by default present in the majority of Linux distributions, therefore no additional setup will be required. Other alternatives as Java, JavaScript and C++ were considered but were dismissed due slower development cycle, steeper learning curve or lack. One may point out Python lesser performance as a disadvantage but as the majority of computationally heavy tasks will be executed by other tools that does not make any difference.
-
-A UML diagram present describes general application structure.
-
-\begin{figure}[h!]
-\caption{UML diagram}
-\includegraphics[width=\linewidth]{UML-diagram}
-\centering
-\end{figure}
-
-\section{Remaining work}
-
-Work completed up to this point and the remaining work is visualized using Gannt chart. The application design and background research phases are completed. The remaining development time will be mostly divided into sprints of 10-14 days in order to assign time for inevitable other module assignments. Each sprint will have a predefined set of tasks prioritized in Agile manner. After the sprint is completed planned functionality is supposed to be fully functional and tested to constantly add value. The Christmas period, January exam period and Easter periods are planned in looser manner in order to accommodate vacations, assess progress and re-think design decisions. The last weeks of the project are reserved for writing final report.
-
-\begin{figure}
-\caption{Gannt chart}
-\includegraphics[width=\linewidth]{Gannt}
-\centering
-\end{figure}
+\begin{table}
+	\centering
+	\begin{tabular}{ |m{5cm}|m{2cm}|m{1cm}|m{6cm}| } 
+		\hline
+		Risk & Probably & Impact & Mitigation \\ 
+		\hline
+		\riska & \probabilitya & \impacta & \mitigationa \\ 
+		\hline
+		\riskaa & \probabilityaa & \impactaa & \mitigationaa \\ 
+		\hline
+		\riskaaa & \probabilityaaa & \impactaaa & \mitigationaaa \\ 
+		\hline
+		\riskaaaa & \probabilityaaaa & \impactaaaa & \mitigationaaaa \\ 
+		\hline
+		\riskaaaaa & \probabilityaaaaa & \impactaaaaa & \mitigationaaaaa \\ 
+		\hline
+	\end{tabular}
+	\caption{\label{tab:risk_ana} Risk analysis}
+\end{table}
