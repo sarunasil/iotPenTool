@@ -39,27 +39,110 @@ Plainly every system node vulnerabilities may seem unorderly and counter intuiti
 A dynamic approach like this may be rather appealing in IoT environment there sometimes threats cannot be clearly assigned to one particular group. It may also be complicated to distinguish system components due to the vast variety of possible IoT system compoenets. As each individual device is usually small and of limited capabilities the overall system model and relations between it's nodes may provide much more information than in-depth analysis of each node.
 
 \subsection{DREAD ranking}
-DREAD ranking is (find some article to talk about)
+DREAD ranking is a risk assessment model introduced by Microsoft and now used by OpenStack and advertised by OWASP {10} {11}. The name DREAD stands for five categories which are used to evaluate every threat.
+\begin{enumerate}
+	\item Damage potential - How great is the damage if exploited?
+	\item Reproducibility - How easy is it to reproduce the attack?
+	\item Exploitability - How easy is it to attack?
+	\item Affected users - Roughly how many users are affected?
+	\item Discoverability - How easy is it to find the vulnerability? \cite{cookbook}
+\end{enumerate}
+For every category a rating from 0 to 10 is derived, than all the ratings are summed up and divided by five a decimal score is produced there the highest scores represent most urgent vulnerabilities. 
+
+A variation of this model is suggested by some sources\cite{dread}\cite{cookbook} there the threats are ranked on the scale from 0 to 3 and the impact is evaluated from low to high: 
+
+\def\riska{High}
+\def \probabilitya {12 - 15}
+
+\def\riskaa{Medium}
+\def \probabilityaa {8 - 11}
+
+\def\riskaaa{Low}
+\def \probabilityaaa {5 - 7}
+
+\begin{table}
+	\centering
+	\begin{tabular}{ |m{2cm}|m{2cm}| } 
+		\hline
+		Risk rating & Result\\ 
+		\hline
+		\riska & \probabilitya \\ 
+		\hline
+		\riskaa & \probabilityaa \\ 
+		\hline
+		\riskaaa & \probabilityaaa \\ 
+		\hline
+	\end{tabular}
+	\caption{\label{tab:dread_ranking} DREAD ranking}
+\end{table}
+
 
 \subsection{IoT threat modelling}
-Referencing the same book, IoT threat modelling is suggested to be performed in these steps:
-\begin{enumerate}
-	\item Document all system assets using publicly available information: try to identify each device, write down all applicable information that may provide any hints on systems internal processes.
-	\item Create architecture overview:
-	\begin{itemize}
-		\item Document IoT system functionality and features, create use cases
-		\item Create architectural diagram that shows what components control flow
-		\item Using architectural diagram and created use cases identify each individual component and communication method system communication method.
-	\end{itemize}
-	\item Use acquired system picture to identify entry points and write down possible threats. It does not have to be exact but it has to be backed up by some evidence.
-	\item Starting with most likely threats determine:
-	\begin{itemize}
-		\item Threat targets 
-		\item Possible exploitation techniques
-		\item Possible countermeasures
-	\end{itemize}
-	\item Rate threats using DREAD rating system\cite{dread} and group them accordingly (High 12-15, Medium 8-11, Low 5-7)
-	\item After the overall system analysis is finished, repeat the same process examining each part of the IoT system separately. Reuse previously created mapping and include new information reflecting on device specific threats. This is the time to logically and realistically evaluate each part of the system.
-	Writing down possible threats for individual devices, mapping attack surfaces and identifying vulnerabilities which may lead to exploitation of distinct device weaknesses.
-	\item Final step is to analyze and attack top ranking vulnerabilities of each system component (firmware, mobile application, communication, etc.) looking for a way in.
-\end{enumerate}
+"IoT penetration testing cookbook"\cite{cookbook} suggests, to perform IoT threat modelling in these steps:
+
+	\subsubsection{Identifying system assets}
+	
+	In this context an 'asset' stands for any physical or virtual device which is responsible for a particular part of the system. For each device, document all publicly available information that may provide any hints on systems internal processes. \newline
+	In a home security system setup good examples of 'assets' would be surveillance cameras, a digital video recorder, web application used to access DVR's content, cameras' and DVR's firmware. 
+	
+	\subsubsection{Architectural overview}
+	
+	IoT architectural overview goal is to describe systems functionality, use cases and physical composition. It helps to visualize how an intrude may use the system resources in an unintended manner. The point is to discover flaws in system design or implementation. This can be achieved in three steps:
+	
+	\begin{enumerate}
+		\item Documenting systems functionality and features
+		
+		This can be achieved by documenting several use cases for different system stakeholders. 
+		
+		\item Creating an architectural diagram of systems infrastructure
+		
+		There are plenty of UML diagram building tools available online that could be used for this purpose {12} {13}. 
+		
+		\item List all the technologies used in the system
+		
+		In this section a 'technology' can be anything that was developed for a particular purpose and may have inherited vulnerabilities. \newline
+		Good technology examples are a Wi-Fi router, an android or iOS mobile application, an embedded Linux OS, various communication protocols.
+	\end{enumerate}
+	
+	
+	\subsubsection{IoT device decomposition}
+	
+	This is useful in order to map system interaction points and document data transition between system components. This step corresponds to mapping attack surfaces in penetration testers terminology {14}.
+	
+	\begin{enumerate}
+		\item Creation of data flow diagram
+		
+		A data flow diagram can be an extension of architectural diagram discussed previously just with more details about information movement and system trust boundaries.
+		
+		\item List of system entry points
+		
+		The entry points are listed in similar manner as technologies or assets but with emphasis on system and user interaction as well as data transition between infrastructure nodes.
+		\newline
+		System entry point examples are embedded web applications, mobile applications, physical connections to the DVR, cameras (as they are registered and communicate with the DVR)
+	\end{enumerate}
+	
+	\subsubsection{List potential threats}
+	
+	At this stage, the pen tester is supposed to use previously gathered information to list all the potential threats for each of the system components. In order to thoroughly analyse the system model, it is helpful to do it two fold: as the vendor concerned about user data security and application integrity and as the attacker looking for exploitable targets to compromise networks integrity.
+	
+	STRIDE can be used to thoroughly consider every system node vulnerabilities, it can also help to organize threats than the threat model becomes bigger. As an alternative, a dynamic approach discussed above is also acceptable.
+	
+	Each threat is described in four steps:
+	\begin{enumerate}
+		\item Threat description
+		\item Threat/attack target
+		\item Possible attack techniques
+		\item Suggested countermeasures
+	\end{enumerate}
+
+	At this stage the information entered does not have to be exact or even entirely correct, it is more important to have an exhaustive list of potential vulnerabilities that can be updated later on.
+	
+	\subsubsection{Rank threats}
+	
+	In order to prioritize vulnerabilities the previously explained DREAD method is suggested. There are other popular ranking systems like CVSS {15} that can be used. After sorting the threats according to their risk rating, it is easier to prioritize high-risk potential vulnerabilities and focus on their testing. 
+	
+	\subsubsection{Mitigation, testing and re-evaluation}
+	
+	The penetration testers are encouraged to maintain a risk model up to date as it provides a convenient framework for documenting testing progress. New information can help discover related threats or uncover unexpected entity relations. \newline
+	If possible, providing automated vulnerability tests is favourable, although it is not always possible.
+	In order to maintain IoT infrastructure secure it is highly advised to re-iterate thorough the threat modelling process after every new release or a functionality update {4}.
