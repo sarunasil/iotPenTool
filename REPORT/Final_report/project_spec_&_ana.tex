@@ -53,7 +53,18 @@ This sections follows the problem analysis process and defines the project scope
 
 
 \subsection{Possible approaches}
-	some stub stuff
+	\subsubsection{Extension for an existing penetration testing framework}
+	A usability-oriented plugin designed for a pen testing framework like Metasploit {17} may be capable of meeting the majority of technical requirements. A solution like this would be closely linked to the framework of choice and it's implementation. Projects extendability would also be questionable as it could only accompany tools and functionality provided by the framework. The biggest drawback of such approach is that, to the writers best knowledge, there are no IoT specific penetration testing frameworks currently available, thus it is unlikely that a single general purpose (or web specific) penetration framework would contain a wide range of tools needed for this purpose.
+	
+	\subsubsection{Web based solution}
+	A web based solution has also been considered. A local web server would run on the users machine hosting a website through which the user would interact with the system. If this approach is taken, differences between browsers and cross-compatibility would need to be taken into account. Moreover, it would significantly slow down the development process due to the lack of writers familiarity with web programming and suitable technologies.
+	
+	\subsubsection{Desktop application}
+	A desktop application would provide the most freedom for adjustments and would only depend on the libraries used, which can be shipped together with the application. Depending on the choice of a GUI library, a native prototype look can be achieved without no effort. The writer is familiar with desktop based technologies, therefore the implementation stage is expected to be easier and more functionality may be provided in the same time spam. A desktop application would require installation but that is no different from web based or the extension approaches. On the other hand, a web based or plugin-type solution may provide a more aesthetic design.
 
 \subsection{Chosen approach}
-	chose stub stuff
+	After considering the listed pros and cons, it has been decided to build a desktop application due the freedom of modifications, past project experiences and solutions portability.
+	
+	In addition, a high-level language supporting rapid development and native to most Linux platforms has been determined to be the best suited for the task.
+	
+	Hence, a desktop based Python solution has been chosen.
