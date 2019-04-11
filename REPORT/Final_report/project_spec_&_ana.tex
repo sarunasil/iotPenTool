@@ -36,6 +36,7 @@ This sections follows the problem analysis process and defines the project scope
 		\item Functionality to add and remove new security tools to and from the application
 		\item Contain an initial proof-of-concept set of tools
 		\item Provide functionality to scan local network, map network infrastructure and identify its components
+		\item To be able to chain one tools output as another's input
 		\item Support at least 2 communication protocols: WiFi and Bluetooth
 		\item Provide functionality to build an IoT penetration testing threat model
 		\item Process threat model content to provide suggestions for penetration tests
@@ -53,7 +54,7 @@ This sections follows the problem analysis process and defines the project scope
 
 
 \subsection{Possible approaches}
-	\subsubsection{Extension for an existing penetration testing framework}
+	\subsubsection{Extension of an existing penetration testing framework}
 	A usability-oriented plugin designed for a pen testing framework like Metasploit {17} may be capable of meeting the majority of technical requirements. A solution like this would be closely linked to the framework of choice and it's implementation. Projects extendability would also be questionable as it could only accompany tools and functionality provided by the framework. The biggest drawback of such approach is that, to the writers best knowledge, there are no IoT specific penetration testing frameworks currently available, thus it is unlikely that a single general purpose (or web specific) penetration framework would contain a wide range of tools needed for this purpose.
 	
 	\subsubsection{Web based solution}

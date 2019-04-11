@@ -1,5 +1,6 @@
 \documentclass{article}
-\usepackage{graphicx}    
+\usepackage{graphicx}
+\usepackage{rotating, float, caption}
 \graphicspath{ {./media/} }
 \usepackage{url}
 \usepackage{array}
@@ -27,13 +28,43 @@
 \input{introduction}
 \input{background_research}
 \input{project_spec_&_ana}
+\input{design}
+\input{implementation}
+\input{testing}
+\input{project_management}
+\input{evaluation}
 
-\input{content.tex}
-
+% \input{content.tex}
+\newpage
 \bibliography{references}
 
+\section{Appendices}
 \appendix
-\section{Appendix 1}\label{sec:appendix-1}
+
+\section{Class diagram}\label{sec:appendix-class-diag}
+
+\begin{center}
+	\begin{sideways}%[htbp]
+		\begin{minipage}{0.92\textheight}
+			\includegraphics[width=\linewidth,keepaspectratio]{overall_class_diagram}
+			\captionof{figure}{Complete class diagram}
+			\label{fig:xx}
+		\end{minipage}
+	\end{sideways}
+\end{center}
+
+\section{Project structure}\label{sec:appendix-proj-struct}
+
+\begin{center}
+	\begin{sideways}%[htbp]
+		\begin{minipage}{0.92\textheight}
+			\includegraphics[width=\linewidth,keepaspectratio]{project_layout}
+			\captionof{figure}{Project layout}
+			\label{fig:xx}
+		\end{minipage}
+	\end{sideways}
+\end{center}
+
 
 \input{drop_area}
 
