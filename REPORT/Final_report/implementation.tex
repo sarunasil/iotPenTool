@@ -1,1 +1,59 @@
+
+
 \section{Implementation}
+This section of the report covers project prototype details more in-depth emphasising on implementation decisions taken during development. It also covers the list of well-known penetration tools included in the tool set.
+
+\subsection{Development process}
+\subsubsection{Development}
+\subsubsection{Debugging}
+\subsubsection{Deployment options}
+
+
+\subsection{Tool included in the tool set}
+	
+	\begin{enumerate}
+		\item apktool
+		\item binwalk
+		\item dirb
+		\item hcitool
+		\item hydra
+		\item nmap
+		\item sdptool
+		\item sqlmap
+		\item wfuzz
+	\end{enumerate}
+
+\subsection{Third-party code used}
+
+\subsection{Implementation details}
+
+	\subsubsection{Application preferences file}
+	
+	
+	\subsubsection{Tool configuration file structure}
+	why yaml? How are yaml files structured
+	importing new tools to the toolset as easy as creating a yml file (is not indended to be used by inexperienced users)
+
+
+	\subsubsection{Tabular design}
+	Threat Model design using tabular structure 
+	Interface tabular structure in accordance with methodology tool separation
+	
+	Toolset categorization in tabs 
+	
+	
+	\subsubsection{Graphical User Interface functionality}
+	Convenient add-edit-delete capabilities
+	Item caching and cache clearing
+	Open-Edit-Save threat models and use of native shortcuts, obviously, remembering saved file existence, remembrance of saved/unsaved state and verification before discarding unsaved information
+	
+	
+	\subsubsection{Scalability}
+	(not very good, it is expected that people don't use too many tools as it wouldn't be convenient for them)
+	
+	Great extendability! Separated output using functional programming
+
+
+	\subsubsection{Exporting and cross-compatibility}
+	 export to tabulated json as a universal format
+
