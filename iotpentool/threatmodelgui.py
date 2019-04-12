@@ -56,13 +56,13 @@ class ThreatModelGui(QtWidgets.QTabWidget):
 		architecture_tab = QtWidgets.QTabWidget()#(direction=QtWidgets.QTabWidget.East)
 		architecture_tab.addTab(self.arch_diagram_gui, "Architectural Diagram")
 		architecture_tab.addTab(self.technologies_gui, "Technologies") 
-
 		self.addTab(architecture_tab, "Architecture")
 
 		decomposition_tab = QtWidgets.QTabWidget()#(direction=QtWidgets.QTabWidget.East)
 		decomposition_tab.addTab(self.data_flow_diagram_gui, "Data Flow Diagram")
 		decomposition_tab.addTab(self.entry_points_gui, "Entry points")
 		self.addTab(decomposition_tab, "Decomposition")
+
 		self.addTab(self.ranking_gui, "Threats")
 
 
