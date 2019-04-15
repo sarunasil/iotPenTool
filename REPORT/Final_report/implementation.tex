@@ -1,31 +1,74 @@
 
 
 \section{Implementation}
-This section of the report covers project prototype details more in-depth emphasising on implementation decisions taken during development. It also covers the list of well-known penetration tools included in the tool set.
+This section of the report covers project prototype development details more in-depth and emphasises on specific implementation decisions. It also covers the list of well-known penetration tools included in the tool set.
 
 \subsection{Development process}
-\subsubsection{Development}
-\subsubsection{Debugging}
-\subsubsection{Deployment options}
+	\subsubsection{Development}
+	Project prototype development has been scheduled as a continuous process during the last months of the project allowing a lot of freedom for alterations. It has been decided to follow Agile development methodology dividing tasks into Sprints and using supervisor meetings to present that Sprints results. An in depth, project management discussion is covered in section \ref{project-man}.
+	
+	Test-driven development (TDD) practises have been used in order to complete large amounts of robust code in limited Sprint time periods.  TDD has been used for development of the whole project back-end functionality and to test Interface GUI generation, for the front-end part has been tested using conventional testing techniques. Testing process is described in detail in section \ref{testing}.
+	
+	Greatest effort has been taken to follow Python PEP8 coding conventions to achieve maintainable, structured and standardised codebase. Pylint and autoDocstring VS Code extensions have been particularly useful for this goal.
+	
+	\subsubsection{Debugging}
+	In the case of unexpected program behaviour, VS Code built in debugger has proven to be particularly useful. It's stepping through the code and break point features have been used extensively during the development process. Built in Debug console have also proven to be convenient in order to verify program objects' states and the case of exceptions or break points. 
+	
+	\subsubsection{Deployment options}
+	After the implementation is finished, the prototype can be deployed as a Python package using dependencies management system as PIP. Installation of project dependencies would be taken care of by PIP. In order for the prototype to use tools included in it's tool set, individual pen tools would need to be installed independently in the system. Bundled program installation is one of the future work features discussed in the section \ref{future-work}
 
 
 \subsection{Tool included in the tool set}
+	There nine tools included in the tool set prototype. These tools have been chosen according to five areas of IoT Penetration testing\cite{cookbook}. The tool set, as mentioned before, is not by far complete but demonstrates that the prototype supports a wide range of pen tools. 
 	
-	\begin{enumerate}
-		\item apktool
-		\item binwalk
-		\item dirb
-		\item hcitool
-		\item hydra
-		\item nmap
-		\item sdptool
-		\item sqlmap
-		\item wfuzz
-	\end{enumerate}
+	Tools are grouped in sections according to their use. Only Hardware hacking section is not covered by this tool set as even if there are software tools used for Hardware related hacking, it is likely to be architecture specific and require additional physical devices or modules. Remote access section is also present in the set as it's tools functionality is rather distinct compared to other Web application or Wireless sections tools.
+	
+	\begin{itemize}
+		
+		\item Firmware
+		\begin{enumerate}
+			\item \textbf{binwalk} - is a tool for automated firmware extraction from the device binary image. It provides a wide range of configurations and supports different image formats.
+		\end{enumerate}
+	
+	
+		\item Web applicaiton
+		\begin{enumerate}[resume]
+			\item \textbf{sqlmap} - is an SQL database penetration tool. It has a powerful search engine and a range of switches configuring it's execution. The tool is useful if an IoT system is suspected to store data in a database.
+			\item \textbf{wfuzz} - is a web applications brute forcing tool. It can fuzz GET and POST request parameters as well as not linked web resources.
+			\item \textbf{dirb} - is a web content scanner software. It is similar to wfuzz but it uses fuzzing to discover hidden web resources and left-over files. 
+		\end{enumerate}
+		
+		\item Mobile application
+		\begin{enumerate}[resume]
+			\item \textbf{apktool} - a tool for reverse engineer closed-source Android apps. It is capable of rebuilding original file structure and decode some of the initial application resources. It is intended to be used for Java based mobile applications.
+		\end{enumerate}
+		
+		\item Remote access
+		\begin{enumerate}[resume]
+			\item \textbf{hydra} - hydra is a multi-process login cracker. Hydra supports a wide range of communication protocols and can be customized to try a several different approaches during it's execution.
+		\end{enumerate}
+		
+		\item Wireless
+		\begin{enumerate}[resume]
+			\item \textbf{hcitool} - is a tool for configuring Bluetooth connections. It supports Bluetooth device discovery, most popular Bluetooth communication protocols and can be used to send specific commands to the Bluetooth device in order to pen test the communication.
+			\item \textbf{nmap} - is the most famous network discovery and port scanner currently in the market. It is highly configurable to the point there the whole networks infrastructure can be mapped and tested by just using nmap.
+			\item \textbf{sdptool} - is a Bluetooth service discovery tool. It can connect to individual discovered Bluetooth devices and retrieve information about it's advertised services.
+		\end{enumerate}
+	
+	\end{itemize}
+		
 
 \subsection{Third-party code used}
+	Apart from the libraries used, which are listed in section \ref{libraries}, third party code has been used in few insignificant places in the code base:
+	\begin{itemize}
+		\item In the file \textit{line.py} for custom Qt GUI element implementation.
+		\item In the file \textit{vtabwidget.py} for rotating the Qt GUI tab container titles.
+		\item In the file \textit{manager.py} for implementing \textit{WorkerSignals} communication model.
+	\end{itemize}
+	In all of the occurrences of the use of third-party code in the codebase, appropriate headers have been used to clearly indicate it's use.
 
 \subsection{Implementation details}
+	This subsection covers some important implementation details that were not covered in the Design section.
 
 	\subsubsection{Application preferences file}
 	

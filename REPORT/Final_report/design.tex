@@ -14,7 +14,7 @@
 	\item \textbf{Qt 5 Designer}: easy-to-use graphical user interface tool for designing and building Qt UI for the static part of the application.
 \end{itemize}
 
-\subsubsection{Libraries}
+\subsubsection{Libraries}\label{libraries}
 \begin{itemize}
 	\item \textbf{pytest}: Python unit test framework. Extensively used during the whole prototype development process.
 	\item \textbf{jsonpickle}: Third-party Python library used for exporting threat model as structured data.
@@ -61,7 +61,7 @@ High level project structure is presented in figure \ref{fig:high-level-struct} 
 
 \begin{figure}[!htb]
 	\center{\includegraphics[width=\linewidth]
-		{high_level_struct.pdf}}
+		{high_level}}
 	\caption{\label{fig:high-level-struct} High level project structure}
 \end{figure}
 
@@ -76,8 +76,8 @@ Project layout diagram is provided in appendix \ref{sec:appendix-proj-struct}.
 Simplified penetration tool interface structure is presented in figure \ref {fig:interface-struct} below. \newline
 
 \begin{figure}[!htb]
-	\center{\includegraphics[width=1.7\linewidth]
-		{interface_diagram.pdf}}
+	\center{\includegraphics[width=\linewidth]
+		{interface}}
 	\caption{\label{fig:interface-struct} Simplified penetration tool interface related project part}
 \end{figure}
 
@@ -92,7 +92,7 @@ Interface GUI is structured following MVC pattern and is automatically generated
 Simplified penetration tool execution and output display diagram is presented in figure \ref{fig:manager-struct} below.
 \begin{figure}[!htb]
 	\center{\includegraphics[width=1.3\textwidth]
-		{manager_diagram.pdf}}
+		{manager}}
 	\caption{\label{fig:manager-struct} Penetration tool execution}
 \end{figure}
 
@@ -112,7 +112,7 @@ View and Controller parts are divided into multiple segments responsible only fo
 \begin{center}
 	\begin{sideways}%[htbp]
 		\begin{minipage}{\textheight}
-			\includegraphics[width=\textwidth,keepaspectratio]{threat_model_diagram}
+			\includegraphics[width=\textwidth,keepaspectratio]{threat_model}
 			\captionof{figure}{Threat Model structure}
 			\label{fig:threat-model-struct}
 		\end{minipage}
@@ -130,7 +130,7 @@ In the pen tool GUI suggestions are presented as text completion drop down list,
 \begin{center}
 	\begin{sideways}%[htbp]
 		\begin{minipage}{\textheight}
-			\includegraphics[width=\textwidth,keepaspectratio]{completer_diagram}
+			\includegraphics[width=\textwidth,keepaspectratio]{completer}
 			\captionof{figure}{Suggestion generation control flow}
 			\label{fig:completer}
 		\end{minipage}
