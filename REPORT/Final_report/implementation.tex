@@ -59,44 +59,41 @@ This section of the report covers project prototype development details more in-
 		
 
 \subsection{Third-party code used}
-	Apart from the libraries used, which are listed in section \ref{libraries}, third party code has been used in few insignificant places in the code base:
+	Apart from the libraries, which are listed in section \ref{libraries}, third party code has been used in few insignificant places in the code base:
 	\begin{itemize}
 		\item In the file \textit{line.py} for custom Qt GUI element implementation.
 		\item In the file \textit{vtabwidget.py} for rotating the Qt GUI tab container titles.
 		\item In the file \textit{manager.py} for implementing \textit{WorkerSignals} communication model.
 	\end{itemize}
-	In all of the occurrences of the use of third-party code in the codebase, appropriate headers have been used to clearly indicate it's use.
+	In all of the occurrences, appropriate headers have been used to clearly indicate third-party code.
 
 \subsection{Implementation details}
 	This subsection covers some important implementation details that were not covered in the Design section.
 
 	\subsubsection{Application preferences file}
+	The program has a global preferences file which is used to define application level settings. Following Python conventions, such information is stored in a '.ini' file, which is then parsed and maintained with built-in Python "configparser" library. In the case of complete loss of the configuration file or one of it's mandatory fields, a new '.ini' file is populated using reasonable default values.
+			
 	
+	\subsubsection{Interface file structure}
+	Penetration tools used in the tool set are referenced via their "interface\_x.yaml" files. Each file has mandatory and optional fields. An example interface file is shown in appendix \ref{sec:appendix-interface-struct}.
 	
-	\subsubsection{Tool configuration file structure}
-	why yaml? How are yaml files structured
-	importing new tools to the toolset as easy as creating a yml file (is not indended to be used by inexperienced users)
-
-
-	\subsubsection{Tabular design}
-	Threat Model design using tabular structure 
-	Interface tabular structure in accordance with methodology tool separation
+	The file is in YAML format which was chosen due to it's simplicity, readability and compatibility. As these interface files have to be configured by hand for every penetration testing tool, intuitive structure and readability was a priority. If for example, XML format was chosen, it would be much more complicated for the human to compose configuration files.
 	
-	Toolset categorization in tabs 
+	It is important to note that tool flag and value lists can be empty and can be defined recursively (e.g. flag containing optional flags). Configurations described in YAML format are easily appendable and auxiliary fields would just be ignored.
+	Adding a new tool to the system is as simple as creating a new interface file from the example and adding it to the appropriate folder.
 	
 	
 	\subsubsection{Graphical User Interface functionality}
-	Convenient add-edit-delete capabilities
-	Item caching and cache clearing
-	Open-Edit-Save threat models and use of native shortcuts, obviously, remembering saved file existence, remembrance of saved/unsaved state and verification before discarding unsaved information
+	Care has been taken to make the application GUI intuitive and simple to use. 
+	The application takes extensive use of tabular structures. Penetration tools are grouped according to their purpose using separate tabs. Threat modelling project part uses two levels tabular structure to group related functionality. 
+	Every threat model entry can be edited, duplicated and deleted. 
+	Threat model items (e.g. entry points) are cached on the application level, thus can be reused in other projects, cache can easily be cleared for separate threat model item groups (e.g. technologies).
+	Threat models can be loaded, edited and saved again, appropriate warning messages are thrown while trying to close threat model with unsaved information. Threat models can then be exported as json files for data visualization. Appropriate native hotkeys can also be used for these operations. 
 	
 	
 	\subsubsection{Scalability}
-	(not very good, it is expected that people don't use too many tools as it wouldn't be convenient for them)
+	Prototypes scalability is twofold. On one hand, the application can easily import as many tool interfaces as provided and load threat model files as big as needed. On the other hand, large files were not taken into consideration during the development process and no special action have been taken to parallelize or divide any of the tasks in any way. Effort has been made to use native GUI element as scrollbars to display large information sections and separate GUI functionality using tabs. Nevertheless, it may be inconvenient for the use to navigate through large numbers of tools and threat model items.
 	
-	Great extendability! Separated output using functional programming
-
-
-	\subsubsection{Exporting and cross-compatibility}
-	 export to tabulated json as a universal format
+	As described in section \ref{tool-execution}, penetration tool execution and output generation is parallelized using functional programming, therefore, tool execution scalability is only dependant on users hardware.
+	
 
