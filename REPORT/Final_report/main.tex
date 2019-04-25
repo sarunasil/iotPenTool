@@ -43,7 +43,6 @@
 \section{TODO}
 \begin{enumerate}
 	\item Pentesting screenshots
-	\item Gannt charts
 	\item Content of Design Archive
 \end{enumerate}
 
@@ -68,6 +67,7 @@ Supervised by Dr Julian Rathke (jr2)
 	This project cannot possibly find all existing IoT device vulnerabilities nor address specific device level implementation details; thus, it will only check for most frequent IoT device weak points. The toolset will concentrate on testing mutual device properties providing a certain level of configuration for different tests following common testing patterns. It will not however be able to expand over bigger IoT infrastructures as it concentrates on testing singular devices or a small set of devices on the same network.
 \end{enumerate}
 
+
 \section{Class diagram}\label{sec:appendix-class-diag}
 
 \begin{center}
@@ -80,6 +80,7 @@ Supervised by Dr Julian Rathke (jr2)
 	\end{sideways}
 \end{center}
 
+
 \section{Project structure}\label{sec:appendix-proj-struct}
 
 \begin{center}
@@ -91,6 +92,7 @@ Supervised by Dr Julian Rathke (jr2)
 		\end{minipage}
 	\end{sideways}
 \end{center}
+
 
 \section{Interface file structure} \label{sec:appendix-interface-struct}
 \begin{figure}[!htb]
@@ -115,7 +117,118 @@ Supervised by Dr Julian Rathke (jr2)
 \end{figure}
 
 
+\section{Sprint plans}\label{sec:appendix-sprint-plans}
+\begin{center}
+	\begin{sideways}%[htbp]
+		\begin{minipage}{0.92\textheight}
+			\includegraphics[width=\linewidth,keepaspectratio]
+			{sprint_planning.pdf}
+			\captionof{figure}{Sprint plans}
+			\label{fig:xx}
+		\end{minipage}
+	\end{sideways}
+\end{center}
 
+
+\section{Github statistics}\label{sec:appendix-github}
+\begin{figure}[!htb]
+	\center{\includegraphics[width=\textwidth]
+		{commit-graph.png}}
+	\caption{Project commit history}
+\end{figure}
+
+\begin{figure}[!htb]
+	\center{\includegraphics[width=\textwidth]
+		{code-graph.png}}
+	\caption{Code frequency}
+\end{figure}
+
+
+\section{Gannt charts}\label{sec:appendix-gantt}
+\begin{center}
+	\begin{sideways}%[htbp]
+		\begin{minipage}{0.92\textheight}
+			\includegraphics[width=\linewidth,keepaspectratio]
+			{Gannt.png}
+			\captionof{figure}{Expected project schedule}
+			\label{fig:xx}
+		\end{minipage}
+	\end{sideways}
+\end{center}
+
+\begin{center}
+	\begin{sideways}%[htbp]
+		\begin{minipage}{0.92\textheight}
+			\includegraphics[width=\linewidth,keepaspectratio]
+			{final-gannt.pdf}
+			\captionof{figure}{Actual project schedule for Semester 2}
+			\label{fig:xx}
+		\end{minipage}
+	\end{sideways}
+\end{center}
+
+
+\section{Risk management} \label{sec:appendix-risk}
+Probability and Impact are rated in a scale from 1 to 5.
+
+\def\riska{Loss of source code at some stage of development}
+\def \probabilitya {1}
+\def \impacta {4}
+\def \mitigationa {Use of remote source control  repository to frequently record every stage of the development, thus being able to recover it if needed. }
+
+\def\riskaa{Unable to fulfill all of the requirements due to technical implemention difficulties}
+\def \probabilityaa {3}
+\def \impactaa {2}
+\def \mitigationaa {At the start of development process requirements will be split into tasks, divided into sprints and ranked using MoSCoW prioritization, therefore ensuring that core functionality will be implemented first and a working proof of concept is available at the end of the project }
+
+\def\riskaaa{Insufficient time to develop a prototype due to other course modules}
+\def \probabilityaaa {2}
+\def \impactaaa {2}
+\def \mitigationaaa {Dedicate fixed amount of time every week for the project in order to keep up with the schedule }
+
+\def\riskaaaa{Some part of the project taking up significantly longer that expected}
+\def \probabilityaaaa {3}
+\def \impactaaaa {2}
+\def \mitigationaaaa {Re-evaluate task importance and re-adjust development schedule in order to deliver functional product }
+
+\def\riskaaaaa{Unable to complete adequate application testing due to technical or time limitations}
+\def \probabilityaaaaa {3}
+\def \impactaaaaa {3}
+\def \mitigationaaaaa {Complete limited or partial testing concentrating on core functionality, document causes and reasoning. If difficulties arise in early stages of development  due to technical limitations, seek support from university staff that are experienced in such situations. }
+
+\def\riskaaaaaa{Development is halted as additional research is needed}
+\def \probabilityaaaaaa {3}
+\def \impactaaaaaaa {2}
+\def \mitigationaaaaaa {Re-adjust project schedule and shorten over planned activities in order to accompany expected delay.}
+
+
+\def\riskaaaaaaa{it is impossible to achieve a requirement during the given time frame}
+\def \probabilityaaaaaaa {1}
+\def \impactaaaaaa {2}
+\def \mitigationaaaaaaa {Alter project goals to be more realistic and update time schedule taking that into account. Impact largely depends on the stage of development. In the prototyping period impact is insignificant, although, in later stages can become troublesome}
+
+
+\begin{center}
+	\begin{tabular}{ |m{5cm}|m{2cm}|m{1cm}|m{6cm}| } 
+		\hline
+		Risk & Probably & Impact & Mitigation \\ 
+		\hline
+		\riska & \probabilitya & \impacta & \mitigationa \\ 
+		\hline
+		\riskaa & \probabilityaa & \impactaa & \mitigationaa \\ 
+		\hline
+		\riskaaa & \probabilityaaa & \impactaaa & \mitigationaaa \\ 
+		\hline
+		\riskaaaa & \probabilityaaaa & \impactaaaa & \mitigationaaaa \\ 
+		\hline
+		\riskaaaaa & \probabilityaaaaa & \impactaaaaa & \mitigationaaaaa \\ 
+		\hline
+		\riskaaaaaa & \probabilityaaaaaa & \impactaaaaaa & \mitigationaaaaaa \\ 
+		\hline
+		\riskaaaaaaa & \probabilityaaaaaaa & \impactaaaaaaa & \mitigationaaaaaaa \\ 
+		\hline
+	\end{tabular}
+\end{center}
 
 \input{drop_area}
 

@@ -66,7 +66,7 @@ class Main():
 			ThreatModel: new threat model object
 		'''
 
-		return ThreatModel(self.config_manager.architecture_site, self.config_manager.data_flow_site, self.config_manager.model_dir, DEV=True)
+		return ThreatModel(self.config_manager.architecture_site, self.config_manager.data_flow_site, self.config_manager.model_dir) #DEV=True
 
 	def open_threat_model(self, file_path):
 		'''Open threat saved as Python serialized (.pickle) object

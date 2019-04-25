@@ -6,32 +6,50 @@ This section covers time and workload management during the whole project develo
 	
 	Unfortunately, there was a need for more background research especially in the specific penetration tools that would be most suitable to perform test for IoT devices. The delays shifted the project schedule few weeks and postponed actual prototype creation. 
 	
-	\subsection{Test driven development}
-	From the start of the project Test-Driven development (TDD) technique has been chosen as the most time and resource efficient way of delivering robust code. Due to the delay suffered from the early prototyping phase, development schedule had to be pushed into a narrow window with little to no time for other setbacks. The code had to be developed efficiently, according to Sprint plan and fully tested. 
-	
-	As each Sprint was finalized by a supervisor meeting during which working code had to be provided, a high risk of (un)intentional cutting of corners was possible. TDD approach was ideal for such setup in order to ensure proper software testing and delivery of working code.
-	
 	\subsection{Agile methodology}
+		A range of Agile practices were followed during the whole project timespan. Such include well defined sprints, demos, task prioritization, Test-Driven and rapid development. As this project was done by only one person, not all Agile practises even makes sense as there is no cooperation between team members involved. In most cases, Agile practices were seamlessly adapted in order to efficiently produce robust software and keep track of the remaining and completed work.
+	
+	
+		\subsubsection{Sprint planning}
+		Sprint task planning took place before each sprint and sometimes had to be altered during the sprint week. Tasks were compiled in a feature orientated manner, dedicating whole sprints to individual parts of the application. This approach minimised the need for code refactoring in later sprints. Sprint plans were stored and updated using source control, removing the need for dedicated sprint planning programs as there was little to be gained from it in a one-person developers team. 
+		
+		Each sprint would end by a supervisor meeting which conveniently was similar to Agile sprint demo practice. During each meeting sprint progress and completed features were discussed as well as defining tasks for the upcoming iteration. Similarly to an customers demo feature improved and suggestions were taken into account adjusting the sprint plan.
+		
+		Appendix \ref{sec:appendix-sprint-plans} includes formatted sprint plan according to MoSCoW prioritization. Reader may notice that different sprints lasted varied number of days, this was needed to accompany other assignments and varied workload.
 	
 		\subsubsection{MoSCoW prioriterization}
+		Using MoSCoW requirements prioriterization technique each Sprint task were ordered according to their necessity and potential product value. Every sprint tasks were ordered into four groups: Must, Should, Could, Won't(highly unlikely) on the day of the supervisor demo meeting. This structured approach kept the author's focus on the most important features assigned for that Sprint. A simple list of prioritized tasks provided an uncomplicated way to follow sprints progress and remaining work. 
 		
-		\subsubsection{Sprint planning}
-		Rapid development
+		\subsubsection{Github source control}
+		Github source control platform has been used frequently to log project progress and development. Following rapid programming principles, it was aimed for frequent and single functionality commits to aid debugging process. Git managed notes also served as a sprint log between development cycles. Conveniently, Github also generates graphs illustrating project development. 
 		
-		\subsubsection{Extensive use of source control}
+		Project statistics can be found in Appendix \ref{sec:appendix-github}. Commit history graph and the code frequency graph shows rapid development period of five sprints from end of February till beginning of April and the early experimentation phase before it. Commits in the following weeks of April are due to the project report being written.
 		
-	\subsection{Gannt chart}
-	
-		\subsubsection{Initial plan}
 		
-		\subsubsection{Actual plan}	
+	\subsection{Test driven development}
+		From the start of the project Test-Driven development (TDD) technique has been chosen as the most time and resource efficient way of delivering robust code. Due to the delay suffered from the early prototyping phase, development schedule had to be pushed into a narrow window with little to no time for other setbacks. The code had to be developed efficiently, according to Sprint plan and fully tested. 
+		
+		As each Sprint was finalized by a supervisor meeting during which working code had to be provided, a high risk of (un)intentional cutting of corners was possible. TDD approach was ideal for such setup in order to ensure proper software testing and delivery of working code.
+		
+	\subsection{Project schedule}
+		Gannt charts illustrating expected and actual project schedules are included in the Appendix \ref{sec:appendix-gantt}. As it is apparent due to miscalculation and confusion between report submission and the viva dates, the actual project development had to be shortened a few weeks, thus moving the report writing into earlier weeks. The need for additional background research and longer prototyping periods forced the development sprints to be pushed back few weeks and contracted into smaller time window. Nevertheless, the expected and actual schedules do not differ significantly as most of the planned activities were completed in the predicted time slots.
+		
+	\subsection{Risk management}
+		Project risk table is included in the Appendix \ref{sec:appendix-risk}. The table contains possible risks and their mitigation techniques. It can be concluded, that there were no unexpected risks during the project development stages. Prototyping and research phases took longer than first expected but the situation was resolved via the applied mitigation techniques.
 		
 	\subsection{Project management evaluation}
+		Overall, project time and resource management was backed up by methods and techniques used in industry following Agile development framework. Each project phases had been allocated specific loose time frames leaving enough flexibility for alterations. In general, the defined schedule was met with minimal changes. 
 		
-		\subsubsection{Deviation from the plan}
-		Important to keep up with the schedule and complete plan no matter what
+		Prototype coding tasks were divided into reasonable sprints and prioritized using MoSCoW technique. Sprint deadlines were flexible dependant on sprint tasks complexity. Task prioritization helped with project progress tracking and further scheduling. Development and testing process integration ensured that code is robust and self-encapsulated.
+		
+		Project risk table and contained mitigation techniques allowed for straightforward situation adjustments minimising time loss. Schedule alterations only had to be made for longer background research and prototyping periods.
 		
 		\subsubsection{Cutting corners}
+		In order to comply with compressed programming schedule, some elements had to be omitted. In particular, prototypes GUI elements style and design were not taken into consideration. As well as, a requirement for chaining individual penetration tool execution had to be skipped (further detail in the Evaluation section). 
+		
+		Although, prototype is self-explanatory and intuitive, there is no documentation provided as it had to be dropped out due to time constrains. The prototypes deployment and compatibility with other systems is also not fully tested, in spite of there being no theoretical obstacles for it. 
 		
 		\subsubsection{Time sinks}
+		Not surprisingly, project functionality requiring the most time to implement, was the GUI interface and it's testing especially the threat model GUI. Prototypes tool set assembly and configuration took a more time than expected which had to be moved to the next sprint. 
 		
+		Additionally, it has not been taken into account how much time data visualization for the project report will take. Moreover, unexpectedly big number of diagrams was needed through the report to scrupulously explain particular prototypes design or implementation details. 

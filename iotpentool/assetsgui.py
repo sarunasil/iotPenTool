@@ -112,7 +112,7 @@ class AssetsGui(QtWidgets.QWidget, Ui_MainWindow):
 		widget.setObjectName("asset_"+asset.name)
 		layout = QtWidgets.QHBoxLayout()
 		layout.setContentsMargins(2,2,2,2)
-		layout.setSpacing(10)
+		# layout.setSpacing(10)
 
 		name_lbl = QtWidgets.QLabel(asset.name)
 		name_lbl.setObjectName("name_"+asset.name)

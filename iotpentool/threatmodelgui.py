@@ -45,7 +45,7 @@ class ThreatModelGui(QtWidgets.QTabWidget):
 	def initUI(self):
 		'''Function to move GUI creation from __init__
 		'''
-		self.setMaximumWidth(400)
+		self.setMaximumWidth(1600)
 
 		if self.style:
 			self.setStyleSheet(self.style)
