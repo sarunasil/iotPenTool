@@ -44,15 +44,8 @@ class Technology():
 
 		try:
 			with open(self.tech_filepath, 'w') as technologies_file:
-				technologies_file.write("technologies:\n")
-				for tech_name, tech in known_technologies.items():
-					technologies_file.write("  '"+tech_name+"':\n")
-					technologies_file.write("    name: '"+tech['name']+"'\n")
-					technologies_file.write("    description: '"+tech['description']+"'\n")
-					technologies_file.write("    attributes: \n")
-					if tech['attributes']:
-						for attr_name, attr_value in tech['attributes'].items():
-							technologies_file.write("      '"+attr_name+"': '"+attr_value+"' \n")
+
+				yaml.safe_dump({"technologies":known_technologies}, technologies_file)
 		except IOError as e:
 			raise ModellingException("Could not append technology file. "+ e.strerror)
 

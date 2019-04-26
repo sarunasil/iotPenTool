@@ -156,6 +156,10 @@ tool:
                 - udp
             patterns:
                 - '\[\d{0,5}\]'
+        - treat_alive:
+            flag: "Pn"
+            has_value: False
+            description: "Treat all hosts as online - skip host discovery"
         - udp_disc:
             flag: "PU"
             has_value: True

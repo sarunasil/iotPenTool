@@ -40,10 +40,7 @@ class Asset():
 
 		try:
 			with open(self.assets_filepath, 'w') as assets_file:
-				assets_file.write("assets:\n")
-				for name, desc in known_assets.items():
-					s = "  '"+name+"': '"+desc+"'\n"
-					assets_file.write(s)
+				yaml.safe_dump({"assets":known_assets}, assets_file)
 		except IOError as e:
 			raise ModellingException("Could not append assets file. "+ e.strerror)
 

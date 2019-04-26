@@ -331,7 +331,8 @@ class TechnologiesGui(QtWidgets.QWidget, Ui_MainWindow):
 		'''
 
 		for _, btn in self.asset_buttons.items():
-			btn.setChecked(False)
+			if btn:
+				btn.setChecked(False)
 
 class TechnologiesController():
 	'''TechnologiesGui action controller

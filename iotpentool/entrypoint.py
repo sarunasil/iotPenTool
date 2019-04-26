@@ -39,10 +39,11 @@ class EntryPoint():
 
 		try:
 			with open(self.entry_points_filepath, 'w') as entry_points_file:
-				entry_points_file.write("entry_points:\n")
-				for name, desc in known_entry_points.items():
-					s = "  '"+name+"': '"+desc+"'\n"
-					entry_points_file.write(s)
+				yaml.safe_dump({"entry_points":known_entry_points}, entry_points_file)
+				# entry_points_file.write("entry_points:\n")
+				# for name, desc in known_entry_points.items():
+				# 	s = "  '"+name+"': '"+desc+"'\n"
+				# 	entry_points_file.write(s)
 		except IOError as e:
 			raise ModellingException("Could not append EntryPoints file. "+ e.strerror)
 

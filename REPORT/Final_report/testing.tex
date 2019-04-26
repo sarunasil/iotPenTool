@@ -17,4 +17,12 @@ Project testing was performed in two ways: software testing during Test-Driven (
 
 
 \subsection{Usability testing}
+	Usability testing demonstrates prototypes usefulness in close to real world system setup. The goal of it is to go through the whole pen testing process using the tool as an end user would. This section describes the tested IoT system, concluded penetration testing results and evaluates tools practicality.
+	
+	The IoT system chosen for testing is a home alert system built for a different module. It contains a variety of distinct network solutions and technologies (e.g. Bluetooth LE, WiFi, cloud and mail service), thus simulating a large real life IoT network. For this case a "grey box" testing approach had to be employed. Ideally, penetration testing using the "black box" approach would have been preferred as then real first time system analysis using the IoT penetration tool prototype would have been achieved. Regrettably, a large part of the alert system was developed by this reports author, therefore, some system insight knowledge could not be denied. 
 
+	The penetration testing started according to the implemented IoT penetration testing methodology, followed by appropriate tests and threat model updates. Screenshots of this systems penetration testing process can be found in the Appendix \ref{sec:appendix-pen-testing} and the saved file is included in the submission. 
+	Distinction between system assets, technologies and entry points as well as the connections between these entities helped to identify systems weaknesses. Then Nmap, dirb, wfuzz, sdp, hcitools and hydra tools were used appropriately to assess potential threats. No firmware, nor mobile application analysis took place as they were not needed in this case.
+	The alert system pen test has shown a number of significant security issues mostly due use of HTTP instead of HTTPS protocol and weak to non authentication. Physical system components vulnerabilities could also be exploited to disrupt the workflow. 
+	
+	The usability test has shown that the prototype can be used to test real life IoT systems. The GUI is intuitive, responsive and functional, although, not well styled. The penetration tools included run as expected but it is advised to use the prototype as root user because some parts of the tools included require to be run with elevated privileges. The interactive keywords transfer from threat model to respective pen tool fields works as intended. Overall, the IoT pen testing tool works well and is suitable for the task.

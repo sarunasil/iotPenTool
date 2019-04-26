@@ -210,7 +210,7 @@ class EntryPointsController():
 	def add_new_entry_point(self):
 		'''Add new EntryPoint to from gui
 		'''
-		name = self.entry_points_gui.name_input_box.text()
+		name = self.entry_points_gui.name_input_box.text().replace("'", "\'")
 		desc = self.entry_points_gui.description_input_box.toPlainText()
 		asset = self.entry_points_gui.get_asset()
 

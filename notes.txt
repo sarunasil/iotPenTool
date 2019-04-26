@@ -25,6 +25,9 @@ hydra (default password crack)
 MOBILE APPLICATIONS
 apktool - apk decompiler
 
+pen testing notes:
+tools functionality requiring SUDO, can't be run if program is not run as SUDO
+
 
 NOT doing HTML REPORT because it is just a redo of python qt gui and there is json that you can use to do whatever you want with data anyway
 ====================
