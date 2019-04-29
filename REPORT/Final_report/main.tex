@@ -40,13 +40,6 @@
 \appendix
 
 
-\section{TODO}
-\begin{enumerate}
-	\item Pentesting screenshots
-	\item Content of Design Archive
-\end{enumerate}
-
-
 \section{Project brief}\label{sec:appendix-preject-brief}
 
 Internet of Things (IoT) Penetration Testing Toolset
@@ -98,7 +91,7 @@ Supervised by Dr Julian Rathke (jr2)
 \begin{figure}[!htb]
 	\center{\includegraphics[width=\textwidth]
 		{config_struct.png}}
-	\caption{\label{fig:interface-struct} Interface file structure}
+	\caption{\label{fig:interface-struct1} Interface file structure}
 \end{figure}
 
 
@@ -230,6 +223,64 @@ Probability and Impact are rated in a scale from 1 to 5.
 	\end{tabular}
 \end{center}
 
-\input{drop_area}
+\section{Content of Design Archive}
+
+
+\section{Pentesting screenshots}\label{sec:appendix-pen-testing}
+
+\begin{figure}[!htb]
+	\center{\includegraphics[width=\textwidth]
+		{screenshots/nmap_network.png}}
+	\caption{Nmap network scan}
+\end{figure}
+
+\begin{figure}[!htb]
+	\center{\includegraphics[width=\textwidth]
+		{screenshots/nmap_router.png}}
+	\caption{Nmap router port scan}
+\end{figure}
+
+\begin{figure}[!htb]
+	\center{\includegraphics[width=\textwidth]
+		{screenshots/nmap_port.png}}
+	\caption{Nmap system hub port scan}
+\end{figure}
+
+\begin{figure}[!htb]
+	\center{\includegraphics[width=\textwidth]
+		{screenshots/nmap_cloud.png}}
+	\caption{Nmap cloud server port scan}
+\end{figure}
+
+\begin{figure}[!htb]
+	\center{\includegraphics[width=\textwidth]
+		{screenshots/dirb.png}}
+	\caption{Dirb system hub API fuzzing}
+\end{figure}
+
+\begin{figure}[!htb]
+	\center{\includegraphics[width=\textwidth]
+		{screenshots/wfuzz_run.png}}
+	\caption{Wfuzz running against system hub API}
+\end{figure}
+
+\begin{figure}[!htb]
+\center{\includegraphics[width=\textwidth]
+	{screenshots/hydra_run.png}}
+\caption{Brute forcing system hub SSH password}
+\end{figure}
+
+\begin{figure}[!htb]
+\center{\includegraphics[width=\textwidth]
+	{screenshots/hcitool_scan.png}}
+\caption{Hcitool BLE device scan}
+\end{figure}
+
+\begin{figure}[!htb]
+\center{\includegraphics[width=\textwidth]
+	{screenshots/hcitool_info.png}}
+\caption{Hcitool displaying BLE device information}
+\end{figure}
+
 
 \end{document}

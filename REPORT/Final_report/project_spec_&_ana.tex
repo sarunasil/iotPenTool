@@ -1,32 +1,32 @@
 \section{Project specification and analysis}
-This sections follows the problem analysis process and defines the project scope listing it's requirements. Alternative problem approaches are then discussed, followed by a justification of the solution chosen.
+This section follows the problem analysis process and defines the project scope listing its requirements. Alternative problem approaches are then discussed, followed by justification of the chosen solution.
 
 \subsection{Alternative solutions}
 
 	\begin{itemize}
-		\item \textbf{Paper-based tables and notes}
+		\item \textbf{Paper based tables and notes}
 		
-		Paper based documentation is simplest to use as threat modelling concepts are visualized using regular notes, diagrams and hand-drawn tables. It has clear advantages of requiring no development and a low learning curve. Unfortunately, this approach is not flexible and updating information is rather complicated. Data persistence and handling is also questionable as of any paper document because  information can be easily lost. Moreover, penetration process is completely separate from the threat model.
+		Paper based documentation is most simple to use as threat modelling concepts are visualized using regular notes, diagrams and hand-drawn tables. It has clear advantages of requiring no development and a low learning curve. Unfortunately, this approach is not flexible and updating information is rather complicated. Data persistence and handling is also questionable as of any paper document as information can be easily lost. Moreover, penetration process is completely separated from the threat model.
 		
 		\item \textbf{Software based threat modelling tools}
 		
-		Software based alternatives for threat modelling are numerous. Microsoft Threat Modelling Tool is used as key tool in Microsoft Security Development Lifecycle(SDL) {16}. Similar tools are well tested and widely used. Their flexibility and adaptation may be favourable in most cases but that also creates a learning curve and requires adaptations to use with a particular threat model. As in the previous solution, there is no concept of integration with penetration tools.
+		Software based alternatives for threat modelling are numerous. Microsoft Threat Modelling Tool is used as key tool in Microsoft Security Development Lifecycle(SDL)\cite{mic-threat-model}. Similar tools are well tested and widely used. Their flexibility and adaptation may be advantageous in most cases but that also creates a learning curve and requires adaptations to be used with a particular threat model. As in the previous solution, there is no concept of integration with penetration tools.
 				
 		\item \textbf{Penetration testing using a bundle of tools}
 		
-		Penetration testing frameworks like metasploit {17} are incredibly useful and widely used across cyber security industry. Metasploit framework has a large variety of tools and even covers report generation. Similar solutions could be used in conjunction with previously mentioned threat model documentation techniques in order to perform a full system analysis.
+		Penetration testing frameworks like Metasploit are incredibly useful and widely used across cyber security industry. Metasploit framework has a large variety of tools and even covers report generation. Similar solutions could be used in combination with previously mentioned threat model documentation techniques in order to perform a full system analysis.
 		
 	\end{itemize}
 
-	As it appears, there are good solutions for penetration testing and threat modelling already available on the marker. Unfortunately, it is rather complicated to find a solution that would directly link penetration testing tools with threat modelling methodology. To the writers best knowledge there are no such tools specifically developed for Internet of Things systems analysis. On the other hand, existing tools could be modified or used together in combination to achieve a similar result.
+	As it appears, there are suitable solutions for penetration testing and threat modelling already available on the market. Unfortunately, it is rather complicated to find a solution that would directly link penetration testing tools with threat modelling methodology. To the writer’s best knowledge there are no such tools specifically developed for Internet of Things systems analysis. On the other hand, existing tools could be modified or used together in combination to achieve a similar result.
 
 
 \subsection{Project scope}
-	The project prototype is intended to be convenience tool assisting testers in performing penetration testing. The tool set is not supposed to run penetration tests on it's own as it is not an automated penetration test runner. 
+	The project prototype is intended to be a convenience tool to assist testers in performing penetration testing. The tool set is not supposed to run penetration tests on its own as it is not an automated penetration test runner. 
 	
-	The tool purpose is to design a way of structuring threat model data in a particular form from which it could be fed to any existing penetration tool receiving meaningful output. Information visualization is not this projects top priority as structured data can be displayed in any way needed using a range of applications.
+	The tool purpose is to design a way of structuring threat model data in a certain form which it could then feed to any existing penetration tool receiving meaningful output. Information visualization is not the top priority of this project as structured data can be displayed in any way needed using a range of applications.
 	
-	This project is specifically targetting IoT penetration testing but due to the share variety of possible IoT technology variations it is impossible to support all devices. Therefore, the tools included in this prototype are only basic tools required to demonstrate it's functionality. There is no intention to make it compatible with interactive tools as well. 
+	This project is specifically targeting IoT penetration testing but due to the shared variety of possible IoT technology variations it is impossible to support all devices. Therefore, the tools included in this prototype are only basic tools required to demonstrate its functionality. There is no intention to make it compatible with interactive tools as well. 
 	
 	The graphical user interface is expected to be minimalistic giving priority to usability and functionality instead of aesthetic design.
 
@@ -36,36 +36,36 @@ This sections follows the problem analysis process and defines the project scope
 		\item Functionality to add and remove new security tools to and from the application
 		\item Contain an initial proof-of-concept set of tools
 		\item Provide functionality to scan local network, map network infrastructure and identify its components
-		\item To be able to chain one tools output as another's input
+		\item To be able to chain one tool output as another's input
 		\item Support at least 2 communication protocols: WiFi and Bluetooth
 		\item Provide functionality to build an IoT penetration testing threat model
 		\item Process threat model content to provide suggestions for penetration tests
-		\item Generate structured penetration testing outcome
+		\item Generate structured penetration testing data
 		\item Create graphical user interface for the application
 	\end{itemize}
 	
 	\subsubsection{Non-functional}
 	\begin{itemize}
-		\item Compatible with most popular Linux distributions
+		\item Compatible with the most popular Linux distributions
 		\item Packaged to include all the required dependencies and is portable with little setup
-		\item Must provide user with feedback within 2 second of user interaction
+		\item Must provide its user with feedback within 2 seconds of user interaction
 		\item Must be able to identify at least 25 unique devices on the network
 	\end{itemize}
 
 
 \subsection{Possible approaches}
 	\subsubsection{Extension of an existing penetration testing framework}
-	A usability-oriented plugin designed for a pen testing framework like Metasploit {17} may be capable of meeting the majority of technical requirements. A solution like this would be closely linked to the framework of choice and it's implementation. Projects extendability would also be questionable as it could only accompany tools and functionality provided by the framework. The biggest drawback of such approach is that, to the writers best knowledge, there are no IoT specific penetration testing frameworks currently available, thus it is unlikely that a single general purpose (or web specific) penetration framework would contain a wide range of tools needed for this purpose.
+	A usability-oriented plugin designed for a pen testing framework like Metasploit may be capable of meeting most technical requirements. A solution like this would be closely linked to the framework of choice and its implementation. Project extendability would also be questionable as it could only accompany the tools and functionality provided by the framework. The main drawback of such approach is that, to the writer’s best knowledge, there are no IoT specific penetration testing frameworks currently available; thus, it is unlikely that a single, general purpose (or web specific) penetration framework would contain a wide range of tools needed for this purpose.
 	
 	\subsubsection{Web based solution}
-	A web based solution has also been considered. A local web server would run on the users machine hosting a website through which the user would interact with the system. If this approach is taken, differences between browsers and cross-compatibility would need to be taken into account. Moreover, it would significantly slow down the development process due to the lack of writers familiarity with web programming and suitable technologies.
+	A web-based solution has also been considered. A local web server would run on the user’s machine hosting a website which the user would interact with the system through. If this approach is taken, differences between browsers and cross-compatibility would need to be taken into consideration. Moreover, it would significantly slow down the development process due to the lack of the writer’s familiarity with web programming and suitable technologies.
 	
 	\subsubsection{Desktop application}
-	A desktop application would provide the most freedom for adjustments and would only depend on the libraries used, which can be shipped together with the application. Depending on the choice of a GUI library, a native prototype look can be achieved without no effort. The writer is familiar with desktop based technologies, therefore the implementation stage is expected to be easier and more functionality may be provided in the same time spam. A desktop application would require installation but that is no different from web based or the extension approaches. On the other hand, a web based or plugin-type solution may provide a more aesthetic design.
+	A desktop application would provide much freedom for adjustments and would only depend on the libraries used, which can be shipped together with the application. Depending on the choice of a GUI library, a native prototype look can be achieved without any effort. The writer is familiar with desktop-based technologies, therefore, the implementation stage is expected to be easier and more functionality may be provided within the same period of time. A desktop application would require installation, however, that is no different from web-based or extension approaches. On the other hand, a web-based or plugin-type solution may provide a more aesthetic design.
 
 \subsection{Chosen approach}
-	After considering the listed pros and cons, it has been decided to build a desktop application due the freedom of modifications, past project experiences and solutions portability.
+	After considering the listed pros and cons, it has been decided to build a desktop application due to the freedom of modifications, past project experiences and solution portability.
 	
 	In addition, a high-level language supporting rapid development and native to most Linux platforms has been determined to be the best suited for the task.
 	
-	Hence, a desktop based Python solution has been chosen.
+	Therefore, a desktop-based Python solution has been chosen.

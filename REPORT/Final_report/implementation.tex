@@ -1,40 +1,40 @@
 
 
 \section{Implementation}
-This section of the report covers project prototype development details more in-depth and emphasises on specific implementation decisions. It also covers the list of well-known penetration tools included in the tool set.
+This section of the report covers project prototype development details more in-depth and puts emphasis on specific implementation decisions. It also covers the list of well-known penetration tools included in the tool set.
 
 \subsection{Development process}
 	\subsubsection{Development}
-	Project prototype development has been scheduled as a continuous process during the last months of the project allowing a lot of freedom for alterations. It has been decided to follow Agile development methodology dividing tasks into Sprints and using supervisor meetings to present that Sprints results. An in depth, project management discussion is covered in section \ref{project-man}.
+	Project prototype development has been scheduled as a continuous process during the last months of the project allowing a lot of freedom for alterations. It has been decided to follow Agile development methodology dividing tasks into Sprints and using supervisor meetings to present that Sprints results. An in-depth, project management discussion is covered in section \ref{project-man}.
 	
-	Test-driven development (TDD) practises have been used in order to complete large amounts of robust code in limited Sprint time periods.  TDD has been used for development of the whole project back-end functionality and to test Interface GUI generation, for the front-end part has been tested using conventional testing techniques. Testing process is described in detail in section \ref{testing}.
+	Test-driven development (TDD) practices have been used in order to complete large amounts of robust code in limited Sprint time periods.  TDD has been used for development of the whole project back-end functionality and to test Interface GUI generation, for the front-end part has been tested using conventional testing techniques. Testing process is described in detail in section \ref{testing}.
 	
-	Greatest effort has been taken to follow Python PEP8 coding conventions to achieve maintainable, structured and standardised codebase. Pylint and autoDocstring VS Code extensions have been particularly useful for this goal.
+	Greatest effort has been put to follow Python PEP8 coding conventions to achieve maintainable, structured and standardized codebase. Pylint and autoDocstring VS Code extensions have been particularly useful for this goal.
 	
 	\subsubsection{Debugging}
-	In the case of unexpected program behaviour, VS Code built in debugger has proven to be particularly useful. It's stepping through the code and break point features have been used extensively during the development process. Built in Debug console have also proven to be convenient in order to verify program objects' states and the case of exceptions or break points. 
+	In the case of unexpected program behavior, VS Code built-in debugger has proven to be particularly useful. Its stepping through the code and break point features have been used extensively during the development process. Built-in Debug console has also proven to be convenient in order to verify program object states and the case of exceptions or break points. 
 	
 	\subsubsection{Deployment options}
-	After the implementation is finished, the prototype can be deployed as a Python package using dependencies management system as PIP. Installation of project dependencies would be taken care of by PIP. In order for the prototype to use tools included in it's tool set, individual pen tools would need to be installed independently in the system. Bundled program installation is one of the future work features discussed in the section \ref{future-work}
+	After the implementation is finished, the prototype can be deployed as a Python package using dependencies management system as PIP. Installation of project dependencies would be taken care of by PIP. In order for the prototype to use tools included in its tool set, individual pen tools would need to be installed independently in the system. Bundled program installation is one of the future work features discussed in the section \ref{future-work}.
 
 
 \subsection{Tool included in the tool set}
-	There nine tools included in the tool set prototype. These tools have been chosen according to five areas of IoT Penetration testing\cite{cookbook}. The tool set, as mentioned before, is not by far complete but demonstrates that the prototype supports a wide range of pen tools. 
+	There are nine tools included in the tool set prototype. These tools have been chosen according to five areas of IoT Penetration testing\cite{cookbook}. The tool set, as mentioned before, is not by far complete, however, demonstrates that the prototype supports a wide range of pen tools. 
 	
-	Tools are grouped in sections according to their use. Only Hardware hacking section is not covered by this tool set as even if there are software tools used for Hardware related hacking, it is likely to be architecture specific and require additional physical devices or modules. Remote access section is also present in the set as it's tools functionality is rather distinct compared to other Web application or Wireless sections tools.
+	Tools are grouped in sections based on their use. Only Hardware hacking section is not covered by this tool set as even if there are software tools used for Hardware related hacking, it is likely to be architecturally specific and require additional physical devices or modules. Remote access section is also present in the set as its tool functionality is rather distinct compared to other Web application or Wireless sections tools.
 	
 	\begin{itemize}
-		
+	
 		\item Firmware
 		\begin{enumerate}
 			\item \textbf{binwalk} - is a tool for automated firmware extraction from the device binary image. It provides a wide range of configurations and supports different image formats.
 		\end{enumerate}
-	
-	
+		
+		
 		\item Web applicaiton
 		\begin{enumerate}[resume]
-			\item \textbf{sqlmap} - is an SQL database penetration tool. It has a powerful search engine and a range of switches configuring it's execution. The tool is useful if an IoT system is suspected to store data in a database.
-			\item \textbf{wfuzz} - is a web applications brute forcing tool. It can fuzz GET and POST request parameters as well as not linked web resources.
+			\item \textbf{sqlmap} - is an SQL database penetration tool. It has a powerful search engine and a range of switches configuring its execution. The tool is useful if an IoT system is suspected of storing data in a database.
+			\item \textbf{wfuzz} - is a web application brute forcing tool. It can fuzz GET and POST request parameters as well as web resources that are not linked.
 			\item \textbf{dirb} - is a web content scanner software. It is similar to wfuzz but it uses fuzzing to discover hidden web resources and left-over files. 
 		\end{enumerate}
 		
@@ -45,55 +45,54 @@ This section of the report covers project prototype development details more in-
 		
 		\item Remote access
 		\begin{enumerate}[resume]
-			\item \textbf{hydra} - hydra is a multi-process login cracker. Hydra supports a wide range of communication protocols and can be customized to try a several different approaches during it's execution.
+			\item \textbf{hydra} - hydra is a multi-process login cracker. Hydra supports a wide range of communication protocols and can be customized to try several different approaches during its execution.
 		\end{enumerate}
 		
 		\item Wireless
 		\begin{enumerate}[resume]
 			\item \textbf{hcitool} - is a tool for configuring Bluetooth connections. It supports Bluetooth device discovery, most popular Bluetooth communication protocols and can be used to send specific commands to the Bluetooth device in order to pen test the communication.
-			\item \textbf{nmap} - is the most famous network discovery and port scanner currently in the market. It is highly configurable to the point there the whole networks infrastructure can be mapped and tested by just using nmap.
-			\item \textbf{sdptool} - is a Bluetooth service discovery tool. It can connect to individual discovered Bluetooth devices and retrieve information about it's advertised services.
+			\item \textbf{nmap} - is the most famous network discovery and port scanner currently in the market. It is highly configurable to the point where the whole network infrastructure can be mapped and tested by just using nmap.
+			\item \textbf{sdptool} - is a Bluetooth service discovery tool. It can connect to individual discovered Bluetooth devices and retrieve information about its advertised services.
 		\end{enumerate}
-	
 	\end{itemize}
 		
 
 \subsection{Third-party code used}
-	Apart from the libraries, which are listed in section \ref{libraries}, third party code has been used in few insignificant places in the code base:
+	Apart from the libraries, which are listed in the section \ref{libraries}, third party code has been used in a few insignificant places in the code base:
 	\begin{itemize}
 		\item In the file \textit{line.py} for custom Qt GUI element implementation.
 		\item In the file \textit{vtabwidget.py} for rotating the Qt GUI tab container titles.
 		\item In the file \textit{manager.py} for implementing \textit{WorkerSignals} communication model.
 	\end{itemize}
-	In all of the occurrences, appropriate headers have been used to clearly indicate third-party code.
+	In all the cases, appropriate headers have been used to clearly indicate third-party code.
 
 \subsection{Implementation details}
 	This subsection covers some important implementation details that were not covered in the Design section.
-
+	
 	\subsubsection{Application preferences file}
-	The program has a global preferences file which is used to define application level settings. Following Python conventions, such information is stored in a '.ini' file, which is then parsed and maintained with built-in Python "configparser" library. In the case of complete loss of the configuration file or one of it's mandatory fields, a new '.ini' file is populated using reasonable default values.
+	The program has a global preference file which is used to define application level settings. Following Python conventions, such information is stored in an '.ini' file, which is then parsed and maintained with built-in Python "configparser" library. In the case of complete loss of the configuration file or one of its mandatory fields, a new '.ini' file is populated using reasonable default values.
 			
 	
 	\subsubsection{Interface file structure}
 	Penetration tools used in the tool set are referenced via their "interface\_x.yaml" files. Each file has mandatory and optional fields. An example interface file is shown in appendix \ref{sec:appendix-interface-struct}.
 	
-	The file is in YAML format which was chosen due to it's simplicity, readability and compatibility. As these interface files have to be configured by hand for every penetration testing tool, intuitive structure and readability was a priority. If for example, XML format was chosen, it would be much more complicated for the human to compose configuration files.
+	The file is in YAML format which was chosen due to its simplicity, readability and compatibility. As these interface files must be configured by hand for every penetration testing tool, intuitive structure and readability was a priority. If, for example, XML format was chosen, it would be much more complicated for the human to compose configuration files.
 	
-	It is important to note that tool flag and value lists can be empty and can be defined recursively (e.g. flag containing optional flags). Configurations described in YAML format are easily appendable and auxiliary fields would just be ignored.
+	It is important to note that tool flag and value lists can be empty and can also be defined recursively (e.g. flag containing optional flags). Configurations described in YAML format are easy to add and auxiliary fields would just be ignored.
 	Adding a new tool to the system is as simple as creating a new interface file from the example and adding it to the appropriate folder.
 	
 	
 	\subsubsection{Graphical User Interface functionality}
 	Care has been taken to make the application GUI intuitive and simple to use. 
-	The application takes extensive use of tabular structures. Penetration tools are grouped according to their purpose using separate tabs. Threat modelling project part uses two levels tabular structure to group related functionality. 
+	The application takes extensive use of tabular structures. Penetration tools are grouped according to their purpose using separate tabs. Threat modelling project part uses two-level tabular structure to group related functionality. 
 	Every threat model entry can be edited, duplicated and deleted. 
-	Threat model items (e.g. entry points) are cached on the application level, thus can be reused in other projects, cache can easily be cleared for separate threat model item groups (e.g. technologies).
-	Threat models can be loaded, edited and saved again, appropriate warning messages are thrown while trying to close threat model with unsaved information. Threat models can then be exported as json files for data visualization. Appropriate native hotkeys can also be used for these operations. 
+	Threat model items (e.g. entry points) are cached on the application level, thus, they can be reused in other projects, cache can easily be cleared for separate threat model item groups (e.g. technologies).
+	Threat models can be loaded, edited and saved again; appropriate warning messages are thrown while trying to close threat model with unsaved information. Threat models can then be exported as json files for data visualization. Appropriate native hotkeys can also be used for these operations.
 	
 	
 	\subsubsection{Scalability}
-	Prototypes scalability is twofold. On one hand, the application can easily import as many tool interfaces as provided and load threat model files as big as needed. On the other hand, large files were not taken into consideration during the development process and no special action have been taken to parallelize or divide any of the tasks in any way. Effort has been made to use native GUI element as scrollbars to display large information sections and separate GUI functionality using tabs. Nevertheless, it may be inconvenient for the use to navigate through large numbers of tools and threat model items.
+	Prototypes scalability is two-fold. On the one hand, the application can easily import as many tool interfaces as provided and load threat model files as big as needed. On the other hand, large files were not taken into consideration during the development process and no special action has been taken to parallelize or divide any of the tasks in any way. Effort has been made to use native GUI element as scrollbars to display large information sections and separate GUI functionality using tabs. Nevertheless, it may be inconvenient for the user to navigate through large numbers of tools and threat model items.
 	
-	As described in section \ref{tool-execution}, penetration tool execution and output generation is parallelized using functional programming, therefore, tool execution scalability is only dependant on users hardware.
+	As described in section \ref{tool-execution}, penetration tool execution and output generation are parallelized using functional programming, therefore, tool execution scalability is only dependent on users’ setup.
 	
 

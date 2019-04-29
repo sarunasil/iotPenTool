@@ -10,6 +10,7 @@ By sarunasil
 """
 
 import os
+import webbrowser
 from collections import OrderedDict
 from PyQt5 import uic
 from PyQt5 import QtWidgets
@@ -44,8 +45,20 @@ class DataFlowDiagramGui(QtWidgets.QWidget, Ui_MainWindow):
 
 		#set values from loaded threat
 		self.link_input_box.setPlainText(controller.data_flow_diagram)
-		urlLink="<a href='"+controller.data_flow_diagram+"'>Link to Architectural diagram</a>"
-		self.link_label.setText(urlLink)
+		# urlLink="<a href='"+controller.data_flow_diagram+"'>Link to Architectural diagram</a>"
+		# self.link_label.setText(urlLink)
+
+		pixmap = QtGui.QPixmap("./diagram_icon.png");
+		icon = QtGui.QIcon(pixmap);
+		self.graph_btn.setIcon(icon);
+		self.graph_btn.setIconSize(pixmap.rect().size());
+
+		def open_link():
+			link =  self.link_input_box.toPlainText()
+			if link:
+				webbrowser.open(link)
+
+		self.graph_btn.clicked.connect(open_link)
 
 		self.link_input_box.textChanged.connect(lambda: controller.save_link(self.link_input_box.toPlainText()))
 		self.link_input_box.mousePressEvent = self.add_start
@@ -54,7 +67,7 @@ class DataFlowDiagramGui(QtWidgets.QWidget, Ui_MainWindow):
 		QtWidgets.QPlainTextEdit.mousePressEvent(self.link_input_box, event)
 
 		if self.link_input_box.toPlainText() == "":
-			self.link_input_box.setPlainText("https://")
+			# self.link_input_box.setPlainText("https://")
 			self.link_input_box.moveCursor(QtGui.QTextCursor.End)
 
 
@@ -74,6 +87,7 @@ class DataFlowDiagramController():
 		urlLink="<a href='"+new_link+"'>Link to Data Flow diagram</a>"
 		self.threat_model_controller.threat_model.architectural_diagram = new_link
 		self.threat_model_controller.threat_model.saved = False
-		self.data_flow_diagram_gui.link_label.setText(urlLink)
+		# self.data_flow_diagram_gui.link_label.setText(urlLink)
+		
 
 
